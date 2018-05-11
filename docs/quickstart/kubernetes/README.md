@@ -391,7 +391,7 @@ We assume you already have the following:
 
 **Build Training Docker Image**
 ```
-pipeline train-server-build --model-name=census --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/census-v1/model/ 
+pipeline train-server-build --model-name=census --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/census-v1/model/
 ```
 Notes:
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -408,7 +408,7 @@ pipeline train-server-register --model-name=census --model-tag=v1
 
 **Start Distributed TensorFlow Training Cluster**
 ```
-pipeline train-kube-start --model-name=census --model-tag=v1 --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-v1/model --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/models/models/tensorflow/census-v1/input/training/adult.training.csv --eval-files=/root/models/models/tensorflow/census-v1/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
+pipeline train-kube-start --model-name=census --model-tag=v1 --input-host-path=/ignore/this/for/now --output-host-path=/root/samples/models/tensorflow/census-v1/output --runs-host-path=/root/samples/models/tensorflow/census-v1/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/models/models/tensorflow/census-v1/input/training/adult.training.csv --eval-files=/root/models/models/tensorflow/census-v1/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
 Notes:
