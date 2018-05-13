@@ -124,7 +124,8 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-# Need Support?  Contact Us 24x7.  We Never Sleep!
+### Questions?  Support?
+Contact Us 24x7.  We Never Sleep!
 * [Slack](https://joinslack.pipeline.ai)
 * [Web](https://support.pipeline.ai)
 * [YouTube](https://youtube.pipeline.ai)
