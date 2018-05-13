@@ -18,7 +18,7 @@ Notes:
 * You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
 * You may need to specify `--user` if you have issues.
 
-### PipelineAI Quick Start (CPU and GPU)
+### PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
