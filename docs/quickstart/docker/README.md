@@ -65,7 +65,7 @@ Notes:
 ## Start Training Server
 
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --runs-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --output-host-path=./tensorflow/mnist-v3/model/pipeline_tfserving/ --train-args="--train-epochs=2 --batch-size=100"
+pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/output/ --training-runs-host-path=./tensorflow/mnist-v3/runs/ --train-args="--train_epochs=2 --batch_size=100"
 ```
 
 Notes:
@@ -80,7 +80,6 @@ Notes:
 * `--input-host-path` and `--output-host-path` are available outside of the Docker container as Docker volumes
 * `--train-args` is used to specify `--train-files` and `--eval-files` and other arguments used inside your model 
 * Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
-* We automatically mount `https://github.com/PipelineAI/models` as `/root/samples/models` for your convenience
 * You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files`, `--eval-files`, and other args referenced by your model
 * You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
 * Otherwise, you can specify ACCESS_KEY_ID and SECRET_ACCESS_KEY in your model code (not recommended_
@@ -411,7 +410,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=v1 --output-host-path=./scikit/linear/model
+pipeline train-server-start --model-name=linear --model-tag=v1 --input-host-path=./scikit/linear/input/ --output-host-path=./scikit/linear/output/ --training-runs-host-path=./scikit/linear/runs/
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -527,8 +526,9 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --output-host-path=./pytorch/mnist-v1/model
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./pytorch/mnist-v1/input/ --output-host-path=./pytorch/mnist-v1/output/ --training-runs-host-path=./pytorch/mnist-v1/runs/
 ```
+Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
