@@ -141,12 +141,12 @@ ls -l ./tensorflow/mnist-v3/model
 
 ### EXPECTED OUTPUT ###
 ...
-pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_conda_environment.yaml    <-- Required. Sets up the conda environment
 pipeline_condarc                   <-- Required, but Empty is OK.  Configure Conda proxy servers (.condarc)
 pipeline_modelserver.properties    <-- Required, but Empty is OK.  Configure timeouts and fallbacks
-pipeline_predict.py                <-- Required. `predict(request: bytes) -> bytes` is required
+pipeline_invoke.py                 <-- Required. `invoke(request: bytes) -> bytes` is required
 pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
-pipeline_tfserving.config          <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
+pipeline_tfserving.properties      <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
 pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains the TF SavedModel
 ...
 ```
@@ -190,10 +190,10 @@ Notes:
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
-## Inspect `pipeline_predict.py`
-_Note:  Only the `predict()` method is required.  Everything else is optional._
+## Inspect `pipeline_invoke.py`
+_Note:  Only the `invoke()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-v3/model/pipeline_predict.py
+cat ./tensorflow/mnist-v3/model/pipeline_invoke.py
 
 ### EXPECTED OUTPUT ###
 import os
@@ -204,39 +204,41 @@ from pipeline_logger import log                               <-- Optional.  Log
 
 ...
 
-__all__ = ['predict']                                         <-- Optional.  Being a good Python citizen.
+__all__ = ['invoke']                                         <-- Optional.  Being a good Python citizen.
 
 ...
 
 def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Called once at server startup
     return TensorFlowServingModel(host='localhost',           <-- Optional.  Wraps TensorFlow Serving
                                   port=9000,
-                                  model_name=os.environ['PIPELINE_MODEL_NAME'],
+                                  model_name='mnist',
                                   timeout=100)                <-- Optional.  TensorFlow Serving timeout
 
 _model = _initialize_upon_import()                            <-- Optional.  Called once upon server startup
 
-_labels = {'model_runtime': os.environ['PIPELINE_MODEL_RUNTIME'],  <-- Optional.  Tag metrics
-           'model_type': os.environ['PIPELINE_MODEL_TYPE'],   
-           'model_name': os.environ['PIPELINE_MODEL_NAME'],
-           'model_tag': os.environ['PIPELINE_MODEL_TAG'],
-           'model_chip': os.environ['PIPELINE_MODEL_CHIP']}
+_labels = { <-- Optional.  Tag metrics
+           'model_name': 'mnist',
+           'model_tag': 'tag',
+           'model_type': 'type',   
+           'model_runtime': 'tfserving',
+           'model_chip': 'cpu'
+          } 
 
-_logger = logging.getLogger('predict-logger')                 <-- Optional.  Standard Python logging
+_logger = logging.getLogger('invoke-logger')                  <-- Optional.  Standard Python logging
 
 @log(labels=_labels, logger=_logger)                          <-- Optional.  Sample and compare predictions
-def predict(request: bytes) -> bytes:                         <-- Required.  Called on every prediction
+def invoke(request: bytes) -> bytes:                          <-- Required.  Called on every prediction
 
     with monitor(labels=_labels, name="transform_request"):   <-- Optional.  Expose fine-grained metrics
         transformed_request = _transform_request(request)     <-- Optional.  Transform input (json) into TensorFlow (tensor)
 
-    with monitor(labels=_labels, name="predict"):
-        predictions = _model.predict(transformed_request)       <-- Optional.  Calls _model.predict()
+    with monitor(labels=_labels, name="invoke"):
+        response = _model.predict(transformed_request)     <-- Optional.  Calls _model.predict()
 
     with monitor(labels=_labels, name="transform_response"):
-        transformed_response = _transform_response(predictions) <-- Optional.  Transform TensorFlow (tensor) into output (json)
+        transformed_response = _transform_response(response) <-- Optional.  Transform TensorFlow (tensor) into output (json)
 
-    return transformed_response                                 <-- Required.  Returns the predicted value(s)
+    return transformed_response                               <-- Required.  Returns the predicted value(s)
 ...
 ```
 
@@ -380,7 +382,7 @@ ls -l ./scikit/linear/model
 
 ### EXPECTED OUTPUT ###
 ...
-pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_conda_environment.yaml     <-- Required. Sets up the conda environment
 pipeline_condarc                   <-- Required, but Empty is OK. Configure Conda proxy servers (.condarc)
 pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
 pipeline_train.py                  <-- Required. `main()` is required. Pass args with `--train-args`
@@ -434,9 +436,9 @@ model.pkl   <-- Pickled Model File
 ```
 
 # Deploy a Scikit-Learn Model
-## View Predictin Code
+## View Prediction Code
 ```
-cat ./scikit/linear/model/pipeline_predict.py
+cat ./scikit/linear/model/pipeline_invoke.py
 ```
 
 ## Build the Scikit-Learn Model Server
@@ -553,7 +555,7 @@ model.pth   <-- Trained Model File
 # Deploy a PyTorch Model
 ## View Prediction Code
 ```
-cat ./pytorch/mnist-v1/model/pipeline_predict.py
+cat ./pytorch/mnist-v1/model/pipeline_invoke.py
 ```
 
 ## Build the PyTorch Model Server
