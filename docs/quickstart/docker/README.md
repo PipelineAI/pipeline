@@ -19,8 +19,18 @@ cd models
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
-## Install [PipelineAI CLI](../README.md#install-pipelinecli)
+# Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
+
+# Download Latest Docker Images
+**CPU**
+```
+docker pull pipelineai/predict-cpu:1.5.0
+```
+**GPU** (Nvidia GPU Only)
+```
+docker pull pipelineai/predict-gpu:1.5.0
+```
 
 # Train and Deploy Models
 ## TensorFlow
