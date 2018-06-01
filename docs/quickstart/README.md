@@ -16,7 +16,7 @@ Notes:
 * If you're having trouble, use one of our support channels [**HERE**](/docs/troubleshooting) to let us know!
 * If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
 * You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
-* You may need to specify `--user` if you have issues.
+* You may also use `--user` if you're still having issues.
 
 ### PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
