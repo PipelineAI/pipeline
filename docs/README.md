@@ -13,7 +13,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Troubleshooting Tips](/docs/troubleshooting/README.md)
 
 ### Having Issues?  Use our 24x7 Support!
-* [Slack](http://pipeline.ai/assets/img/slack.png)](https://joinslack.pipeline.ai)
+* [Slack](https://joinslack.pipeline.ai)
 * [Email](help@pipeline.ai)
 * [Web](https://support.pipeline.ai)
 * [Troubleshooting Guide](/docs/troubleshooting)
