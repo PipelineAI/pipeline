@@ -1,6 +1,6 @@
 {
   "method": "POST",
-  "url": "http://<pipelineai-hostname>/predict/<model-name>/invoke",
+  "url": "http://the-host-name/predict/your-model-name/invoke",
   "httpVersion": "HTTP/1.1",
   "headers": [
     {
