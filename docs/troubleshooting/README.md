@@ -1,10 +1,10 @@
 # Troubleshooting
 
 ## PipelineAI 24x7 Support
-* Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack.png)](https://joinslack.pipeline.ai)
-* Email:  help@pipeline.ai
+* Slack:  [PipelineAI Slack](https://joinslack.pipeline.ai)
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
 * Web:  https://support.pipeline.ai
-* Troubleshooting:  [Guide](/docs/troubleshooting)
+* [Troubleshooting Guide](/docs/troubleshooting)
 
 ## Install Tools
 * [Docker](https://www.docker.com/community-edition#/download)
@@ -73,7 +73,12 @@ ll ~/.local/lib/python3.6/site-packages/cli_pipeline*
 rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 ```
 * Re-install `pip install cli-pipeline==...`
-
+* If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
+* You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
+* You may also use `--user` if you're still having issues.
+* If you see `xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun error: command '/usr/bin/clang' failed with exit status 1`, Follow these steps described here: https://apple.stackexchange.com/questions/254380/macos-sierra-invalid-active-developer-path:  
+* `sudo xcode-select --reset` (didn't work for me, but including this because it worked for others) 
+* `xcode-select --install`
 
 ## Paths
 * `--model-path` needs to be relative
