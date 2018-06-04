@@ -75,13 +75,19 @@ Notes:
 ## Start Training Server
 
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/output/ --training-runs-host-path=./tensorflow/mnist-v3/runs/ --train-args="--train_epochs=2 --batch_size=100"
+pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/output/ --training-runs-host-path=./tensorflow/mnist-v3/runs/ --train-args="--train_epochs=2 --batch_size=100"
+```
+Notes: 
+* _Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`_
+* Increase `--memory-limit` if you have issues
+* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
+Show Training Logs
+```
 pipeline train-server-logs --model-name=mnist --model-tag=v3
 ```
 Notes:
 * _Press `Ctrl-C` to exit out of the logs._
-* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
 * PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
