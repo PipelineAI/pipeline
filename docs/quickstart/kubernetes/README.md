@@ -394,6 +394,8 @@ We assume you already have the following:
 pipeline train-server-build --model-name=census --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/census-v1/model/
 ```
 Notes:
+* If you see the following error , you may need to increase the memory for this training job:  `TypeError: GetNext() takes 1 positional argument but 2 were given`, `tensorflow/core/framework/allocator.cc:101] Allocation of 51380224 exceeds 10% of system memory.`
+* To increase the memory, use the following `--memory=8G`
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
