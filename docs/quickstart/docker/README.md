@@ -98,7 +98,8 @@ Notes:
 * Avoid relative paths for * `--input-host-path` and `--output-host-path` unless you're sure the same path exists on the Kubernetes Node 
 * If you use `~` and `.` and other relative path specifiers, note that `--input-host-path` and `--output-host-path` will be expanded to the absolute path of the filesystem where this command is run - this is likely not the same filesystem path as the Kubernetes Node!
 * `--input-host-path` and `--output-host-path` are available outside of the Docker container as Docker volumes
-* `--train-args` is used to specify `--train-files` and `--eval-files` and other arguments used inside your model 
+* `--train_args` is used to specify relative paths
+* The contents of `--train_args` are not expanded like other `-*-host-path` args
 * Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
 * You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files`, `--eval-files`, and other args referenced by your model
 * You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
