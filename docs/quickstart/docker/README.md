@@ -65,7 +65,8 @@ Arguments between `[` `]` are optional
 ```
 pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
 ```
-Notes:  
+Notes: 
+* Ignore anything along these lines: `urllib3 (1.23) or chardet (3.0.4) doesn't match a supported version RequestsDependencyWarning`
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
