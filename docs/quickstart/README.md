@@ -17,6 +17,7 @@ Notes:
 * Followed these steps described here: https://apple.stackexchange.com/questions/254380/macos-sierra-invalid-active-developer-path:  1) `sudo xcode-select --reset` (didn't work for me, but including this because it worked for others) or 2) `xcode-select --install`
 * If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
 * You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
+* Ignore anything along these lines: `urllib3 (1.23) or chardet (3.0.4) doesn't match a supported version! RequestsDependencyWarning`
 * You may also use `--user` if you're still having issues.
 
 ### PipelineAI Quick Start (CPU, GPU, and TPU)
