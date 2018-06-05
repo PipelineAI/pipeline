@@ -73,13 +73,14 @@ Notes:
 * If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
 
 ## Start Training Server
-
 ```
-pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/output/ --training-runs-host-path=./tensorflow/mnist-v3/runs/ --train-args="--train_epochs=2 --batch_size=100"
+pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/output/ --training-runs-host-path=./tensorflow/mnist-v3/runs/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=./tensorflow/mnist-v3/checkpoint/ --data-dir=./tensorflow/mnist-v3/input --export_dir=./tensorflow/mnist-v3/model/pipeline_tfserving/"
 ```
 Notes: 
+* You may need to clear the `--model_dir` before you start, otherwise the training job may not start
 * _Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`_
-* Increase `--memory-limit` if you have issues
+* Increase `--memory-limit` if you have issues with `Allocated Memory`
+* You should run `pipeline train-server-start --model-name=mnist --model-tag=v3` if you see `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 Show Training Logs
