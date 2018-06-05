@@ -40,6 +40,18 @@
 ## Could not delete '/usr/local/lib/python3.5/dist-packages/markupsafe/_speedups.cpython-35m-x86_64-linux-gnu.so': Permission denied
 * Try `sudo pip install ...`
 
+## Training job doesn't start
+* You may need to clear the `--model_dir` before you start, otherwise the training job may not start
+
+## `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* _Ignore this warning.  It's harmless._
+
+## `Exceeded 10% Allocated Memory`
+* Increase `--memory-limit` above `2G`
+
+## `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
+* Stop and remove the container using `pipeline train-server-stop --model-name=mnist --model-tag=v3`
+
 ## Latest PipelineCLI Version is Not Installing Properly
 * You need Python 2 or 3 (Conda Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
