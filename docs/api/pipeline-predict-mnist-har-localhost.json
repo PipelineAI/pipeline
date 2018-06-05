@@ -1,6 +1,6 @@
 {
   "method": "POST",
-  "url": "http://localhost:8080/predict/mnist/invocations",
+  "url": "https://localhost:8080/predict/mnist/invoke",
   "httpVersion": "HTTP/1.1",
   "headers": [
     {
