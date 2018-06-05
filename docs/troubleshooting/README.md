@@ -1,9 +1,9 @@
 # Troubleshooting
 
 ## PipelineAI 24x7 Support
-* Slack:  [PipelineAI Slack](https://joinslack.pipeline.ai)
-* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
-* Web:  https://support.pipeline.ai
+* [PipelineAI Slack](https://joinslack.pipeline.ai)
+* [help@pipeline.ai](mailto:help@pipeline.ai)
+* [Web](https://support.pipeline.ai)
 * [Troubleshooting Guide](/docs/troubleshooting)
 
 ## Install Tools
