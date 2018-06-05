@@ -37,6 +37,11 @@ default train base image: docker.io/pipelineai/train-cpu:1.5.0
 default predict base image: docker.io/pipelineai/predict-cpu:1.5.0 
 ```
 
+## Sync Latest Docker Images
+```
+pipeline env-registry-sync --tag=1.5.0
+```
+
 ### PipelineAI CLI Overview
 ```
 pipeline
