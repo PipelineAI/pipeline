@@ -9,7 +9,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.155 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.156 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -49,7 +49,6 @@ help                        <-- This List of CLI Commands
 
 model-archive-tar           <-- Create Tar Archive for Model Server
 model-archive-untar         <-- Untar Model Server Archive
-model-archive-upload        <-- Upload Model Server Archive
 
 model-source-get            <-- Retrieve file within Model Directory
 model-source-init           <-- Initialize Model Directory to Prepare for New Model
