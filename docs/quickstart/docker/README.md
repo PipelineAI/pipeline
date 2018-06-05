@@ -79,8 +79,9 @@ pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 
 Notes: 
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
 * _Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`_
+* If you change the model (`pipeline_train.py`), you need to re-run `pipeline train-server-build ...`
 * Increase `--memory-limit` if you have issues with `Allocated Memory`
-* You should run `pipeline train-server-start --model-name=mnist --model-tag=v3` if you see `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
+* You should run `pipeline train-server-stop --model-name=mnist --model-tag=v3` if you see `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 Show Training Logs
