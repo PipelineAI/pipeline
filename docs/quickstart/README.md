@@ -44,6 +44,7 @@ pipeline
 ### EXPECTED OUTPUT ###
 ...
 env-conda-activate          <-- Switch to a New Model (Updates Conda Environment)
+env-registry-sync           <-- Sync with the latest Docker images
 
 help                        <-- This List of CLI Commands
 
