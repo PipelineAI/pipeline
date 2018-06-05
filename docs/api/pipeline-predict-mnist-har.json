@@ -1,6 +1,6 @@
 {
   "method": "POST",
-  "url": "http://community.pipeline.ai/predict/mnist/invocations",
+  "url": "http://community.cloud.pipeline.ai/predict/mnist/invoke",
   "httpVersion": "HTTP/1.1",
   "headers": [
     {
