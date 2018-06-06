@@ -43,9 +43,6 @@
 ## Training job doesn't start
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
 
-## `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* Ignore this warning.  It's harmless.
-
 ## `Exceeded 10% Allocated Memory`
 * Increase `--memory-limit` above `2G`
 
@@ -56,6 +53,7 @@
 * You need Python 2 or 3 (Conda Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
+Try the following
 ```
 pipeline version
 
