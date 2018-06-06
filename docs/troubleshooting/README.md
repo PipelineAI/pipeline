@@ -44,7 +44,7 @@
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
 
 ## `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* _Ignore this warning.  It's harmless._
+* Ignore this warning.  It's harmless.
 
 ## `Exceeded 10% Allocated Memory`
 * Increase `--memory-limit` above `2G`
