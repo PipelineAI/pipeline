@@ -37,11 +37,6 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
-## Sync Latest Docker Images
-```
-pipeline env-registry-sync --tag=1.5.0
-```
-
 ### PipelineAI CLI Overview
 ```
 pipeline
