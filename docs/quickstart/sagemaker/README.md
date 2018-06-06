@@ -34,6 +34,7 @@ cd models
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v3cpu --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model --model-chip=cpu
 ```
+* Try different runtimes using `--model-runtime=tensorrt` or `--model-runtime=python`
 
 [GPU](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
