@@ -62,7 +62,6 @@ Arguments between `[` `]` are optional
 pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
 ```
 Notes: 
-* Ignore anything along these lines: `urllib3 (1.23) or chardet (3.0.4) doesn't match a supported version RequestsDependencyWarning`
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
@@ -85,46 +84,16 @@ Show Training Logs
 ```
 pipeline train-server-logs --model-name=mnist --model-tag=v3
 ```
-Notes:
-* _Press `Ctrl-C` to exit out of the logs._
-* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
-* `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
-* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
-* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker conatiner .
-* `--input-host-path` and `--output-host-path` should be absolute paths that are valid on the HOST Kubernetes Node
-* Avoid relative paths for * `--input-host-path` and `--output-host-path` unless you're sure the same path exists on the Kubernetes Node 
-* If you use `~` and `.` and other relative path specifiers, note that `--input-host-path` and `--output-host-path` will be expanded to the absolute path of the filesystem where this command is run - this is likely not the same filesystem path as the Kubernetes Node!
-* `--input-host-path` and `--output-host-path` are available outside of the Docker container as Docker volumes
-* `--train-args` is used to specify relative paths
-* The values within `--train-args` are not expanded like other `-host-path` args
-* Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
-* You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files`, `--eval-files`, and other args referenced by your model
-* You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
-* Otherwise, you can specify ACCESS_KEY_ID and SECRET_ACCESS_KEY in your model code (not recommended_
-* `--train-files` and `--eval-files` can be relative to PIPELINE_INPUT_PATH (`/opt/ml/input`), but remember that PIPELINE_INPUT_PATH is mapped to PIPELINE_HOST_INPUT_PATH which must exist on the Kubernetes Node where this container is placed (anywhere)
-* `--train-files` and `--eval-files` are used by the model, itself
-* You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
-* `--train-args` is a single argument passed into the `pipeline_train.py`
-* Models, logs, and event are written to `--output-host-path` (or a subdirectory within it).  These paths are available outside of the Docker container.
-* To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder within `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
-* Make sure you use a consistent `--output-host-path` across nodes.  If you use timestamp, for example, the nodes in your distributed training cluster will not write to the same path.  You will see weird ABORT errors from TensorFlow.
-* On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
-* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
-* For GPU-based models, make sure you specify `--model-chip=gpu`
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
-
-(_We are working on making this more intuitive._)
 
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/mnist-v3/output/
+ls -l ./tensorflow/mnist-v3/model/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
-1511367633/  <-- Sub-directories of training output
-1511367765/
+0/           <-- 1st training run
+1511367765/  <-- Additional training runs (timestamp)
 ...
 ```
 _Multiple training runs will produce multiple subdirectories - each with a different timestamp._
@@ -172,8 +141,8 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
-1510612525/  
-1510612528/                <-- TensorFlow Serving finds the latest (highest) version 
+0/  
+1510612528/  <-- TensorFlow Serving finds the latest (highest) version 
 ...
 ```
 
@@ -194,10 +163,10 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G
+pipeline predict-server-start --memory-limit=2G --model-name=mnist --model-tag=v3
 ```
 Notes:
-* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* Ignore `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
@@ -218,11 +187,7 @@ from pipeline_model import TensorFlowServingModel             <-- Optional.  Wra
 from pipeline_monitor import prometheus_monitor as monitor    <-- Optional.  Monitor runtime metrics
 from pipeline_logger import log                               <-- Optional.  Log to console, file, kafka
 
-...
-
-__all__ = ['invoke']                                         <-- Optional.  Being a good Python citizen.
-
-...
+__all__ = ['invoke']                                          <-- Optional.  Being a good Python citizen.
 
 def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Called once at server startup
     return TensorFlowServingModel(host='localhost',           <-- Optional.  Wraps TensorFlow Serving
@@ -232,7 +197,7 @@ def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Cal
 
 _model = _initialize_upon_import()                            <-- Optional.  Called once upon server startup
 
-_labels = { <-- Optional.  Tag metrics
+_labels = { <-- Optional.  Used for metrics/labels
            'model_name': 'mnist',
            'model_tag': 'tag',
            'model_type': 'type',   
@@ -249,10 +214,10 @@ def invoke(request: bytes) -> bytes:                          <-- Required.  Cal
         transformed_request = _transform_request(request)     <-- Optional.  Transform input (json) into TensorFlow (tensor)
 
     with monitor(labels=_labels, name="invoke"):
-        response = _model.predict(transformed_request)     <-- Optional.  Calls _model.predict()
+        response = _model.predict(transformed_request)        <-- Optional.  Calls _model.predict()
 
     with monitor(labels=_labels, name="transform_response"):
-        transformed_response = _transform_response(response) <-- Optional.  Transform TensorFlow (tensor) into output (json)
+        transformed_response = _transform_response(response)  <-- Optional.  Transform TensorFlow (tensor) into output (json)
 
     return transformed_response                               <-- Required.  Returns the predicted value(s)
 ...
