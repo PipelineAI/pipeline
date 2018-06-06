@@ -109,7 +109,7 @@ rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 http://phutchins.com/blog/2017/01/04/fixing-docker-no-space-left-on-device/
 
 ## PipelineAI 24x7 Support
-* Slack:  [![PipelineAI Slack](http://pipeline.ai/assets/img/slack.png)](https://joinslack.pipeline.ai)
-* Email:  help@pipeline.ai
-* Web:  https://support.pipeline.ai
-* Troubleshooting:  [Guide](/docs/troubleshooting)
+* [PipelineAI Slack](https://joinslack.pipeline.ai)
+* [help@pipeline.ai](mailto:help@pipeline.ai)
+* [Web](https://support.pipeline.ai)
+* [Troubleshooting Guide](/docs/troubleshooting)
