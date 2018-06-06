@@ -22,15 +22,11 @@ cd models
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-# Download Latest Docker Images
-**CPU**
+## Sync Latest Docker Images
 ```
-docker pull pipelineai/predict-cpu:1.5.0
+pipeline env-registry-sync --tag=1.5.0
 ```
-**GPU** (Nvidia GPU Only)
-```
-docker pull pipelineai/predict-gpu:1.5.0
-```
+* For GPU images, add `--chip=gpu`
 
 # Train and Deploy Models
 ## TensorFlow
