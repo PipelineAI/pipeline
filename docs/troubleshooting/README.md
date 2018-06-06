@@ -96,6 +96,33 @@ rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 * `--model-path` needs to be relative
 * On Windows, be sure to use the forward slash `\` for your paths.
 
+## Training Args and Paths
+* If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
+* `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker conatiner .
+* `--input-host-path` and `--output-host-path` should be absolute paths that are valid on the HOST Kubernetes Node
+* Avoid relative paths for * `--input-host-path` and `--output-host-path` unless you're sure the same path exists on the Kubernetes Node 
+* If you use `~` and `.` and other relative path specifiers, note that `--input-host-path` and `--output-host-path` will be expanded to the absolute path of the filesystem where this command is run - this is likely not the same filesystem path as the Kubernetes Node!
+* `--input-host-path` and `--output-host-path` are available outside of the Docker container as Docker volumes
+* `--train-args` is used to specify relative paths
+* The values within `--train-args` are not expanded like other `-host-path` args
+* Inside the model, you should use PIPELINE_INPUT_PATH (`/opt/ml/input`) as the base path for the subpaths defined in `--train-files` and `--eval-files`
+* You can use our samples by setting `--input-host-path` to anything (ignore it, basically) and using an absolute path for `--train-files`, `--eval-files`, and other args referenced by your model
+* You can specify S3 buckets/paths in your `--train-args`, but the host Kubernetes Node needs to have the proper EC2 IAM Instance Profile needed to access the S3 bucket/path
+* Otherwise, you can specify ACCESS_KEY_ID and SECRET_ACCESS_KEY in your model code (not recommended_
+* `--train-files` and `--eval-files` can be relative to PIPELINE_INPUT_PATH (`/opt/ml/input`), but remember that PIPELINE_INPUT_PATH is mapped to PIPELINE_HOST_INPUT_PATH which must exist on the Kubernetes Node where this container is placed (anywhere)
+* `--train-files` and `--eval-files` are used by the model, itself
+* You can pass any parameter into `--train-args` to be used by the model (`pipeline_train.py`)
+* `--train-args` is a single argument passed into the `pipeline_train.py`
+* Models, logs, and event are written to `--output-host-path` (or a subdirectory within it).  These paths are available outside of the Docker container.
+* To prevent overwriting the output of a previous run, you should either 1) change the `--output-host-path` between calls or 2) create a new unique subfolder within `--output-host-path` in your `pipeline_train.py` (ie. timestamp).
+* Make sure you use a consistent `--output-host-path` across nodes.  If you use timestamp, for example, the nodes in your distributed training cluster will not write to the same path.  You will see weird ABORT errors from TensorFlow.
+* On Windows, be sure to use the forward slash `\` for `--input-host-path` and `--output-host-path` (not the args inside of `--train-args`).
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you specify `--model-chip=gpu`
+
 ## Http/Https Proxy
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url` or `[Errno 111] Connection refused'` or `ConnectionError(MaxRetryError("HTTPSConnectionPool`, you need to update `./tensorflow/census/model/pipeline_condarc` to include proxy servers per [THIS](https://conda.io/docs/user-guide/configuration/use-condarc.html#configure-conda-for-use-behind-a-proxy-server-proxy-servers) document.
