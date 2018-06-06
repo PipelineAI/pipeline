@@ -377,7 +377,7 @@ cat ./scikit/linear/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model 
+pipeline train-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -388,7 +388,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=v1 --input-host-path=./scikit/linear/input/ --output-host-path=./scikit/linear/output/ --training-runs-host-path=./scikit/linear/runs/
+pipeline train-server-start --model-name=linear --model-tag=v1 --input-host-path=./scikit/linear/input/ --output-host-path=./scikit/linear/output/ --training-runs-host-path=./scikit/linear/runs/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
