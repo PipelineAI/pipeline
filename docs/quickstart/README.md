@@ -20,12 +20,6 @@ Notes:
 * Ignore anything along these lines: `urllib3 (1.23) or chardet (3.0.4) doesn't match a supported version! RequestsDependencyWarning`
 * You may also use `--user` if you're still having issues.
 
-### PipelineAI Quick Start (CPU, GPU, and TPU)
-Train and Deploy your ML and AI Models in the Following Environments:
-* [Docker](/docs/quickstart/docker)
-* [Kubernetes](/docs/quickstart/kubernetes)
-* [AWS SageMaker](/docs/quickstart/sagemaker)
-
 ### Verify Successful PipelineAI CLI Installation
 ```
 pipeline version
@@ -36,6 +30,12 @@ cli_version: 1.5.x    <-- MAKE SURE THIS MATCHES THE VERSION YOU INSTALLED ABOVE
 default train base image: docker.io/pipelineai/train-cpu:1.5.0     
 default predict base image: docker.io/pipelineai/predict-cpu:1.5.0 
 ```
+
+### PipelineAI Quick Start (CPU, GPU, and TPU)
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Docker](/docs/quickstart/docker)
+* [Kubernetes](/docs/quickstart/kubernetes)
+* [AWS SageMaker](/docs/quickstart/sagemaker)
 
 ## Sync Latest Docker Images
 ```
