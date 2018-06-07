@@ -108,10 +108,6 @@ http://localhost:6006
 
 ![PipelineAI TensorBoard UI 1](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-1.png)
 
-![PipelineAI TensorBoard UI 2](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-2.png)
-
-![PipelineAI TensorBoard UI 3](http://pipeline.ai/assets/img/pipelineai-train-census-tensorboard-3.png)
-
 ## Stop Training Server
 ```
 pipeline train-server-stop --model-name=mnist --model-tag=v3
