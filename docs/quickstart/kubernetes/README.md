@@ -141,6 +141,15 @@ svc/prometheus      NodePort       10.102.73.33     <none>        9090:31994/TCP
 svc/servicegraph    NodePort       10.104.28.189    <none>        8088:31993/TCP
 ```
 
+### Setup `PREDICT_HOST` and `PREDICT_PORT` from Istio
+```
+# Ingress Host IP
+PREDICT_HOST=$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
+
+# Ingress Port
+PREDICT_PORT=$(kubectl -n istio-system get service istio-ingress -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
+```
+
 ### Deploy Model Prediction Servers - Versions v3a and v3b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
@@ -225,15 +234,6 @@ Request time: 36.414 milliseconds
 
 ### Load Test Model Prediction Servers - Versions v3a and v3b
 * Note: you need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
-
-**Setup `PREDICT_HOST` and `PREDICT_PORT`**
-```
-# Ingress Host IP
-PREDICT_HOST=$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
-
-# Ingress Port
-PREDICT_PORT=$(kubectl get svc -n istio-system istio-ingress -o jsonpath='{.spec.ports[0].nodePort}')
-```
 
 **REST-Based Http Load Test**
 ```
