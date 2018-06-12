@@ -355,7 +355,7 @@ pipeline predict-server-stop --model-name=mnist --model-tag=v3
 # Train a Scikit-Learn Model
 ## Inspect Model Directory
 ```
-ls -l ./scikit/linear/model
+ls -l ./scikit/mnist/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -368,12 +368,12 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 ## View Training Code
 ```
-cat ./scikit/linear/model/pipeline_train.py
+cat ./scikit/mnist/model/pipeline_train.py
 ```
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -384,7 +384,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=linear --model-tag=v1 --input-host-path=./scikit/linear/input/ --output-host-path=./scikit/linear/output/ --training-runs-host-path=./scikit/linear/runs/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/input/ --output-host-path=./scikit/mnist/output/ --training-runs-host-path=./scikit/mnist/runs/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -392,7 +392,7 @@ Notes:
 
 ## View the Training Logs
 ```
-pipeline train-server-logs --model-name=linear --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 
@@ -404,7 +404,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 * Make sure you pressed `Ctrl-C` to exit out of the logs.
 ```
-ls -l ./scikit/linear/model/
+ls -l ./scikit/mnist/model/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -415,38 +415,55 @@ model.pkl   <-- Pickled Model File
 # Deploy a Scikit-Learn Model
 ## View Prediction Code
 ```
-cat ./scikit/linear/model/pipeline_invoke.py
+cat ./scikit/mnist/model/pipeline_invoke.py
 ```
 
 ## Build the Scikit-Learn Model Server
 ```
-pipeline predict-server-build --model-name=linear --model-tag=v1 --model-type=scikit --model-path=./scikit/linear/model/
+pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model/
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=linear --model-tag=v1
+pipeline predict-server-start --model-name=mnist --model-tag=v1
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Model Server Logs
 ```
-pipeline predict-server-logs --model-name=linear --model-tag=v1
+pipeline predict-server-logs --model-name=mnist --model-tag=v1
 ```
 
 ## Predict with the Model 
 ### Curl Predict
 ```
 curl -X POST -H "Content-Type: application/json" \
-  -d '{"feature0": 0.03807590643342410180}' \
-  http://localhost:8080  \
+  -d '{"image": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05098039656877518, 0.529411792755127, 0.3960784673690796, 0.572549045085907, 0.572549045085907, 0.847058892250061, 0.8156863451004028, 0.9960784912109375, 1.0, 1.0, 0.9960784912109375, 0.5960784554481506, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7882353663444519, 0.11764706671237946, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.988235354423523, 0.7921569347381592, 0.9450981020927429, 0.545098066329956, 0.21568629145622253, 0.3450980484485626, 0.45098042488098145, 0.125490203499794, 0.125490203499794, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.32156863808631897, 0.9921569228172302, 0.803921639919281, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6352941393852234, 0.9921569228172302, 0.803921639919281, 0.24705883860588074, 0.3490196168422699, 0.6509804129600525, 0.32156863808631897, 0.32156863808631897, 0.1098039299249649, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.007843137718737125, 0.7529412508010864, 0.9921569228172302, 0.9725490808486938, 0.9686275124549866, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.8274510502815247, 0.29019609093666077, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2549019753932953, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.847058892250061, 0.027450982481241226, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5921568870544434, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.7333333492279053, 0.44705885648727417, 0.23137256503105164, 0.23137256503105164, 0.4784314036369324, 0.9921569228172302, 0.9921569228172302, 0.03921568766236305, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5568627715110779, 0.9568628072738647, 0.7098039388656616, 0.08235294371843338, 0.019607843831181526, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.43137258291244507, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.15294118225574493, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08627451211214066, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1882353127002716, 0.9921569228172302, 0.9921569228172302, 0.46666669845581055, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6705882549285889, 0.9921569228172302, 0.9921569228172302, 0.12156863510608673, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2392157018184662, 0.9647059440612793, 0.9921569228172302, 0.6274510025978088, 0.003921568859368563, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.08235294371843338, 0.44705885648727417, 0.16470588743686676, 0.0, 0.0, 0.2549019753932953, 0.9294118285179138, 0.9921569228172302, 0.9333333969116211, 0.27450981736183167, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4941176772117615, 0.9529412388801575, 0.0, 0.0, 0.5803921818733215, 0.9333333969116211, 0.9921569228172302, 0.9921569228172302, 0.4078431725502014, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7411764860153198, 0.9764706492424011, 0.5529412031173706, 0.8784314393997192, 0.9921569228172302, 0.9921569228172302, 0.9490196704864502, 0.43529415130615234, 0.007843137718737125, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6235294342041016, 0.9921569228172302, 0.9921569228172302, 0.9921569228172302, 0.9764706492424011, 0.6274510025978088, 0.1882353127002716, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.18431372940540314, 0.5882353186607361, 0.729411780834198, 0.5686274766921997, 0.3529411852359772, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}' \
+  http://localhost:8080 \
   -w "\n\n"
 
 ### Expected Output ###
-
-{"variant": "linear-v1-scikit-python-cpu", "outputs":[188.6431188435]}
+('{"variant": "mnist-v3-scikit-python-cpu", "outputs":{"classes": [8], '
+ '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
+ '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
+ '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
+ '0.9819338917732239, 4.713038833870087e-06]]}}')
+ 
+### FORMATTED OUTPUT ###
+Digit  Confidence
+=====  ==========
+0      0.00138249155133962
+1      0.00036483019357547
+2      0.00370581657625734
+3      0.01074937824159860
+4      0.00158193788956850
+5      0.00006451825902331
+6      0.00010775036207633
+7      0.00010466964886290
+8      0.98193389177322390   <-- Prediction
+9      0.00000471303883387
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -459,11 +476,11 @@ Notes:
 ### PipelineCLI Predict
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./scikit/linear/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./scikit/mnist/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "linear-v1-scikit-python-cpu", "outputs":[188.6431188435]}'
+'{"variant": "mnist-v1-scikit-python-cpu", "outputs":[188.6431188435]}'
 ```
 
 # Train a PyTorch Model
@@ -509,7 +526,7 @@ Notes:
 ## View the Training Logs
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-logs --model-name=linear --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v1
 
 ### EXPECTED OUTPUT ###
 
@@ -580,7 +597,7 @@ Notes:
 ### Predict with CLI
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invocations --test-request-path=./pytorch/mnist-v1/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./pytorch/mnist-v1/input/predict/test_request.json
 
 ### EXPECTED OUTPUT ###
 
