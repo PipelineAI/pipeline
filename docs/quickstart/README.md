@@ -9,13 +9,14 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.159 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.159 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * If you're having trouble, use one of our support channels [**HERE**](/docs/troubleshooting) to let us know!
 * Followed these steps described here: https://apple.stackexchange.com/questions/254380/macos-sierra-invalid-active-developer-path:  1) `sudo xcode-select --reset` (didn't work for me, but including this because it worked for others) or 2) `xcode-select --install`
 * If you have any issues, you may want to create a separate virtualenv or conda environment to isolate the environments.
+* You may need to increase `--default-timeout=120` to avoid `ReadTimeoutError: HTTPSConnectionPool(host='files.pythonhosted.org', port=443): Read timed out.`
 * You may need to run `pip uninstall -y python-dateutil` if you see an issue related to `pip._vendor.pkg_resources.ContextualVersionConflict`
 * Ignore anything along these lines: `urllib3 (1.23) or chardet (3.0.4) doesn't match a supported version! RequestsDependencyWarning`
 * You may also use `--user` if you're still having issues.
