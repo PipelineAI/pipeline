@@ -130,6 +130,11 @@ rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 * You may need to remove the `!#/bin/bash`
 * Lastly, you may need to set shell-wide (`~/.bashrc`) and re-source (`. ~/.bashrc`) - or set them as system-wide environment variables (` `) per [THIS](https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables) document.
 
+## `/pipeline_setup.sh: no such file or directory`
+* During `predict-server-build`, you are not pointing `--model-path` to  `/model` subdirectory of the parent model directory.
+* Example: `COPY python/gitstar/pipeline_setup.sh $PIPELINE_MODEL_PATH/pipeline_setup.sh
+COPY failed: stat /var/lib/docker/tmp/docker-builder805520280/python/gitstar/pipeline_setup.sh: no such file or directory`
+
 ## Fixing Docker No Space Left on Device Error
 http://phutchins.com/blog/2017/01/04/fixing-docker-no-space-left-on-device/
 
