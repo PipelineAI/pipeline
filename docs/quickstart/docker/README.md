@@ -445,11 +445,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-('{"variant": "mnist-v3-scikit-python-cpu", "outputs":{"classes": [8], '
- '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
- '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
- '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
- '0.9819338917732239, 4.713038833870087e-06]]}}')
+{"variant": "mnist-v1-scikit-python-cpu", "outputs":{"outputs": 5.0}}
  
 ### FORMATTED OUTPUT ###
 Digit  Confidence
