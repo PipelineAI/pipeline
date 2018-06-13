@@ -374,7 +374,7 @@ cat ./scikit/mnist/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model/
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -385,7 +385,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/input/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
