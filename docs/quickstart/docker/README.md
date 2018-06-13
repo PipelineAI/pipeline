@@ -70,10 +70,11 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/input/ --output-host-path=./tensorflow/mnist-v3/output/ --training-runs-host-path=./tensorflow/mnist-v3/runs/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=./tensorflow/mnist-v3/checkpoint/ --data_dir=./tensorflow/mnist-v3/input --export_dir=./tensorflow/mnist-v3/model/pipeline_tfserving/"
+pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/model/ --output-host-path=./tensorflow/mnist-v3/model/ --training-runs-host-path=./tensorflow/mnist-v3/model/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./pipeline_tfserving/"
 ```
 Notes: 
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
+* `--train-args` are within the Docker container relative to `.`
 * _Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`_
 * If you change the model (`pipeline_train.py`), you need to re-run `pipeline train-server-build ...`
 * Increase `--memory-limit` if you have issues with `Allocated Memory`
@@ -373,7 +374,7 @@ cat ./scikit/mnist/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model/
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -384,7 +385,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/runs/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -501,7 +502,7 @@ cat ./pytorch/mnist-v1/model/pipeline_train.py
 ## Build Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-path=./pytorch/mnist-v1/model
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-path=./pytorch/mnist-v1/model/
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -513,7 +514,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./pytorch/mnist-v1/input/ --output-host-path=./pytorch/mnist-v1/output/ --training-runs-host-path=./pytorch/mnist-v1/runs/
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./pytorch/mnist-v1/model/ --output-host-path=./pytorch/mnist-v1/model/ --training-runs-host-path=./pytorch/mnist-v1/model/
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
