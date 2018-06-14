@@ -144,7 +144,10 @@ svc/servicegraph    NodePort       10.104.28.189    <none>        8088:31993/TCP
 ### Setup `PREDICT_HOST` and `PREDICT_PORT` from Istio
 ```
 # Ingress Host IP
-PREDICT_HOST=$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
+# PREDICT_HOST=$(kubectl -n istio-system get po -l istio=ingress -o jsonpath='{.items[0].status.hostIP}')
+# Firewall sometimes block traffic routed directly to the IP Address of the ingress controller
+# When running kubernetes locally use 127.0.0.1 loop back route by default 
+PREDICT_HOST=127.0.0.1
 
 # Ingress Port
 PREDICT_PORT=$(kubectl -n istio-system get service istio-ingress -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
