@@ -385,11 +385,12 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/input/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/input/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* If you are creating your own model from the samples above, you may not need the `--start-cmd-extra-args` argument above
 
 ## View the Training Logs
 ```
