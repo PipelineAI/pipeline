@@ -49,6 +49,11 @@
 ## `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
 * Stop and remove the container using `pipeline train-server-stop --model-name=mnist --model-tag=v3`
 
+## "No space left on device Docker" (even though you have plenty of space)
+* You are likely seeing [THIS](https://stackoverflow.com/questions/44664900/oserror-errno-28-no-space-left-on-device-docker-but-i-have-space) issue with "No space left on device Docker"
+* This happens when certain models - particularly parallelized Scikit-Learn models.
+* The workaround is to add `--start-cmd-extra-args="--shm-size=512m"` to the `train-server-start` PipelineAI CLI command.
+
 ## Latest PipelineCLI Version is Not Installing Properly
 * You need Python 2 or 3 (Conda Preferred)
 * (Windows Only) [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
