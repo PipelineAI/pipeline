@@ -49,8 +49,11 @@
 ## `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
 * Stop and remove the container using `pipeline train-server-stop --model-name=mnist --model-tag=v3`
 
+## Fixing Docker No Space Left on Device Error
+http://phutchins.com/blog/2017/01/04/fixing-docker-no-space-left-on-device/
+
 ## "No space left on device Docker" (even though you have plenty of space)
-* You are likely seeing [THIS](https://stackoverflow.com/questions/44664900/oserror-errno-28-no-space-left-on-device-docker-but-i-have-space) issue with "No space left on device Docker"
+* You may be seeing [THIS](https://stackoverflow.com/questions/44664900/oserror-errno-28-no-space-left-on-device-docker-but-i-have-space) issue with "No space left on device Docker"
 * This happens when certain models - particularly parallelized Scikit-Learn models.
 * The workaround is to add `--start-cmd-extra-args="--shm-size=512m"` to the `train-server-start` PipelineAI CLI command.
 
@@ -139,9 +142,6 @@ rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 * During `predict-server-build`, you are not pointing `--model-path` to  `/model` subdirectory of the parent model directory.
 * Example: `COPY python/gitstar/pipeline_setup.sh $PIPELINE_MODEL_PATH/pipeline_setup.sh
 COPY failed: stat /var/lib/docker/tmp/docker-builder805520280/python/gitstar/pipeline_setup.sh: no such file or directory`
-
-## Fixing Docker No Space Left on Device Error
-http://phutchins.com/blog/2017/01/04/fixing-docker-no-space-left-on-device/
 
 ## PipelineAI 24x7 Support
 * [PipelineAI Slack](https://joinslack.pipeline.ai)
