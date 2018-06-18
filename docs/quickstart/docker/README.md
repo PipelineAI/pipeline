@@ -601,3 +601,10 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 
 '{"variant": "mnist-v1-pytorch-python-cpu", ...}'
 ```
+
+### PipelineAI Quick Start (CPU, GPU, and TPU)
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Community](/docs/quickstart/community)
+* [Docker](/docs/quickstart/docker)
+* [Kubernetes](/docs/quickstart/kubernetes)
+* [AWS SageMaker](/docs/quickstart/sagemaker)
