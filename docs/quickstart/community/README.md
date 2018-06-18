@@ -131,15 +131,7 @@ Wait a sec for your model to show up in the `Route Traffic` panel below
 Select either the `Traffic Shadow` checkbox or select a `Traffic Split %` 
 
 ## Test the Model from a REST Endpoint
-* Use the REST API to POST a JSON document representing a number.
-```
-https://community.cloud.pipeline.ai/predict/mnist/invoke
-```
-![PipelineAI REST API](http://pipeline.ai/assets/img/api-embed-har-localhost.png)
-
-![MNIST 8](http://pipeline.ai/assets/img/mnist-8-100x95.png)
-
-* Sample `curl`
+* Sample `curl` command
 ```
 curl --request POST \
   --url https://community.cloud.pipeline.ai/predict/mnist/invoke \
