@@ -197,3 +197,10 @@ pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/pr
 ![Prediction Dashboard](http://pipeline.ai/assets/img/multi-cloud-prediction-dashboard.png)
 
 ![Prediction Dashboard](http://pipeline.ai/assets/img/request-metrics-breakdown.png)
+
+## PipelineAI Quick Start (CPU, GPU, and TPU)
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Community](/docs/quickstart/community)
+* [Docker](/docs/quickstart/docker)
+* [Kubernetes](/docs/quickstart/kubernetes)
+* [AWS SageMaker](/docs/quickstart/sagemaker)
