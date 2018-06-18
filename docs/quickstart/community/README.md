@@ -15,7 +15,6 @@ cd models
 * 4 Cores
 
 ## Requirements
-* Install [Docker](https://www.docker.com/community-edition#/download)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
