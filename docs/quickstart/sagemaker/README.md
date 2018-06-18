@@ -200,7 +200,7 @@ _Note:  The paths below are relative to the sample datasets located here:  `s3:/
 pipeline train-sage-start --model-name=census --model-tag=v1 --model-type=tensorflow --input-path=./tensorflow/census-v1/input --output-path=./tensorflow/census-v1/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=training/adult.training.csv --eval-files=validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
 ```
 
-### PipelineAI Quick Start (CPU, GPU, and TPU)
+## PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Community](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
