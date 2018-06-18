@@ -22,12 +22,6 @@ cd models
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-## Sync Latest Docker Images
-```
-pipeline env-registry-sync --tag=1.5.0
-```
-* For GPU images, add `--chip=gpu`
-
 # Deploy a TensorFlow Model
 
 ## Inspect Model Directory
