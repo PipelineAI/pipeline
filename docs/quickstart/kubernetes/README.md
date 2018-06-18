@@ -446,3 +446,10 @@ Notes:
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 (_We are working on making this more intuitive._)
+
+### PipelineAI Quick Start (CPU, GPU, and TPU)
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Community](/docs/quickstart/community)
+* [Docker](/docs/quickstart/docker)
+* [Kubernetes](/docs/quickstart/kubernetes)
+* [AWS SageMaker](/docs/quickstart/sagemaker)
