@@ -75,7 +75,7 @@ _model = _initialize_upon_import()                            <-- Optional.  Cal
 
 _labels = { <-- Optional.  Used for metrics/labels
            'model_name': 'mnist',
-           'model_tag': 'v1',
+           'model_tag': 'v3',
            'model_type': 'tensorflow',   
            'model_runtime': 'tfserving',
            'model_chip': 'cpu'
