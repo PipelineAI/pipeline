@@ -112,7 +112,7 @@ https://community.cloud.pipeline.ai/admin/app/select/model
 
 Drag n' Drop Your Model Here
 
-![Drag n' Drop](https://pipeline.ai/assets/img/drag-n-drop-model.png)
+![Drag n' Drop](https://pipeline.ai/assets/img/drag-and-drop-model.png)
 
 Click `Add`
 
