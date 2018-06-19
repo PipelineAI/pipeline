@@ -202,7 +202,7 @@ pipeline train-sage-start --model-name=census --model-tag=v1 --model-type=tensor
 
 ## PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Community](/docs/quickstart/community)
+* [Community Edition](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
