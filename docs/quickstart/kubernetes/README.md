@@ -51,22 +51,6 @@ pipeline predict-server-build --model-name=mnist --model-tag=v3b --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### (Optional) Register Model Prediction Server with Docker Repo - Versions 3a and 3b
-**Notes:**
-* You will need your own Docker repo
-* This can be DockerHub - or any private/public Docker Repo
-* You must be logged into your own Docker Repo using `docker login`
-
-[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
-```
-pipeline predict-server-register --model-name=mnist --model-tag=v3a --image-registry-url=docker.io --image-registry-repo=<YOUR-DOCKER-REPO>
-```
-
-[**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
-```
-pipeline predict-server-register --model-name=mnist --model-tag=v3b --image-registry-url=docker.io --image-registry-repo=<YOUR-DOCKER-REPO>
-```
-
 ### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
 **Mac**
 ```
@@ -95,7 +79,7 @@ which istioctl
 ```
 Note:  You'll want to put `istioctl` on your permanent PATH - or copy to `/usr/local/bin`
 
-### Deploy Istio to Cluster
+### Deploy Istio to Cluster (`istio-system` namespace)
 ```
 kubectl apply -f ./istio-0.7.1/install/kubernetes/istio.yaml
 ```
@@ -158,33 +142,40 @@ PREDICT_PORT=$(kubectl -n istio-system get service istio-ingress -o jsonpath='{.
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
+* _If you skipped the build instructions above, run the following:_
+```
+pipeline predict-server-pull --model-name=mnist --model-tag=v3a
+```
+```
+pipeline predict-server-pull --model-name=mnist --model-tag=v3b
+```
 
 [**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3a
+pipeline predict-kube-start --model-name=mnist --model-tag=v3a --namespace=default
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-
 [**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3b
+pipeline predict-kube-start --model-name=mnist --model-tag=v3b --namespace=default
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ### View Running Pods
 ```
-kubectl get pod
+kubectl get pod --namespace=default
 
 ### EXPECTED OUTPUT###
 NAME                          READY     STATUS    RESTARTS   AGE
 predict-mnist-v3a-...-...       2/2       Running   0          5m
 predict-mnist-v3b-...-...       2/2       Running   0          5m
 ```
+* Note:  The 2nd Container (2/2) is the Envoy Sidecar.  Envoy is part of Istio.
 
 ### Split Traffic Between Model Version v3a (50%) and Model Version v3b (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":50, "v3b":50}' --model-shadow-tag-list='[]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":50, "v3b":50}' --model-shadow-tag-list='[]' --namespace=default
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -192,7 +183,7 @@ Notes:
 
 ### Shadow Traffic from Model Version v3a (100% Live) to Model Version v3b (0% Live, Only Shadow Traffic)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":100, "v3b":0}' --model-shadow-tag-list='["v3b"]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":100, "v3b":0}' --model-shadow-tag-list='["v3b"]' --namespace=default
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -200,7 +191,7 @@ Notes:
 
 ### View Route Rules
 ```
-kubectl get routerules
+kubectl get routerules --namespace=default
 
 ### EXPECTED OUTPUT ###
 NAME                            KIND
@@ -336,7 +327,7 @@ Notes:
 ### Scale Model Prediction Servers - Version v3b to 2 Replicas
 Scale the Model Server
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=v3b --replicas=2
+pipeline predict-kube-scale --model-name=mnist --model-tag=v3b --replicas=2 --namespace=default
 ```
 
 **Verify Scaling Event**
@@ -370,20 +361,20 @@ Notes:
 Notes:
 * Each of these will remove the `predict-mnist`
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v3a
+pipeline predict-kube-stop --model-name=mnist --model-tag=v3a --namespace=default
 ```
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v3b
+pipeline predict-kube-stop --model-name=mnist --model-tag=v3b --namespace=default
 ```
 
 ### Remove Pipeline" Traffic Routes
 ```
-kubectl delete routerule predict-mnist-dashboardstream
-kubectl delete routerule predict-mnist-denytherest
-kubectl delete routerule predict-mnist-invoke
-kubectl delete routerule predict-mnist-metrics
-kubectl delete routerule predict-mnist-ping
-kubectl delete routerule predict-mnist-prometheus
+kubectl delete routerule predict-mnist-dashboardstream --namespace=default
+kubectl delete routerule predict-mnist-denytherest --namespace=default
+kubectl delete routerule predict-mnist-invoke --namespace=default
+kubectl delete routerule predict-mnist-metrics --namespace=default
+kubectl delete routerule predict-mnist-ping --namespace=default
+kubectl delete routerule predict-mnist-prometheus --namespace=default
 ```
 
 ### Distributed TensorFlow Training 
