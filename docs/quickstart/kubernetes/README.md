@@ -51,7 +51,8 @@ pipeline predict-server-build --model-name=mnist --model-tag=v3b --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-### Install [Istio Service Mesh CLI](https://istio.io/docs/setup/kubernetes/quick-start.html#installation-steps)
+### Install Istio Service Mesh CLI
+
 **Mac**
 ```
 curl -L https://github.com/istio/istio/releases/download/0.7.1/istio-0.7.1-osx.tar.gz | tar xz
