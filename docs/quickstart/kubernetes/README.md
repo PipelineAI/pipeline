@@ -20,10 +20,9 @@ cd models
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
-### Docker for MacOS with Local Kubernetes
-![Docker for Desktop Kubernetes Mac](https://pipeline.ai/assets/img/docker-desktop-kubernetes-about.png)
+### Install Docker for MacOS with Local Kubernetes (Edge Channel)
 
-### Docker for Windows with Local Kubernetes
+### Docker for Windows with Local Kubernetes (Edge Channel)
 ![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
 
 ### Docker for Linux with Kubernetes (Server or Cluster)
