@@ -1,6 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
 
-## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
+## Pull PipelineAI Sample Models
 ```
 git clone https://github.com/PipelineAI/models
 ```
@@ -14,19 +14,21 @@ cd models
 * 8GB
 * 4 Cores
 
-## Installs
+## Pre-requisites
 * Install [Docker](https://www.docker.com/community-edition#/download)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
-### Install Docker for MacOS with Local Kubernetes (Edge Channel)
+## Install [PipelineAI CLI](../README.md#install-pipelinecli)
 
-### Docker for Windows with Local Kubernetes (Edge Channel)
-![Docker for Desktop Kubernetes Windows](http://pipeline.ai/assets/img/docker-for-desktop-windows.png)
+**NOTE: YOU MUST INSTALL THE CLI ABOVE BEFORE CONTINUING!**
 
-### Docker for Linux with Kubernetes (Server or Cluster)
-You know what to do, Linux friends!
+## Install Local Kubernetes
+* Install Docker for MacOS with Local Kubernetes (Edge Channel)
+or
+* Install Docker for Windows with Local Kubernetes (Edge Channel)
+or
+* Docker for Linux with Kubernetes (Server or Cluster)
 
 ### Configure Kubernetes CLI for Local Kubernetes Cluster
 ```
