@@ -80,14 +80,14 @@ which istioctl
 ```
 Note:  You'll want to put `istioctl` on your permanent PATH - or copy to `/usr/local/bin`
 
-### Deploy Istio to Cluster (`istio-system` namespace)
+### Deploy Istio to Cluster
 ```
-kubectl apply -f ./istio-0.7.1/install/kubernetes/istio.yaml
+kubectl apply -f https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/quickstart/kubernetes/istio-0.7.1-default-namespace.yaml
 ```
 
 **Verify Istio Components**
 ```
-kubectl get all --namespace=istio-system
+kubectl get all
 
 ### EXPECTED OUTPUT ###
 NAME                   AGE
@@ -136,7 +136,7 @@ svc/servicegraph    NodePort       10.104.28.189    <none>        8088:31993/TCP
 PREDICT_HOST=127.0.0.1
 
 # Ingress Port
-PREDICT_PORT=$(kubectl -n istio-system get service istio-ingress -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
+PREDICT_PORT=$(kubectl get service istio-ingress -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 ```
 
 ### Deploy Model Prediction Servers - Versions v3a and v3b (TensorFlow-based)
@@ -153,13 +153,13 @@ pipeline predict-server-pull --model-name=mnist --model-tag=v3b
 
 [**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3a --namespace=default
+pipeline predict-kube-start --model-name=mnist --model-tag=v3a
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 [**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3b --namespace=default
+pipeline predict-kube-start --model-name=mnist --model-tag=v3b
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -176,7 +176,7 @@ predict-mnist-v3b-...-...       2/2       Running   0          5m
 
 ### Split Traffic Between Model Version v3a (50%) and Model Version v3b (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":50, "v3b":50}' --model-shadow-tag-list='[]' --namespace=default
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":50, "v3b":50}' --model-shadow-tag-list='[]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -184,7 +184,7 @@ Notes:
 
 ### Shadow Traffic from Model Version v3a (100% Live) to Model Version v3b (0% Live, Only Shadow Traffic)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":100, "v3b":0}' --model-shadow-tag-list='["v3b"]' --namespace=default
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":100, "v3b":0}' --model-shadow-tag-list='["v3b"]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -192,7 +192,7 @@ Notes:
 
 ### View Route Rules
 ```
-kubectl get routerules --namespace=default
+kubectl get routerules
 
 ### EXPECTED OUTPUT ###
 NAME                            KIND
@@ -328,7 +328,7 @@ Notes:
 ### Scale Model Prediction Servers - Version v3b to 2 Replicas
 Scale the Model Server
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=v3b --replicas=2 --namespace=default
+pipeline predict-kube-scale --model-name=mnist --model-tag=v3b --replicas=2
 ```
 
 **Verify Scaling Event**
@@ -362,20 +362,20 @@ Notes:
 Notes:
 * Each of these will remove the `predict-mnist`
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v3a --namespace=default
+pipeline predict-kube-stop --model-name=mnist --model-tag=v3a
 ```
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v3b --namespace=default
+pipeline predict-kube-stop --model-name=mnist --model-tag=v3b
 ```
 
 ### Remove Pipeline" Traffic Routes
 ```
-kubectl delete routerule predict-mnist-dashboardstream --namespace=default
-kubectl delete routerule predict-mnist-denytherest --namespace=default
-kubectl delete routerule predict-mnist-invoke --namespace=default
-kubectl delete routerule predict-mnist-metrics --namespace=default
-kubectl delete routerule predict-mnist-ping --namespace=default
-kubectl delete routerule predict-mnist-prometheus --namespace=default
+kubectl delete routerule predict-mnist-dashboardstream
+kubectl delete routerule predict-mnist-denytherest
+kubectl delete routerule predict-mnist-invoke
+kubectl delete routerule predict-mnist-metrics
+kubectl delete routerule predict-mnist-ping
+kubectl delete routerule predict-mnist-prometheus
 ```
 
 ### Distributed TensorFlow Training 
