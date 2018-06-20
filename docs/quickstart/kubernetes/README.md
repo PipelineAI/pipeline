@@ -395,14 +395,6 @@ Notes:
 * `--model-path` must be relative to the current ./models directory (cloned from https://github.com/PipelineAI/models)
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-**Register Training Docker Image with Docker Repo**
-* By default, we use the following public DockerHub repo `docker.io/pipelineai`
-* By convention, we use `train-` to namespace our model servers (ie. `train-census`)
-* To use your own defaults or conventions, specify `--image-registry-url`, `--image-registry-repo`, or `--image-registry-namespace`
-```
-pipeline train-server-register --model-name=census --model-tag=v1
-```
-
 **Start Distributed TensorFlow Training Cluster**
 ```
 pipeline train-kube-start --model-name=census --model-tag=v1 --input-host-path= --output-host-path=/root/samples/models/tensorflow/census-v1/model/pipeline_tfserving --runs-host-path=/root/samples/models/tensorflow/census-v1/output --master-replicas=1 --ps-replicas=1 --worker-replicas=1 --train-args="--train-files=/root/models/models/tensorflow/census-v1/input/training/adult.training.csv --eval-files=/root/models/models/tensorflow/census-v1/input/validation/adult.validation.csv --num-epochs=2 --learning-rate=0.025"
