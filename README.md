@@ -1,3 +1,5 @@
+![PipoelineAI Logo](https://pipeline.ai/assets/img/pipelineai-logo.png)
+
 # PipelineAI Quick Start (CPU + GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Community Edition](/docs/quickstart/community)
