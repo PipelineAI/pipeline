@@ -104,25 +104,29 @@ pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-
 ```
 
 ## Drag and Drop Archive
-Navigate to PipelineAI Community Edition and press the add `+` button:
+Navigate to PipelineAI Community Edition
 ```
 https://community.cloud.pipeline.ai/admin/app/select/model
 ```
 
-Drag n' Drop Your Model Here
+### Click Plus Button
+
+![Click Plus Button](https://pipeline.ai/assets/img/click-plus-button.png)
+
+### Drag n' Drop Your Model Here
 
 ![Drag n' Drop](https://pipeline.ai/assets/img/drag-and-drop-model.png)
 
-Click `Add`
+### Click Add Button
+
+![Click Add Button](https://pipeline.ai/assets/img/click-add-button.png)
 
 After your model uploads, click `Next`
 
 ## Optimize and Deploy the Model
-Click `Models` in Left Nav
-
-Click `mnist`
-
-Find your model and click `Optimize and Deploy`
+### Click `Models` in Left Nav
+### Click `mnist`
+### Find Your Model and Click `Optimize and Deploy`
 
 ## Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
 Wait a sec for your model to show up in the `Route Traffic` panel below
