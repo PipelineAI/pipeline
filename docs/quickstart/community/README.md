@@ -4,6 +4,7 @@
 ```
 git clone https://github.com/PipelineAI/models
 ```
+
 **Change into the new `models/` directory**
 ```
 cd models
