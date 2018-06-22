@@ -1,4 +1,4 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png) 
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png) 
 
 ### AWS SageMaker Overview
 ![PipelineAI + AWS SageMaker Dashboard](http://pipeline.ai/assets/img/sagemaker-train-tune-deploy-with-logos.png)
