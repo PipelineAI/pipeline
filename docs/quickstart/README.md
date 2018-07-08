@@ -8,7 +8,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.172 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.173 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -44,7 +44,8 @@ pipeline
 
 ### EXPECTED OUTPUT ###
 ...
-env-conda-activate          <-- Switch to a New Model (Updates Conda Environment)
+env-kube-activate           <-- Switch Kubernetes Clusters
+env-conda-activate          <-- Switch Conda Environments
 env-registry-sync           <-- Sync with the latest Docker images
 
 help                        <-- This List of CLI Commands
@@ -93,10 +94,6 @@ predict-server-test         <-- Test Model Server (Http-based)
 predict-server-untar        <-- Untar Model Server Tar File
 
 predict-stream-test         <-- Test Stream-based Model Server
-
-predict-tensorflow-describe <-- Describe TensorFlow Model Server (saved_model_cli)
-
-spark-kube-scale          <-- Scale Spark Cluster on Kubernetes
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
 stream-http-describe        <-- Describe Stream (REST API)
