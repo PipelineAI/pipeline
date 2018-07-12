@@ -1,4 +1,4 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
+r![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
 ## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
@@ -422,7 +422,7 @@ cat ./scikit/mnist/model/pipeline_invoke.py
 
 ## Build the Scikit-Learn Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model/
+pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-runtime=python --model-path=./scikit/mnist/model/
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -553,7 +553,7 @@ cat ./pytorch/mnist-v1/model/pipeline_invoke.py
 ## Build the PyTorch Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-path=./pytorch/mnist-v1/model/ 
+pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-runtime=python --model-path=./pytorch/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
