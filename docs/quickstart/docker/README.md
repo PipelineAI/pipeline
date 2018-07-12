@@ -147,7 +147,7 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 * This command bundles the TensorFlow runtime with the model.
 
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
+pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=tfserving --model-path=./tensorflow/mnist-v3/model
 ```
 Notes:
 * `--model-path` must be relative.
@@ -160,7 +160,7 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --memory-limit=2G --model-name=mnist --model-tag=v3
+pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G 
 ```
 Notes:
 * Ignore `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
