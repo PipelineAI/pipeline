@@ -53,12 +53,6 @@ help                        <-- This List of CLI Commands
 model-archive-tar           <-- Create Tar Archive for Model Server
 model-archive-untar         <-- Untar Model Server Archive
 
-model-source-get            <-- Retrieve file within Model Directory
-model-source-init           <-- Initialize Model Directory to Prepare for New Model
-
-model-source-list           <-- List Model Source Directories 
-model-source-set            <-- Update file within a Model Source Directory
-
 predict-http-test           <-- Test Model Cluster (Http-based)
 
 predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
@@ -96,14 +90,9 @@ predict-server-untar        <-- Untar Model Server Tar File
 predict-stream-test         <-- Test Stream-based Model Server
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
-stream-http-describe        <-- Describe Stream (REST API)
-stream-http-produce         <-- Produce Stream Messages (REST API)
 
 stream-kube-consume         <-- Consume Messages from Stream
-stream-kube-describe        <-- Describe Stream
 stream-kube-produce         <-- Produce Messages to Stream
-stream-kube-start           <-- Start Stream (Kafka, MQTT)
-stream-kube-stop            <-- Stop Stream
 
 train-kube-connect          <-- Create Secure Tunnel to Training Cluster
 train-kube-describe         <-- Describe Training Cluster
