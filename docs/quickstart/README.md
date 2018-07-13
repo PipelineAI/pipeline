@@ -113,7 +113,7 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-# Having Issues?  Contact Us Anytime... We Never Sleep.
+# Having Issues?  Contact Us Anytime... We're Always Awake!
 * Slack:  http://joinslack.pipeline.ai
 * Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
 * Web:  https://support.pipeline.ai
