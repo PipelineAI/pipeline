@@ -1,4 +1,4 @@
-![PipelineAI Logo](https://pipeline.ai/assets/img/logo/pipelineai-logo-250x55.png)
+![PipelineAI Logo](https://pipeline.ai/assets/img/logo/pipelineai-logo-150x33.png)
 
 # PipelineAI Quick Start (CPU + GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
