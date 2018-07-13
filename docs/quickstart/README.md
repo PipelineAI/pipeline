@@ -8,7 +8,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.174 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.175 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -113,10 +113,10 @@ train-server-stop           <-- Stop Training Server
 version                     <-- View This CLI Version
 ```
 
-### Questions or Support
-Contact Us 24x7.  We Never Sleep!
-* [Slack](https://joinslack.pipeline.ai)
-* [Web](https://support.pipeline.ai)
-* [YouTube](https://youtube.pipeline.ai)
-* [Slideshare](https://slideshare.pipeline.ai)
+# Having Issues?  Contact Us Anytime... We Never Sleep.
+* Slack:  http://joinslack.pipeline.ai
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
+* Web:  https://support.pipeline.ai
+* YouTube:  http://youtube.pipeline.ai
+* Slideshare:  http://slideshare.pipeline.ai
 * [Troubleshooting Guide](/docs/troubleshooting)
