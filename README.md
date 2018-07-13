@@ -1,4 +1,4 @@
-![PipelineAI Logo](https://pipeline.ai/assets/img/logo/pipelineai-logo.png)
+![PipelineAI Logo](https://pipeline.ai/assets/img/logo/pipelineai-logo-250x55.png)
 
 # PipelineAI Quick Start (CPU + GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
@@ -13,7 +13,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * Web:  https://support.pipeline.ai
 * YouTube:  http://youtube.pipeline.ai
 * Slideshare:  http://slideshare.pipeline.ai
-* Troubleshooting:  [Guide](/docs/troubleshooting)
+* [Troubleshooting Guide](/docs/troubleshooting)
 
 # PipelineAI Community Events
 * [PipelineAI Deep Learning Workshops (TensorFlow + Spark + GPUs)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
