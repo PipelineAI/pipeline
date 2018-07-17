@@ -10,102 +10,34 @@ git clone https://github.com/PipelineAI/models
 cd models
 ```
 
-# Install PipelineAI
-## System Requirements
-* 8GB
-* 4 Cores
 
-## Requirements
+## Install [PipelineAI CLI](../README.md#install-pipelinecli)
+### Requirements
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
-
-# Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-# Deploy a TensorFlow Model
-
-## Inspect Model Directory
-_Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
+## Login to Community
+* Username:  community@pipeline.ai
+* Password:  Password9!
 ```
-ls -l ./tensorflow/mnist-v3/model
-
-### EXPECTED OUTPUT ###
-...
-pipeline_conda_environment.yaml    <-- Required. Sets up the conda environment
-pipeline_condarc                   <-- Required, but Empty is OK.  Configure Conda proxy servers (.condarc)
-pipeline_modelserver.properties    <-- Required, but Empty is OK.  Configure timeouts and fallbacks
-pipeline_invoke.py                 <-- Required. `invoke(request: bytes) -> bytes` is required
-pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
-pipeline_tfserving.properties      <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
-pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains the TF SavedModel
-...
+https://community.cloud.pipeline.ai
 ```
 
-## Inspect TensorFlow Serving Model 
-```
-ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
+## Deploy a TensorFlow Model - CLI
 
-### EXPECTED OUTPUT ###
-...
-0/  <-- TensorFlow Serving finds the latest (highest) version 
-...
+### Python Serving Runtime (Python Runtime)
+```
+pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "auth0|5b4d2d742fb562269949f2b4" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model/ --type tensorflow --runtime tfserving --chip cpu
 ```
 
-## Inspect `pipeline_invoke.py`
-_Note:  Only the `invoke()` method is required.  Everything else is optional._
-```
-cat ./tensorflow/mnist-v3/model/pipeline_invoke.py
+## Deploy TensorFlow Model - Drag n' Drop
 
-### EXPECTED OUTPUT ###
-import os
-import logging
-from pipeline_model import TensorFlowServingModel             <-- Optional.  Wraps TensorFlow Serving
-from pipeline_monitor import prometheus_monitor as monitor    <-- Optional.  Monitor runtime metrics
-from pipeline_logger import log                               <-- Optional.  Log to console, file, kafka
-
-__all__ = ['invoke']                                          <-- Optional.  Being a good Python citizen.
-
-def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Called once at server startup
-    return TensorFlowServingModel(host='localhost',           <-- Optional.  Wraps TensorFlow Serving
-                                  port=9000,
-                                  model_name='mnist',
-                                  timeout=100)                <-- Optional.  TensorFlow Serving timeout
-
-_model = _initialize_upon_import()                            <-- Optional.  Called once upon server startup
-
-_labels = { <-- Optional.  Used for metrics/labels
-           'model_name': 'mnist',
-           'model_tag': 'v3',
-           'model_type': 'tensorflow',   
-           'model_runtime': 'tfserving',
-           'model_chip': 'cpu'
-          } 
-
-_logger = logging.getLogger('invoke-logger')                  <-- Optional.  Standard Python logging
-
-@log(labels=_labels, logger=_logger)                          <-- Optional.  Sample and compare predictions
-def invoke(request: bytes) -> bytes:                          <-- Required.  Called on every prediction
-
-    with monitor(labels=_labels, name="transform_request"):   <-- Optional.  Expose fine-grained metrics
-        transformed_request = _transform_request(request)     <-- Optional.  Transform input (json) into TensorFlow (tensor)
-
-    with monitor(labels=_labels, name="invoke"):
-        response = _model.predict(transformed_request)        <-- Optional.  Calls _model.predict()
-
-    with monitor(labels=_labels, name="transform_response"):
-        transformed_response = _transform_response(response)  <-- Optional.  Transform TensorFlow (tensor) into output (json)
-
-    return transformed_response                               <-- Required.  Returns the predicted value(s)
-...
-```
-
-## Package the Model for Upload
+### Package the Model for Upload
 ```
 pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v3/model
 ```
-
-## Drag and Drop Archive
-Navigate to PipelineAI Community Edition
+### Navigate to PipelineAI Community Edition
 ```
 https://community.cloud.pipeline.ai/admin/app/select/model
 ```
