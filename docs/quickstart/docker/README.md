@@ -45,8 +45,10 @@ ls -l ./tensorflow/mnist-v3/model
 pipeline_conda_environment.yaml    <-- Required. Sets up the conda environment
 pipeline_condarc                   <-- Required, but Empty is OK.  Configure Conda proxy servers (.condarc)
 pipeline_modelserver.properties    <-- Required, but Empty is OK.  Configure timeouts and fallbacks
-pipeline_invoke.py                 <-- Required. `invoke(request: bytes) -> bytes` is required
-pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
+pipeline_invoke_python.py          <-- Required if using Python Runtime (python)
+pipeline_invoke_tflite.py          <-- Required if using TensorFlow Lite Runtime (tflite)
+pipeline_invoke_tfserving.py       <-- Required if using TensorFlow Serving Runtime (tfserving)
+pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build.
 pipeline_tfserving.properties      <-- Required by TensorFlow Serving. Custom request-batch sizes, etc.
 pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains the TF SavedModel
 ...
@@ -66,8 +68,15 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 * This command bundles the TensorFlow runtime with the model.
 
 ```
+pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=python --model-path=./tensorflow/mnist-v3/model
+```
+```
+pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=tflite --model-path=./tensorflow/mnist-v3/model
+```
+```
 pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=tfserving --model-path=./tensorflow/mnist-v3/model
 ```
+
 Notes:
 * `--model-path` must be relative.
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
