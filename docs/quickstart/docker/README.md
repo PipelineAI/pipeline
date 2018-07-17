@@ -68,7 +68,7 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 * This command bundles the TensorFlow runtime with the model.
 
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=python --model-path=./tensorflow/mnist-v3/model
+pipeline predict-server-build --model-name=mnist --model-tag=v3tensorflow --model-type=tensorflow --model-runtime=python --model-path=./tensorflow/mnist-v3/model
 ```
 
 Notes:
@@ -82,7 +82,7 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=v3tensorflow --memory-limit=2G
 ```
 Notes:
 * Ignore `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -121,7 +121,7 @@ __all__ = ['invoke']                                           <== Optional.  Be
 
 _labels = {                                                    <== Optional.  Used for metrics/labels
            'model_name': 'mnist',
-           'model_tag': 'v3',
+           'model_tag': 'v3tensorflow',
            'model_type': 'tensorflow',
            'model_runtime': 'python',
            'model_chip': 'cpu',
@@ -176,7 +176,7 @@ if __name__ == '__main__':
 ## Monitor Runtime Logs
 * Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v3
+pipeline predict-server-logs --model-name=mnist --model-tag=v3tensorflow
 
 ### EXPECTED OUTPUT ###
 ...
@@ -202,7 +202,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-('{"variant": "mnist-v3-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
+('{"variant": "mnist-v3tensorflow-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
  '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
  '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
  '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
@@ -236,7 +236,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080 --test-request
 
 ### EXPECTED OUTPUT ###
 ...
-('{"variant": "mnist-v3-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
+('{"variant": "mnist-v3tensorflow-tensorflow-tfserving-cpu", "outputs":{"classes": [8], '
  '"probabilities": [[0.0013824915513396263, 0.00036483019357547164, '
  '0.003705816576257348, 0.010749378241598606, 0.0015819378895685077, '
  '6.45182590233162e-05, 0.00010775036207633093, 0.00010466964886290953, '
@@ -261,7 +261,7 @@ Digit  Confidence
 ## View Prediction Server Logs
 * If you have any issues, you can review the logs as follows:
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v3
+pipeline predict-server-logs --model-name=mnist --model-tag=v3tensorflow
 ```
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
@@ -303,7 +303,7 @@ _Create additional PipelineAI metric widgets using [THIS](https://prometheus.io/
 
 # Stop Model Server
 ```
-pipeline predict-server-stop --model-name=mnist --model-tag=v3
+pipeline predict-server-stop --model-name=mnist --model-tag=v3tensorflow
 ```
 
 # Deploy a Scikit-Learn Model
@@ -314,20 +314,20 @@ cat ./scikit/mnist/model/pipeline_invoke_python.py
 
 ## Build the Scikit-Learn Model Server
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-runtime=python --model-path=./scikit/mnist/model/
+pipeline predict-server-build --model-name=mnist --model-tag=v1scikit --model-type=scikit --model-runtime=python --model-path=./scikit/mnist/model/
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v1
+pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Model Server Logs
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-name=mnist --model-tag=v1scikit
 ```
 
 ## Predict with the Model 
@@ -339,7 +339,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "mnist-v1-scikit-python-cpu", "outputs":{"outputs": 5.0}}
+{"variant": "mnist-v1scikit-scikit-python-cpu", "outputs":{"outputs": 5.0}}
  
 ### FORMATTED OUTPUT ###
 Digit  Confidence
@@ -370,7 +370,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-v1-scikit-python-cpu", "outputs":[188.6431188435]}'
+'{"variant": "mnist-v1scikit-scikit-python-cpu", "outputs":[188.6431188435]}'
 ```
 
 # Deploy a PyTorch Model
@@ -382,14 +382,14 @@ cat ./pytorch/mnist-v1/model/pipeline_invoke_python.py
 ## Build the PyTorch Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-runtime=python --model-path=./pytorch/mnist-v1/model/ 
+pipeline predict-server-build --model-name=mnist --model-tag=v1pytorch --model-type=pytorch --model-runtime=python --model-path=./pytorch/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the PyTorch Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v1
+pipeline predict-server-start --model-name=mnist --model-tag=v1pytorch
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
@@ -397,7 +397,7 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1
 ## View the PyTorch Model Server Logs
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v1
+pipeline predict-server-logs --model-name=mnist --model-tag=v1pytorch
 ```
 
 ## Model Predict
@@ -410,7 +410,7 @@ curl -X POST -H "Content-Type: application/json" \
   
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-v1-pytorch-python-cpu", ...}'
+'{"variant": "mnist-v1pytorch-pytorch-python-cpu", ...}'
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -427,7 +427,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-v1-pytorch-python-cpu", ...}'
+'{"variant": "mnist-v1pytorch-pytorch-python-cpu", ...}'
 ```
 
 ## Train Models with PipelineAI
