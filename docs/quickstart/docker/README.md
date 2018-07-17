@@ -396,8 +396,8 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 '{"variant": "mnist-v1-pytorch-python-cpu", ...}'
 ```
 
-### Train Models with PipelineAI
-* Click [HERE](README-training.md)
+## Train Models with PipelineAI
+* Click [HERE](README-training.md) to Train Models
 
 ## PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
