@@ -1,6 +1,6 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
-## Pull from S3
+## Pull Sample PipelineAI Model from S3 (FAST)
 ```
 mkdir -p ./tensorflow/mnist-v3/
 ```
@@ -14,7 +14,7 @@ wget https://s3-us-west-2.amazonaws.com/pipelineai-public-datasets/models/mnist-
 tar -xzvf mnist-v3.tar.gz
 ```
 
-## (Optional) Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
+## (Optional) Pull All Sample PipelineAI Models from GitHub (SLOW)
 ```
 git clone https://github.com/PipelineAI/models
 ```
