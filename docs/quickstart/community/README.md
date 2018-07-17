@@ -11,7 +11,7 @@ cd ./tensorflow/mnist-v3/
 wget https://s3-us-west-2.amazonaws.com/pipelineai-public-datasets/models/mnist-v3.tar.gz
 ```
 ```
-tar -xgzf mnist-v3.tar.gz
+tar -xzvf mnist-v3.tar.gz
 ```
 
 ## (Optional) Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
