@@ -1,15 +1,27 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
-# Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
+## Pull from S3
+```
+mkdir -p ./tensorflow/mnist-v3/
+```
+```
+cd ./tensorflow/mnist-v3/
+```
+```
+wget https://s3-us-west-2.amazonaws.com/pipelineai-public-datasets/models/mnist-v3.tar.gz
+```
+```
+tar -xgzf mnist-v3.tar.gz
+```
+
+## (Optional) Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
 ```
-
-## Change into the new `models/` directory
+Change into the new `models/tensorflow/mnist-v3/` directory
 ```
 cd models
 ```
-
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
@@ -27,7 +39,7 @@ https://community.cloud.pipeline.ai
 
 ## Python Serving Runtime (Python Runtime)
 ```
-pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "auth0|5b4d2d742fb562269949f2b4" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model/ --type tensorflow --runtime tfserving --chip cpu
+pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "auth0|5b4d2d742fb562269949f2b4" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime tfserving --chip cpu
 ```
 
 # (Optional) Deploy Model through Drag n' Drop
