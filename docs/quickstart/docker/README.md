@@ -70,12 +70,6 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=python --model-path=./tensorflow/mnist-v3/model
 ```
-```
-pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=tflite --model-path=./tensorflow/mnist-v3/model
-```
-```
-pipeline predict-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-runtime=tfserving --model-path=./tensorflow/mnist-v3/model
-```
 
 Notes:
 * `--model-path` must be relative.
@@ -88,7 +82,7 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G 
+pipeline predict-server-start --model-name=mnist --model-tag=v3 --memory-limit=2G
 ```
 Notes:
 * Ignore `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -100,52 +94,83 @@ Notes:
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
-## Inspect `pipeline_invoke.py`
+## Inspect `pipeline_invoke_python.py`
 _Note:  Only the `invoke()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-v3/model/pipeline_invoke.py
+cat ./tensorflow/mnist-v3/model/pipeline_invoke_python.py
 
 ### EXPECTED OUTPUT ###
+
 import os
-import logging
-from pipeline_model import TensorFlowServingModel             <-- Optional.  Wraps TensorFlow Serving
-from pipeline_monitor import prometheus_monitor as monitor    <-- Optional.  Monitor runtime metrics
-from pipeline_logger import log                               <-- Optional.  Log to console, file, kafka
+import numpy as np
+import json
+import logging                                                 <== Optional.  Log to console, file, kafka
+from pipeline_monitor import prometheus_monitor as monitor     <== Optional.  Monitor runtime metrics
+from pipeline_logger import log
 
-__all__ = ['invoke']                                          <-- Optional.  Being a good Python citizen.
+import tensorflow as tf
+from tensorflow.contrib import predictor
 
-def _initialize_upon_import() -> TensorFlowServingModel:      <-- Optional.  Called once at server startup
-    return TensorFlowServingModel(host='localhost',           <-- Optional.  Wraps TensorFlow Serving
-                                  port=9000,
-                                  model_name='mnist',
-                                  timeout=100)                <-- Optional.  TensorFlow Serving timeout
+_logger = logging.getLogger('pipeline-logger')
+_logger.setLevel(logging.INFO)
+_logger_stream_handler = logging.StreamHandler()
+_logger_stream_handler.setLevel(logging.INFO)
+_logger.addHandler(_logger_stream_handler)
 
-_model = _initialize_upon_import()                            <-- Optional.  Called once upon server startup
+__all__ = ['invoke']                                           <== Optional.  Being a good Python citizen.
 
-_labels = { <-- Optional.  Used for metrics/labels
+_labels = {                                                    <== Optional.  Used for metrics/labels
            'model_name': 'mnist',
-           'model_tag': 'tag',
-           'model_type': 'type',   
-           'model_runtime': 'tfserving',
-           'model_chip': 'cpu'
-          } 
+           'model_tag': 'v3',
+           'model_type': 'tensorflow',
+           'model_runtime': 'python',
+           'model_chip': 'cpu',
+          }
 
-_logger = logging.getLogger('invoke-logger')                  <-- Optional.  Standard Python logging
+def _initialize_upon_import():                                 <== Optional.  Called once upon server startup
+    ''' Initialize / Restore Model Object.
+    '''
+    saved_model_path = './pipeline_tfserving/0'
+    return predictor.from_saved_model(saved_model_path)
 
-@log(labels=_labels, logger=_logger)                          <-- Optional.  Sample and compare predictions
-def invoke(request: bytes) -> bytes:                          <-- Required.  Called on every prediction
 
-    with monitor(labels=_labels, name="transform_request"):   <-- Optional.  Expose fine-grained metrics
-        transformed_request = _transform_request(request)     <-- Optional.  Transform input (json) into TensorFlow (tensor)
+# This is called unconditionally at *module import time*...
+_model = _initialize_upon_import()
 
-    with monitor(labels=_labels, name="invoke"):
-        response = _model.predict(transformed_request)        <-- Optional.  Calls _model.predict()
 
-    with monitor(labels=_labels, name="transform_response"):
-        transformed_response = _transform_response(response)  <-- Optional.  Transform TensorFlow (tensor) into output (json)
+@log(labels=_labels, logger=_logger)                           <== Optional.  Sample and compare predictions
+def invoke(request):                                           <== Required.  Called on every prediction
+    '''Where the magic happens...'''
 
-    return transformed_response                               <-- Required.  Returns the predicted value(s)
-...
+    with monitor(labels=_labels, name="transform_request"):    <== Optional.  Expose fine-grained metrics
+        transformed_request = _transform_request(request)      <== Optional.  Transform input (json) into TensorFlow (tensor)
+
+    with monitor(labels=_labels, name="invoke"):               <== Optional.  Calls _model.predict()
+        response = _model(transformed_request)
+
+    with monitor(labels=_labels, name="transform_response"):   <== Optional.  Transform TensorFlow (tensor) into output (json)
+        transformed_response = _transform_response(response)
+
+    return transformed_response                                <== Required.  Returns the predicted value(s)
+
+
+def _transform_request(request):
+    request_str = request.decode('utf-8')
+    request_json = json.loads(request_str)
+    request_np = ((255 - np.array(request_json['image'], dtype=np.uint8)) / 255.0).reshape(1, 28, 28)
+    return {"image": request_np}
+
+
+def _transform_response(response):
+    return json.dumps({"classes": response['classes'].tolist(),
+                       "probabilities": response['probabilities'].tolist(),
+                      })
+
+if __name__ == '__main__':
+    with open('../input/predict/test_request.json', 'rb') as fb:
+        request_bytes = fb.read()
+        response_bytes = invoke(request_bytes)
+        print(response_bytes)
 ```
 
 ## Monitor Runtime Logs
