@@ -309,7 +309,7 @@ pipeline predict-server-stop --model-name=mnist --model-tag=v3
 # Deploy a Scikit-Learn Model
 ## View Prediction Code
 ```
-cat ./scikit/mnist/model/pipeline_invoke.py
+cat ./scikit/mnist/model/pipeline_invoke_python.py
 ```
 
 ## Build the Scikit-Learn Model Server
@@ -376,7 +376,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 # Deploy a PyTorch Model
 ## View Prediction Code
 ```
-cat ./pytorch/mnist-v1/model/pipeline_invoke.py
+cat ./pytorch/mnist-v1/model/pipeline_invoke_python.py
 ```
 
 ## Build the PyTorch Model Server
