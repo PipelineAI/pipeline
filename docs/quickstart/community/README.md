@@ -38,6 +38,7 @@ https://community.cloud.pipeline.ai
 # Deploy a TensorFlow Model - CLI
 
 ## Python Serving Runtime (Python Runtime)
+* Fill in a unique value for `<YOUR_TAG_NAME>`
 ```
 pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "auth0|5b4d2d742fb562269949f2b4" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime tfserving --chip cpu
 ```
