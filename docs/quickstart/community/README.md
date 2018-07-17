@@ -18,9 +18,9 @@ tar -xzvf mnist-v3.tar.gz
 ```
 git clone https://github.com/PipelineAI/models
 ```
-Change into the new `models/tensorflow/mnist-v3/` directory
+Change into the new `./models/tensorflow/mnist-v3/` directory
 ```
-cd models
+cd ./models/tensorflow/mnist-v3/
 ```
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
