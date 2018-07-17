@@ -1,76 +1,75 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
-## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
+# Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
 ```
 
-**Change into the new `models/` directory**
+## Change into the new `models/` directory
 ```
 cd models
 ```
 
 
-## Install [PipelineAI CLI](../README.md#install-pipelinecli)
-### Requirements
+# Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-## Login to Community
+# Login to Community
 * Username:  community@pipeline.ai
 * Password:  Password9!
 ```
 https://community.cloud.pipeline.ai
 ```
 
-## Deploy a TensorFlow Model - CLI
+# Deploy a TensorFlow Model - CLI
 
-### Python Serving Runtime (Python Runtime)
+## Python Serving Runtime (Python Runtime)
 ```
 pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "auth0|5b4d2d742fb562269949f2b4" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model/ --type tensorflow --runtime tfserving --chip cpu
 ```
 
-## (Optional) Deploy Model through Drag n' Drop
+# (Optional) Deploy Model through Drag n' Drop
 
-### Package the Model for Upload
+## Package the Model for Upload
 ```
 pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v3/model
 ```
 
-### Navigate to PipelineAI Community Edition
+## Navigate to PipelineAI Community Edition
 ```
 https://community.cloud.pipeline.ai/admin/app/select/model
 ```
 
-### Click Plus Button
+## Click Plus Button
 ![Click Plus Button](https://pipeline.ai/assets/img/click-plus-button.png)
 
-### Full Out Model Metadata
+## Set Model Metadata
 ![Model Metadata](https://pipeline.ai/assets/img/model-metadata.png)
 
-### Select Upload Archive
+## Select Upload Archive
 ![Upload Archive](https://pipeline.ai/assets/img/upload-archive.png)
 
-### Drag n' Drop Your Model
+## Drag n' Drop Your Model
 ![Drag n' Drop](https://pipeline.ai/assets/img/drag-and-drop-model.png)
 
-### Click Add Button
+## Click Add Button
 ![Click Add Button](https://pipeline.ai/assets/img/click-add-button.png)
 
-### Click NEXT After Your Model Uploads
+## Click NEXT After Your Model Uploads
 
-## Optimize and Deploy the Model
-### Click `Models` in Left Nav
-### Click `mnist`
-### Find Your Model and Click `Optimize and Deploy`
+# Optimize and Deploy the Model
+## Click `Models` in Left Nav
+## Click `mnist`
+## Find Your Model and Click `Optimize and Deploy`
 
-## Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
+# Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
 Wait a sec for your model to show up in the `Route Traffic` panel below
 
 Select either the `Traffic Shadow` checkbox or select a `Traffic Split %` 
 
-## Predict with CLI
+# Predict with CLI
 * Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step.
 ```
 pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=1
@@ -101,13 +100,13 @@ Digit  Confidence
 pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=100
 ```
 
-## Monitor Real-Time Prediction Dashboards
+# Monitor Real-Time Prediction Dashboards
 
 ![Prediction Dashboard](http://pipeline.ai/assets/img/multi-cloud-prediction-dashboard.png)
 
 ![Prediction Dashboard](http://pipeline.ai/assets/img/request-metrics-breakdown.png)
 
-## PipelineAI Quick Start (CPU, GPU, and TPU)
+# PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Community](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
