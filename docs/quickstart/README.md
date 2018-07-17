@@ -89,6 +89,8 @@ predict-server-untar        <-- Untar Model Server Tar File
 
 predict-stream-test         <-- Test Stream-based Model Server
 
+resource-deploy             <-- Deploy to PipelineAI Cluster
+
 stream-http-consume         <-- Consume Stream Messages (REST API)
 
 stream-kube-consume         <-- Consume Messages from Stream
