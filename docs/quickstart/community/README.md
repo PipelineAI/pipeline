@@ -10,9 +10,6 @@ cd ./tensorflow/mnist-v3/
 ```
 wget https://s3-us-west-2.amazonaws.com/pipelineai-public-datasets/models/mnist-v3.tar.gz
 ```
-```
-tar -xzvf mnist-v3.tar.gz
-```
 
 ## (Optional) Pull All Sample PipelineAI Models from GitHub (SLOW)
 ```
@@ -21,6 +18,9 @@ git clone https://github.com/PipelineAI/models
 Change into the new `./models/tensorflow/mnist-v3/` directory
 ```
 cd ./models/tensorflow/mnist-v3/
+```
+```
+tar -xzvf mnist-v3.tar.gz
 ```
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
