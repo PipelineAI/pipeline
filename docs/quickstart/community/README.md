@@ -2,12 +2,6 @@
 
 ## Pull Sample PipelineAI Model from S3 (FAST)
 ```
-mkdir -p ./tensorflow/mnist-v3/
-```
-```
-cd ./tensorflow/mnist-v3/
-```
-```
 wget https://s3-us-west-2.amazonaws.com/pipelineai-public-datasets/models/mnist-v3.tar.gz
 ```
 ```
@@ -22,9 +16,6 @@ Change into the new `./models/tensorflow/mnist-v3/` directory
 ```
 cd ./models/tensorflow/mnist-v3/
 ```
-```
-tar -xzvf mnist-v3.tar.gz
-```
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
@@ -32,8 +23,6 @@ tar -xzvf mnist-v3.tar.gz
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 # Login to Community
-* Username:  community@pipeline.ai
-* Password:  Password9!
 ```
 https://community.cloud.pipeline.ai
 ```
@@ -41,9 +30,12 @@ https://community.cloud.pipeline.ai
 # Deploy a TensorFlow Model - CLI
 
 ## Python Serving Runtime (Python Runtime)
-* Fill in a unique value for `<YOUR_TAG_NAME>`
+Fill in the unique values for the following:
+* `<YOUR_USER_ID>`     <== You will see this when you login to `Community Edition`
+* `<YOUR_TAG_NAME>`
+
 ```
-pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "auth0|5b4d2d742fb562269949f2b4" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime tfserving --chip cpu
+pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "<YOUR_USER_ID>" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime tfserving --chip cpu
 ```
 
 # (Optional) Deploy Model through Drag n' Drop
