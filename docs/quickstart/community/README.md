@@ -35,7 +35,7 @@ Fill in the unique values for the following:
 * `<YOUR_TAG_NAME>`
 
 ```
-pipeline resource-deploy --host=community.cloud.pipeline.ai --user-id "<YOUR_USER_ID>" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime python --chip cpu
+pipeline resource-deploy --host community.cloud.pipeline.ai --user-id "<YOUR_USER_ID>" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime python --chip cpu
 ```
 
 # (Optional) Deploy Model through Drag n' Drop
