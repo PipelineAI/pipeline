@@ -116,9 +116,9 @@ version                     <-- View This CLI Version
 ```
 
 # Having Issues?  Contact Us Anytime... We're Always Awake.
-* Slack:  http://joinslack.pipeline.ai
+* Slack:  https://joinslack.pipeline.ai
 * Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
 * Web:  https://support.pipeline.ai
-* YouTube:  http://youtube.pipeline.ai
-* Slideshare:  http://slideshare.pipeline.ai
+* YouTube:  https://youtube.pipeline.ai
+* Slideshare:  https://slideshare.pipeline.ai
 * [Troubleshooting Guide](/docs/troubleshooting)
