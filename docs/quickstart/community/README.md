@@ -1,20 +1,13 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
-## Pull Sample PipelineAI Model from S3 (FAST)
-```
-wget https://s3-us-west-2.amazonaws.com/pipelineai-public-datasets/models/mnist-v3.tar.gz
-```
-```
-tar -xzvf mnist-v3.tar.gz
-```
-
-## (Optional) Pull All Sample PipelineAI Models from GitHub (SLOW)
+## Pull All Sample PipelineAI Models from GitHub (SLOW)
 ```
 git clone https://github.com/PipelineAI/models
 ```
+
 Change into the new `./models/tensorflow/mnist-v3/` directory
 ```
-cd ./models/tensorflow/mnist-v3/
+cd ./models/tensorflow/mnist-v3/model/
 ```
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -31,51 +24,22 @@ https://community.cloud.pipeline.ai
 
 ## Python Serving Runtime (Python Runtime)
 Fill in the unique values for the following:
-* `<YOUR_USER_ID>`     <== You will see this when you login to `Community Edition`
+* `<YOUR_USER_ID>`     <== You will see this when you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
 * `<YOUR_TAG_NAME>`
 
 ```
-pipeline resource-deploy --host community.cloud.pipeline.ai --user-id "<YOUR_USER_ID>" --resource-type model --name mnist --tag <YOUR_TAG_NAME> --path ./model/ --type tensorflow --runtime python --chip cpu
+pipeline resource-deploy --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./ --runtime python --chip cpu
 ```
 
-# Predict with Your Model
+# Optimize and Deploy the Model
 ```
 https://community.cloud.pipeline.ai
 ```
 
-
-# -- Optional -- Deploy Model through Drag n' Drop
-
-## Package the Model for Upload
-```
-pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v3/model
-```
-
-## Navigate to PipelineAI Community Edition
-```
-https://community.cloud.pipeline.ai/admin/app/select/model
-```
-
-## Click Plus Button
-![Click Plus Button](https://pipeline.ai/assets/img/click-plus-button.png)
-
-## Set Model Metadata
-![Model Metadata](https://pipeline.ai/assets/img/model-metadata.png)
-
-## Select Upload Archive
-![Upload Archive](https://pipeline.ai/assets/img/upload-archive.png)
-
-## Drag n' Drop Your Model
-![Drag n' Drop](https://pipeline.ai/assets/img/drag-and-drop-model.png)
-
-## Click Add Button
-![Click Add Button](https://pipeline.ai/assets/img/click-add-button.png)
-
-## Click NEXT After Your Model Uploads
-
-# Optimize and Deploy the Model
 ## Click `Models` in Left Nav
+
 ## Click `mnist`
+
 ## Find Your Model and Click `Optimize and Deploy`
 
 # Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
@@ -126,3 +90,34 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
+
+
+**--OPTIONAL--**
+# Deploy Model with Drag n' Drop
+
+## Package the Model for Upload
+```
+pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v3/model
+```
+
+## Navigate to PipelineAI Community Edition
+```
+https://community.cloud.pipeline.ai/admin/app/select/model
+```
+
+## Click Plus Button
+![Click Plus Button](https://pipeline.ai/assets/img/click-plus-button.png)
+
+## Set Model Metadata
+![Model Metadata](https://pipeline.ai/assets/img/model-metadata.png)
+
+## Select Upload Archive
+![Upload Archive](https://pipeline.ai/assets/img/upload-archive.png)
+
+## Drag n' Drop Your Model
+![Drag n' Drop](https://pipeline.ai/assets/img/drag-and-drop-model.png)
+
+## Click Add Button
+![Click Add Button](https://pipeline.ai/assets/img/click-add-button.png)
+
+## Click NEXT After Your Model Uploads
