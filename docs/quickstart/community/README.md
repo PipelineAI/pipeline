@@ -5,9 +5,9 @@
 git clone https://github.com/PipelineAI/models
 ```
 
-Change into the new `./models/tensorflow/mnist-v3/` directory
+Change into the new `./models/tensorflow/mnist-v5/` directory
 ```
-cd ./models/tensorflow/mnist-v3/model/
+cd ./models/tensorflow/mnist-v5/model/
 ```
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -50,7 +50,7 @@ Select either the `Traffic Shadow` checkbox or select a `Traffic Split %`
 # Predict with CLI
 * Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step.
 ```
-pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=1
+pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -75,7 +75,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=100
 ```
 
 # Monitor Real-Time Prediction Dashboards
@@ -98,7 +98,7 @@ Train and Deploy your ML and AI Models in the Following Environments:
 
 ## Package the Model for Upload
 ```
-pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v3/model
+pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v5/model
 ```
 
 ## Navigate to PipelineAI Community Edition
