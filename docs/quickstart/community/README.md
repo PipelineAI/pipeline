@@ -92,7 +92,8 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
 
-**--OPTIONAL--**
+# --OPTIONAL--
+
 # Deploy Model with Drag n' Drop
 
 ## Package the Model for Upload
