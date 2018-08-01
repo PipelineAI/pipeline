@@ -90,35 +90,3 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
-
-
-# --OPTIONAL--
-
-# Deploy Model with Drag n' Drop
-
-## Package the Model for Upload
-```
-pipeline model-archive-tar --model-name=mnist --model-tag=<YOURTAGNAME> --model-path tensorflow/mnist-v5/model
-```
-
-## Navigate to PipelineAI Community Edition
-```
-https://community.cloud.pipeline.ai/admin/app/select/model
-```
-
-## Click Plus Button
-![Click Plus Button](https://pipeline.ai/assets/img/click-plus-button.png)
-
-## Set Model Metadata
-![Model Metadata](https://pipeline.ai/assets/img/model-metadata.png)
-
-## Select Upload Archive
-![Upload Archive](https://pipeline.ai/assets/img/upload-archive.png)
-
-## Drag n' Drop Your Model
-![Drag n' Drop](https://pipeline.ai/assets/img/drag-and-drop-model.png)
-
-## Click Add Button
-![Click Add Button](https://pipeline.ai/assets/img/click-add-button.png)
-
-## Click NEXT After Your Model Uploads
