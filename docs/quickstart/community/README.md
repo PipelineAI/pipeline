@@ -45,10 +45,13 @@ https://community.cloud.pipeline.ai
 # Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
 Wait a sec for your model to show up in the `Route Traffic` panel below
 
-Select either the `Traffic Shadow` checkbox or select a `Traffic Split %` 
+![Route Traffic](https://pipeline.ai/assets/img/route-traffic-2.png)
+
+Note: You can select `Traffic Shadow` or assign `Traffic Split %` 
 
 # Predict with CLI
-* Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step.
+* `<YOUR_USER_ID>` <== You will see this when you login to PipelineAI Community Edition
+* `<YOUR_TAG_NAME>`
 ```
 pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=1
 
