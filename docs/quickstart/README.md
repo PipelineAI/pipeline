@@ -7,7 +7,7 @@
 * (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ### Install PipelineAI CLI
-``
+```
 pip install cli-pipeline==1.5.198 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
