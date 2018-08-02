@@ -1,4 +1,6 @@
-r![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
+
+_Note:  These Instructions are a Work in Progress..._
 
 ## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
