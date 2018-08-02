@@ -8,7 +8,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.198 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.200 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -89,7 +89,7 @@ predict-server-untar        <-- Untar Model Server Tar File
 
 predict-stream-test         <-- Test Stream-based Model Server
 
-resource-add                <-- Add Model to PipelineAI Cluster
+resource-upload             <-- Add Model to PipelineAI Cluster
 
 stream-http-consume         <-- Consume Stream Messages (REST API)
 
