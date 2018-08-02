@@ -34,6 +34,7 @@ pipeline env-registry-sync --tag=1.5.0
 * [TensorFlow](#train-a-tensorflow-model)
 * [Scikit-Learn](#train-a-scikit-learn-model)
 * [PyTorch](#train-a-pytorch-model)
+* [Xgboost](#train-an-xgboost-model)
 
 # Train a TensorFlow Model
 ## Inspect Model Directory
@@ -232,9 +233,72 @@ model.pth   <-- Trained Model File
 ...
 ```
 
+# Train an Xgboost Model
+## Inspect Model Directory
+```
+ls -l ./xgboost/mnist-v1/model
+
+### EXPECTED OUTPUT ###
+...
+pipeline_conda_environment.yml     <-- Required. Sets up the conda environment
+pipeline_condarc                   <-- Required, but Empty is OK. Configure Conda proxy servers (.condarc)
+pipeline_setup.sh                  <-- Required, but Empty is OK.  Init script performed upon Docker build
+pipeline_train.py                  <-- Required. `main()` is required. Pass args with `--train-args`
+...
+```
+
+## View Training Code
+```
+cat ./xgboost/mnist-v1/model/pipeline_train.py
+```
+
+## Build Training Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=xgboost --model-path=./xgboost/mnist-v1/model/
+```
+Notes:
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+* `--model-path` must be relative.  
+* Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
+* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
+* If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/README.md) section below.
+
+## Start Training Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./xgboost/mnist-v1/model/ --output-host-path=./xgboost/mnist-v1/model/ --training-runs-host-path=./xgboost/mnist-v1/model/
+```
+Notes:
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+
+## View the Training Logs
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline train-server-logs --model-name=mnist --model-tag=v1
+
+### EXPECTED OUTPUT ###
+
+Pickled model to "/opt/ml/output/model.pth"   <-- This docker-internal path maps to --output-host-path above
+```
+
+_Press `Ctrl-C` to exit out of the logs._
+
+## View Trained Model Output (Locally)
+_Make sure you pressed `Ctrl-C` to exit out of the logs._
+```
+ls -l ./xgboost/mnist-v1/model/
+
+### EXPECTED OUTPUT ###
+...
+model.pth   <-- Trained Model File
+...
+```
+
 ## PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Community Edition](/docs/quickstart/community)
+* [Hosted Community Edition](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
