@@ -50,7 +50,7 @@ Select either the `Traffic Shadow` checkbox or select a `Traffic Split %`
 # Predict with CLI
 * Before proceeding, make sure you hit `Ctrl-C` after viewing the logs in the previous step.
 ```
-pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=1
+pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=1
 
 ### EXPECTED OUTPUT ###
 ...
@@ -75,7 +75,7 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR-MODEL-ID>/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=100
+pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v5/input/predict/test_request.json --test-request-concurrency=100
 ```
 
 # Monitor Real-Time Prediction Dashboards
