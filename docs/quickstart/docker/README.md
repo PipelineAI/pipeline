@@ -32,6 +32,8 @@ pipeline env-registry-sync --tag=1.5.0
 * [Deploy a TensorFlow Model](#deploy-a-tensorflow-model)
 * [Deploy a Scikit-Learn Model](#deploy-a-scikit-learn-model)
 * [Deploy a PyTorch Model](#deploy-a-pytorch-model)
+* [Deploy an Xgboost Model](#deploy-an-xgboost-model)
+* [Deploy an MXNet Model](#deploy-an-mxnet-model)
 
 # Deploy a TensorFlow Model
 
@@ -398,6 +400,60 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1pytorch
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v1pytorch
+```
+
+# Deploy an Xgboost Model
+## View Prediction Code
+```
+cat ./xgboost/mnist-v1/model/pipeline_invoke_python.py
+```
+
+## Build the Xgboost Model Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-build --model-name=mnist --model-tag=v1xgboost --model-type=xgboost --model-runtime=python --model-path=./xgboost/mnist-v1/model/ 
+```
+* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
+
+## Start the Xgboost Model Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-start --model-name=mnist --model-tag=v1xgboost
+```
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+
+## View the Xgboost Model Server Logs
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-logs --model-name=mnist --model-tag=v1xgboost
+```
+
+# Deploy an MXNet Model
+## View Prediction Code
+```
+cat ./mxnet/mnist-v1/model/pipeline_invoke_python.py
+```
+
+## Build the MXNet Model Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-build --model-name=mnist --model-tag=v1mxnet --model-type=mxnet --model-runtime=mxnet --model-path=./mxnet/mnist-v1/model/ 
+```
+* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
+
+## Start the MXNet Model Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-start --model-name=mnist --model-tag=v1mxnet
+```
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+
+## View the MXNet Model Server Logs
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-logs --model-name=mnist --model-tag=v1mxnet
 ```
 
 ## Model Predict
