@@ -37,10 +37,14 @@ https://community.cloud.pipeline.ai
 ```
 
 ## Click `Models` in Left Nav
+![Nav Models](https://pipeline.ai/assets/img/nav-models.png)
 
 ## Click `mnist`
+![Select Model](https://pipeline.ai/assets/img/select-model.png)
 
-## Find Your Model and Click `Optimize and Deploy`
+
+## Click the `Optimize and Deploy` Action on Your Model
+![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
 
 # Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
 Wait a sec for your model to show up in the `Route Traffic` panel below
