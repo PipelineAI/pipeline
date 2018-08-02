@@ -28,7 +28,7 @@ Fill in the unique values for the following:
 * `<YOUR_TAG_NAME>`
 
 ```
-pipeline resource-deploy --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./ --runtime python --chip cpu
+pipeline resource-add --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./ --runtime python --chip cpu
 ```
 
 # Optimize and Deploy the Model
