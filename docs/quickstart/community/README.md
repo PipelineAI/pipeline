@@ -1,4 +1,4 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-community-logo.png)
+[![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-community-logo.png)](https://community.cloud.pipeline.ai)
 
 # Pull All Sample PipelineAI Models from GitHub
 ```
