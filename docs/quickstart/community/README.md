@@ -1,37 +1,36 @@
 [![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-community-logo.png)](https://community.cloud.pipeline.ai)
 
-# Pull All Sample PipelineAI Models from GitHub
-```
-git clone https://github.com/PipelineAI/models
-```
-
-Change into the new `./models/tensorflow/mnist-v5/` directory
-```
-cd ./models/tensorflow/mnist-v5/model/
-```
-
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * Install (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
+
+# Deploy a TensorFlow Model - CLI
+## Clone Sample Models from [PipelineAI GitHub](https://github.com/PipelineAI/models)
+```
+git clone https://github.com/PipelineAI/models
+```
+
+## Change to Clone `models/` directory
+```
+cd models/
+```
 
 # Login to Community
 ```
 https://community.cloud.pipeline.ai
 ```
 
-# Deploy a TensorFlow Model - CLI
-
-## Python Serving Runtime (Python Runtime)
-Fill in the unique values for the following:
+# Upload Model to PipelineAI
+You will need to fill in the unique values for the following:
 * `<YOUR_USER_ID>`     <== You will see this when you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
 * `<YOUR_TAG_NAME>`
-
 ```
-pipeline resource-add --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./ --runtime python --chip cpu
+pipeline resource-add --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v5/model --runtime python --chip cpu
 ```
 
 # Optimize and Deploy the Model
+## Navigate to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
 ```
 https://community.cloud.pipeline.ai
 ```
@@ -46,12 +45,15 @@ https://community.cloud.pipeline.ai
 ## Click the `Optimize and Deploy` Action on Your Model
 ![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
 
-# Route Traffic to the Model (Traffic Shadow/Mirror or Traffic Split)
+# Route Live Traffic to the Model
 Wait a sec for your model to show up in the `Route Traffic` panel below
 
 ![Route Traffic](https://pipeline.ai/assets/img/route-traffic-2.png)
 
 Note: You can select `Traffic Shadow` or assign `Traffic Split %` 
+
+# Predict with UI `Invoke` Button
+![Predict UI Invoke](https://pipeline.ai/assets/img/model-invoke.png)
 
 # Predict with CLI
 * `<YOUR_USER_ID>` <== You will see this when you login to PipelineAI Community Edition
