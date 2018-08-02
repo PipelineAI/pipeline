@@ -7,8 +7,8 @@
 * (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ### Install PipelineAI CLI
-```
-pip install cli-pipeline==1.5.197 --default-timeout=120 --ignore-installed --no-cache --upgrade
+``
+pip install cli-pipeline==1.5.198 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
