@@ -26,7 +26,7 @@ You will need to fill in the unique values for the following:
 * `<YOUR_USER_ID>`     <== You will see this when you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
 * `<YOUR_TAG_NAME>`
 ```
-pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v5/model --runtime python --chip cpu
+pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v5/model
 ```
 
 # Optimize and Deploy the Model
