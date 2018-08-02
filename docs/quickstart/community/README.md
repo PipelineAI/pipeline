@@ -1,6 +1,6 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-community-logo.png)
 
-## Pull All Sample PipelineAI Models from GitHub (SLOW)
+# Pull All Sample PipelineAI Models from GitHub
 ```
 git clone https://github.com/PipelineAI/models
 ```
