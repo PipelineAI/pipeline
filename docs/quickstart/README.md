@@ -97,23 +97,23 @@ stream-http-consume          <-- Consume Stream Messages (REST API)
 stream-kube-consume          <-- Consume Messages from Stream
 stream-kube-produce          <-- Produce Messages to Stream
 
-train-kube-connect          <-- Create Secure Tunnel to Training Cluster
-train-kube-describe         <-- Describe Training Cluster
-train-kube-logs             <-- View Training Cluster Logs
-train-kube-scale            <-- Scale Training Cluster
-train-kube-shell            <-- Shell into Training Cluster
-train-kube-start            <-- Start Training Cluster from Docker Registry
-train-kube-stop             <-- Stop Training Cluster
+train-kube-connect           <-- Create Secure Tunnel to Training Cluster
+train-kube-describe          <-- Describe Training Cluster
+train-kube-logs              <-- View Training Cluster Logs
+train-kube-scale             <-- Scale Training Cluster
+train-kube-shell             <-- Shell into Training Cluster
+train-kube-start             <-- Start Training Cluster from Docker Registry
+train-kube-stop              <-- Stop Training Cluster
 
-train-server-build          <-- Build Training Server
-train-server-logs           <-- View Training Server Logs
-train-server-pull           <-- Pull Training Server from Docker Registry
-train-server-register       <-- Register Training Server with Docker Registry
-train-server-shell          <-- Shell into Training Server (Debugging)
-train-server-start          <-- Start Training Server
-train-server-stop           <-- Stop Training Server
+train-server-build           <-- Build Training Server
+train-server-logs            <-- View Training Server Logs
+train-server-pull            <-- Pull Training Server from Docker Registry
+train-server-register        <-- Register Training Server with Docker Registry
+train-server-shell           <-- Shell into Training Server (Debugging)
+train-server-start           <-- Start Training Server
+train-server-stop            <-- Stop Training Server
 
-version                     <-- View This CLI Version
+version                      <-- View This CLI Version
 ```
 
 # Having Issues?  Contact Us Anytime... We're Always Awake.
