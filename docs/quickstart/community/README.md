@@ -24,7 +24,7 @@ https://community.cloud.pipeline.ai
 # Upload Model to PipelineAI
 
 You will need to fill in the unique values for the following:
-* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see this in the upper right hand corner after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
+* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see this in the upper right hand corner after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)</br>
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
 ```
