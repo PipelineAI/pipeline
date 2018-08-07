@@ -8,7 +8,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.202 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.203 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -44,57 +44,58 @@ pipeline
 
 ### EXPECTED OUTPUT ###
 ...
-env-kube-activate           <-- Switch Kubernetes Clusters
-env-conda-activate          <-- Switch Conda Environments
-env-registry-sync           <-- Sync with the latest Docker images
+env-kube-activate            <-- Switch Kubernetes Clusters
+env-conda-activate           <-- Switch Conda Environments
+env-registry-sync            <-- Sync with the latest Docker images
 
-help                        <-- This List of CLI Commands
+help                         <-- This List of CLI Commands
 
-model-archive-tar           <-- Create Tar Archive for Model Server
-model-archive-untar         <-- Untar Model Server Archive
+model-archive-tar            <-- Create Tar Archive for Model Server
+model-archive-untar          <-- Untar Model Server Archive
 
-predict-http-test           <-- Test Model Cluster (Http-based)
+predict-http-test            <-- Test Model Cluster (Http-based)
 
-predict-kube-autoscale      <-- Configure AutoScaling for Model Cluster
-predict-kube-connect        <-- Create Secure Tunnel to Model Cluster 
-predict-kube-describe       <-- Describe Model Cluster (Raw)
-predict-kube-endpoint       <-- Retrieve Model Cluster Endpoint 
-predict-kube-endpoints      <-- Retrieve All Model Cluster Endpoints
-predict-kube-logs           <-- View Model Cluster Logs 
-predict-kube-route          <-- Route Live Traffic  
-predict-kube-routes         <-- Describe Routes
-predict-kube-scale          <-- Scale Model Cluster
-predict-kube-shell          <-- Shell into Model Cluster
-predict-kube-start          <-- Start Model Cluster from Docker Registry
-predict-kube-stop           <-- Stop Model Cluster
-predict-kube-test           <-- Test Model Cluster
+predict-kube-autoscale       <-- Configure AutoScaling for Model Cluster
+predict-kube-connect         <-- Create Secure Tunnel to Model Cluster 
+predict-kube-describe        <-- Describe Model Cluster (Raw)
+predict-kube-endpoint        <-- Retrieve Model Cluster Endpoint 
+predict-kube-endpoints       <-- Retrieve All Model Cluster Endpoints
+predict-kube-logs            <-- View Model Cluster Logs 
+predict-kube-route           <-- Route Live Traffic  
+predict-kube-routes          <-- Describe Routes
+predict-kube-scale           <-- Scale Model Cluster
+predict-kube-shell           <-- Shell into Model Cluster
+predict-kube-start           <-- Start Model Cluster from Docker Registry
+predict-kube-stop            <-- Stop Model Cluster
+predict-kube-test            <-- Test Model Cluster
 
-predict-sage-describe       <-- Describe of SageMaker Model Predict Cluster
-predict-sage-route          <-- Route Live Traffic in SageMaker
-predict-sage-start          <-- Start Model Cluster in SageMaker
-predict-sage-stop           <-- Stop Model Cluster in SageMaker
-predict-sage-test           <-- Test Model Cluster in SageMaker
+predict-sage-describe        <-- Describe of SageMaker Model Predict Cluster
+predict-sage-route           <-- Route Live Traffic in SageMaker
+predict-sage-start           <-- Start Model Cluster in SageMaker
+predict-sage-stop            <-- Stop Model Cluster in SageMaker
+predict-sage-test            <-- Test Model Cluster in SageMaker
 
-predict-server-build        <-- Build Model Server
-predict-server-describe     <-- Describe Model Server
-predict-server-logs         <-- View Model Server Logs
-predict-server-pull         <-- Pull Model Server from Docker Registry
-predict-server-register     <-- Register Model Server with Docker Registry
-predict-server-shell        <-- Shell into Model Server (Debugging)
-predict-server-start        <-- Start Model Server
-predict-server-stop         <-- Stop Model Server
-predict-server-tar          <-- Tar Model Server
-predict-server-test         <-- Test Model Server (Http-based)
-predict-server-untar        <-- Untar Model Server Tar File
+predict-server-build         <-- Build Model Server
+predict-server-describe      <-- Describe Model Server
+predict-server-logs          <-- View Model Server Logs
+predict-server-pull          <-- Pull Model Server from Docker Registry
+predict-server-register      <-- Register Model Server with Docker Registry
+predict-server-shell         <-- Shell into Model Server (Debugging)
+predict-server-start         <-- Start Model Server
+predict-server-stop          <-- Stop Model Server
+predict-server-tar           <-- Tar Model Server
+predict-server-test          <-- Test Model Server (Http-based)
+predict-server-untar         <-- Untar Model Server Tar File
 
-predict-stream-test         <-- Test Stream-based Model Server
+predict-stream-test          <-- Test Stream-based Model Server
 
-resource-upload             <-- Add Model to PipelineAI Cluster
+resource-upload              <-- Add Model to PipelineAI Cluster
+resource-optimize-and-deploy <-- Add Model to PipelineAI Cluster
 
-stream-http-consume         <-- Consume Stream Messages (REST API)
+stream-http-consume          <-- Consume Stream Messages (REST API)
 
-stream-kube-consume         <-- Consume Messages from Stream
-stream-kube-produce         <-- Produce Messages to Stream
+stream-kube-consume          <-- Consume Messages from Stream
+stream-kube-produce          <-- Produce Messages to Stream
 
 train-kube-connect          <-- Create Secure Tunnel to Training Cluster
 train-kube-describe         <-- Describe Training Cluster
