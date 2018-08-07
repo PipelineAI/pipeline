@@ -39,6 +39,8 @@ Actions performed:
 * Initialize training resource
 
 # Optimize and Deploy the Model
+You can optimize (select one or more chips and/or one or more runtimes) and deploy your model using the CLI or the [UI](https://community.cloud.pipeline.ai) (Select one or the other not both).
+
 ## CLI - resource_optimize_and_deploy
 You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output, the command is automatically injected with your parameter values.
 
@@ -54,14 +56,14 @@ pipeline resource-optimize-and-deploy --host community.cloud.pipeline.ai --user-
 https://community.cloud.pipeline.ai
 ```
 
-## Click `Models` in Left Nav
+### Click `Models` in Left Nav
 ![Nav Models](https://pipeline.ai/assets/img/nav-models.png)
 
-## Click `mnist`
+### Click `mnist`
 ![Select Model](https://pipeline.ai/assets/img/select-model.png)
 
 
-## Click the `Optimize and Deploy` Action on Your Model
+### Click the `Optimize and Deploy` Action on Your Model
 ![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
 
 # Route Live Traffic to the Model
