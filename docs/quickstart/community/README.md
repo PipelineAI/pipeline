@@ -28,7 +28,7 @@ You will need to fill in the unique values for the following:
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
 ```
-pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v5/model
+pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model
 ```
 
 Actions performed:
