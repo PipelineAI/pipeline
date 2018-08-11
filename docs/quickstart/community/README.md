@@ -43,7 +43,7 @@ You can optimize (select one or more chips and/or one or more runtimes) and depl
 
 ## CLI - resource_optimize_and_deploy
 You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output, the command is automatically injected with your parameter values.
-
+ 
 You will need to fill in the unique values for the following:
 * `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see this in the upper right hand corner after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)(https://community.cloud.pipeline.ai)
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
