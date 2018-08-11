@@ -56,11 +56,11 @@ pipeline resource-optimize-and-deploy --host community.cloud.pipeline.ai --user-
 https://community.cloud.pipeline.ai
 ```
 
-### Click `Models` in Left Nav
-![Nav Models](https://pipeline.ai/assets/img/nav-models.png)
+### Click `Projects` in the Top Nav
+![Nav Projects](https://pipeline.ai/assets/img/nav-projects.png)
 
 ### Click `mnist`
-![Select Model](https://pipeline.ai/assets/img/select-model.png)
+![Select Project](https://pipeline.ai/assets/img/select-model.png)
 
 
 ### Click the `Optimize and Deploy` Action on Your Model
