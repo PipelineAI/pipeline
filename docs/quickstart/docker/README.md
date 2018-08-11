@@ -78,8 +78,8 @@ Notes:
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
 * If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
 * `--model-type`: **tensorflow**, **scikit**, **python**, **keras**, **spark**, **java**, **xgboost**, **pmml**, **caffe**
-* `--model-runtime`: **jvm** (default for `--model-type==java|spark|xgboost|pmml`, **tfserving** (default for `--model-type==tensorflow`), **python** (default for `--model-type==scikit|python|keras`), **cpp** (default for `--model-type=caffe`), **tensorrt** (only for Nvidia GPUs)
-* `--model-chip`: **cpu** (default), **gpu**, **tpu**
+* `--model-runtime`: **jvm**, **tfserving**, **python**, **cpp**, **tensorrt**
+* `--model-chip`: **cpu**, **gpu**, **tpu**
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
 ## Start the Model Server
