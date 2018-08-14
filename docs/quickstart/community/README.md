@@ -24,11 +24,14 @@ https://community.cloud.pipeline.ai
 # Upload Model to PipelineAI
 
 You will need to fill in the unique values for the following:
-* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)</br>
+* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
+
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
-* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
+
+* `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
+* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
 ```
-pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name mnist --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model
+pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model
 ```
 
 Actions performed:
@@ -45,12 +48,17 @@ You can optimize (select one or more chips and/or one or more runtimes) and depl
 You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output.  The command is automatically injected with your parameter values.
  
 You will need to fill in the unique values for the following:
-* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)(https://community.cloud.pipeline.ai)
-* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
+* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
+
+![user-id](https://pipeline.ai/assets/img/user-id.png)
+
+* `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
+* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
 * `<YOUR_RESOURCE_ID>` - Id that uniquely identifies the uploaded model, resource-id is generated and returned by the `resource-upload` command
 ```
-pipeline resource-optimize-and-deploy --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --name mnist --tag <YOUR_TAG_NAME> --resource-subtype tensorflow --runtime-list \[python,tfserving,tflite\] --chip-list \[cpu,gpu\] --resource-id <YOUR_RESOURCE_ID> --kube-resource-type-list \[deploy,svc,ingress,routerules\]
+pipeline resource-optimize-and-deploy --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --resource-subtype tensorflow --runtime-list \[python,tfserving,tflite\] --chip-list \[cpu,gpu\] --resource-id <YOUR_RESOURCE_ID> --kube-resource-type-list \[deploy,svc,ingress,routerules\]
 ```
+
 ## UI - Navigate to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
 ```
 https://community.cloud.pipeline.ai
@@ -76,10 +84,14 @@ Note: You can select `Traffic Shadow` or assign `Traffic Split %`
 ![Predict UI Invoke](https://pipeline.ai/assets/img/model-invoke.png)
 
 # Predict with CLI
-* `<YOUR_USER_ID>` <== You will see this when you login to PipelineAI Community Edition
-* `<YOUR_TAG_NAME>`
+You will need to fill in the unique values for the following:
+* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)</br>
+![user-id](https://pipeline.ai/assets/img/user-id.png)
+* `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
+* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
+
 ```
-pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v3/model/pipeline_test_request.json --test-request-concurrency=1
+pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/<YOUR_MODEL_NAME>/invoke --test-request-path=./tensorflow/mnist-v3/model/pipeline_test_request.json --test-request-concurrency=1
 
 ### EXPECTED OUTPUT ###
 ...
