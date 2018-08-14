@@ -24,7 +24,7 @@ https://community.cloud.pipeline.ai
 # Upload Model to PipelineAI
 
 You will need to fill in the unique values for the following:
-* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see this in the upper right hand corner after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)</br>
+* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)</br>
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
 ```
@@ -39,13 +39,13 @@ Actions performed:
 * Initialize training resource
 
 # Optimize and Deploy the Model
-You can optimize (select one or more chips and/or one or more runtimes) and deploy your model using the CLI or the [UI](https://community.cloud.pipeline.ai) (Select one or the other not both).
+You can optimize (select one or more chips and/or one or more runtimes) and deploy your model using the CLI or the [UI](https://community.cloud.pipeline.ai) (Choose either the CLI or UI).
 
 ## CLI - resource_optimize_and_deploy
-You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output, the command is automatically injected with your parameter values.
+You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output.  The command is automatically injected with your parameter values.
  
 You will need to fill in the unique values for the following:
-* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see this in the upper right hand corner after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)(https://community.cloud.pipeline.ai)
+* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)(https://community.cloud.pipeline.ai)
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the resource version
 * `<YOUR_RESOURCE_ID>` - Id that uniquely identifies the uploaded model, resource-id is generated and returned by the `resource-upload` command
 ```
@@ -62,8 +62,7 @@ https://community.cloud.pipeline.ai
 ### Click `mnist`
 ![Select Project](https://pipeline.ai/assets/img/select-model.png)
 
-
-### Click the `Optimize and Deploy` Action on Your Model
+### Click the `Deploy` Button on Your Model
 ![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
 
 # Route Live Traffic to the Model
