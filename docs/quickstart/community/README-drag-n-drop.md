@@ -1,4 +1,4 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
+Work In Progress - Not Yet Supported
 
 ## Pull All Sample PipelineAI Models from GitHub (SLOW)
 ```
