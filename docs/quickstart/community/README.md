@@ -31,7 +31,7 @@ You will need to fill in the unique values for the following:
 * `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
 ```
-pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v3/model
+pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v1/model
 ```
 
 Actions performed:
