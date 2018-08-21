@@ -40,7 +40,7 @@ pipeline env-registry-sync --tag=1.5.0
 ## Inspect Model Directory
 _Note:  This is relative to where you cloned the `models` repo [above](#clone-the-pipelineai-predict-repo)._
 ```
-ls -l ./tensorflow/mnist-v3/model
+ls -l ./tensorflow/mnist-v1/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -57,7 +57,7 @@ pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains 
 ```
 Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v1/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -70,7 +70,7 @@ ls -l ./tensorflow/mnist-v3/pipeline_tfserving/
 * This command bundles the TensorFlow runtime with the model.
 
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v3tensorflow --model-type=tensorflow --model-runtime=python --model-path=./tensorflow/mnist-v3/model
+pipeline predict-server-build --model-name=mnist --model-tag=v1tensorflow --model-type=tensorflow --model-runtime=python --model-path=./tensorflow/mnist-v1/model
 ```
 
 Notes:
@@ -84,11 +84,11 @@ Notes:
 
 ## Start the Model Server
 ```
-pipeline predict-server-start --model-name=mnist --model-tag=v3tensorflow --memory-limit=2G
+pipeline predict-server-start --model-name=mnist --model-tag=v1tensorflow --memory-limit=2G
 ```
 Notes:
 * Ignore `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v3`.
+* If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
 * Also, your nginx and prometheus configs will need to be adjusted.
@@ -99,7 +99,7 @@ Notes:
 ## Inspect `pipeline_invoke_python.py`
 _Note:  Only the `invoke()` method is required.  Everything else is optional._
 ```
-cat ./tensorflow/mnist-v3/model/pipeline_invoke_python.py
+cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 
 ### EXPECTED OUTPUT ###
 
@@ -123,7 +123,7 @@ __all__ = ['invoke']                                           <== Optional.  Be
 
 _labels = {                                                    <== Optional.  Used for metrics/labels
            'name': 'mnist',
-           'tag': 'v3tensorflow',
+           'tag': 'v1tensorflow',
            'runtime': 'python',
            'chip': 'cpu',
           }
@@ -177,7 +177,7 @@ if __name__ == '__main__':
 ## Monitor Runtime Logs
 * Wait for the model runtime to settle...
 ```
-pipeline predict-server-logs --model-name=mnist --model-tag=v3tensorflow
+pipeline predict-server-logs --model-name=mnist --model-tag=v1tensorflow
 
 ### EXPECTED OUTPUT ###
 ...
