@@ -50,11 +50,9 @@ https://community.cloud.pipeline.ai
 ```
 
 
-### Click `Projects` in the Top Nav
-![![Nav Projects](https://pipeline.ai/assets/img/nav-projects.png)](https://community.cloud.pipeline.ai)
+### Click `Models` in the Top Nav
 
-### Click `mnist`
-![Select Project](https://pipeline.ai/assets/img/select-model.png)
+![Select Model](https://pipeline.ai/assets/img/select-model.png)
 
 ### Click the `Deploy` Button on Your Model
 ![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
