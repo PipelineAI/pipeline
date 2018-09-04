@@ -168,7 +168,7 @@ def _transform_response(response):
                       })
 
 if __name__ == '__main__':
-    with open('../input/predict/test_request.json', 'rb') as fb:
+    with open('./pipeline_test_request.json', 'rb') as fb:
         request_bytes = fb.read()
         response_bytes = invoke(request_bytes)
         print(response_bytes)
@@ -230,7 +230,7 @@ Notes:
 ### PipelineCLI Predict
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./scikit/mnist/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./scikit/mnist/model/pipeline_test_request.json
 
 ### EXPECTED OUTPUT ###
 
@@ -341,7 +341,7 @@ Notes:
 ### Predict with CLI
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./pytorch/mnist-v1/input/predict/test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./pytorch/mnist-v1/model/pipeline_test_request.json
 
 ### EXPECTED OUTPUT ###
 
