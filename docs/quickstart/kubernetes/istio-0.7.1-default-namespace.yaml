@@ -281,7 +281,7 @@ spec:
       containers:
       - name: statsd-to-prometheus
         image: prom/statsd-exporter:v0.5.0
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         ports:
         - containerPort: 9102
         - containerPort: 9125
@@ -293,7 +293,7 @@ spec:
           mountPath: /etc/statsd
       - name: mixer
         image: docker.io/istio/mixer:0.7.1
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         ports:
         - containerPort: 9091
         - containerPort: 9093
@@ -305,7 +305,7 @@ spec:
           - --trace_zipkin_url=http://zipkin:9411/api/v1/spans
       - name: istio-proxy
         image: docker.io/istio/proxy:0.7.1
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         ports:
         - containerPort: 15004
         args:
@@ -1493,7 +1493,7 @@ spec:
       containers:
       - name: discovery
         image: docker.io/istio/pilot:0.7.1
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         args: ["discovery", "--admission-service", "istio-pilot"]
         ports:
         - containerPort: 8080
@@ -1516,7 +1516,7 @@ spec:
           mountPath: /etc/istio/config
       - name: istio-proxy
         image: docker.io/istio/proxy:0.7.1
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         ports:
         - containerPort: 15003
         - containerPort: 15005
@@ -1612,7 +1612,7 @@ spec:
         - "15000"
         - --controlPlaneAuthPolicy
         - NONE #--controlPlaneAuthPolicy
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -1674,7 +1674,7 @@ spec:
       containers:
       - name: istio-ca
         image: docker.io/istio/istio-ca:0.7.1
-        imagePullPolicy: Never 
+        imagePullPolicy: Always 
         command: ["/usr/local/bin/istio_ca"]
         args:
           - --istio-ca-storage-namespace=default
