@@ -234,7 +234,7 @@ Request time: 36.414 milliseconds
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -346,7 +346,7 @@ predict-mnist-v1a-...-...       2/2       Running   0          10m
 
 **Re-Run REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
