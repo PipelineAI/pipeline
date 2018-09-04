@@ -8,7 +8,7 @@
 
 ### Install PipelineAI CLI
 ```
-pip install cli-pipeline==1.5.212 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.213 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
