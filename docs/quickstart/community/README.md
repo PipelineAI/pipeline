@@ -28,10 +28,10 @@ You will need to fill in the unique values for the following:
 
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
 
-* `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
-* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
+* `<UNIQUE_MODEL_NAME>` - User-defined model name that uniquely identifies the model within your account
+* `<UNIQUE_TAG_NAME>` - User-defined tag that uniquely identifies the model tag/version for the model
 ```
-pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --path ./tensorflow/mnist-v1/model
+pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <UNIQUE_MODEL_NAME> --tag <UNIQUE_TAG_NAME> --path ./tensorflow/mnist-v1/model
 ```
 
 Actions performed:
@@ -48,7 +48,6 @@ You can optimize (select one or more chips and/or one or more runtimes) and depl
 ```
 https://community.cloud.pipeline.ai
 ```
-
 
 ### Click `Models` in the Top Nav
 
