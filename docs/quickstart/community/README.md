@@ -28,8 +28,8 @@ You will need to fill in the unique values for the following:
 
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
 
-* `<UNIQUE_MODEL_NAME>` - User-defined model name that uniquely identifies the model within your account
-* `<UNIQUE_TAG_NAME>` - User-defined tag that uniquely identifies the model tag/version for the model
+* `<UNIQUE_MODEL_NAME>` - User-defined model/project name that uniquely identifies a model/project within your account.
+* `<UNIQUE_TAG_NAME>` - User-defined tag that uniquely identifies the model tag/version within a model/project
 ```
 pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <UNIQUE_MODEL_NAME> --tag <UNIQUE_TAG_NAME> --path ./tensorflow/mnist-v1/model
 ```
