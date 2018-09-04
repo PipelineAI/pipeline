@@ -35,20 +35,20 @@ or
 kubectl config use-context docker-for-desktop
 ```
 
-### Build Model Prediction Servers - Versions v3a and v3b (TensorFlow-Based)
+### Build Model Prediction Servers - Versions v1a and v1b (TensorFlow-Based)
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * You must be in the `models/` directory created from the `git clone` above.
 
-[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v3a --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model 
+pipeline predict-server-build --model-name=mnist --model-tag=v1a --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-server-build --model-name=mnist --model-tag=v3b --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model 
+pipeline predict-server-build --model-name=mnist --model-tag=v1b --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -140,27 +140,27 @@ PREDICT_HOST=127.0.0.1
 PREDICT_PORT=$(kubectl get service istio-ingress -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}')
 ```
 
-### Deploy Model Prediction Servers - Versions v3a and v3b (TensorFlow-based)
+### Deploy Model Prediction Servers - Versions v1a and v1b (TensorFlow-based)
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
 * _If you skipped the build instructions above, run the following:_
 ```
-pipeline predict-server-pull --model-name=mnist --model-tag=v3a
+pipeline predict-server-pull --model-name=mnist --model-tag=v1a
 ```
 ```
-pipeline predict-server-pull --model-name=mnist --model-tag=v3b
+pipeline predict-server-pull --model-name=mnist --model-tag=v1b
 ```
 
-[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3a
+pipeline predict-kube-start --model-name=mnist --model-tag=v1a
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-pipeline predict-kube-start --model-name=mnist --model-tag=v3b
+pipeline predict-kube-start --model-name=mnist --model-tag=v1b
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
@@ -170,22 +170,22 @@ kubectl get pod --namespace=default
 
 ### EXPECTED OUTPUT###
 NAME                          READY     STATUS    RESTARTS   AGE
-predict-mnist-v3a-...-...       2/2       Running   0          5m
-predict-mnist-v3b-...-...       2/2       Running   0          5m
+predict-mnist-v1a-...-...       2/2       Running   0          5m
+predict-mnist-v1b-...-...       2/2       Running   0          5m
 ```
 * Note:  The 2nd Container (2/2) is the Envoy Sidecar.  Envoy is part of Istio.
 
-### Split Traffic Between Model Version v3a (50%) and Model Version v3b (50%)
+### Split Traffic Between Model Version v1a (50%) and Model Version v1b (50%)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":50, "v3b":50}' --model-shadow-tag-list='[]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v1a":50, "v1b":50}' --model-shadow-tag-list='[]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
 * If you see `apiVersion: Invalid value: "config.istio.io/__internal": must be config.istio.io/v1alpha2`, you need to [remove the existing route rules](#clean-up) and re-create them with this command.
 
-### Shadow Traffic from Model Version v3a (100% Live) to Model Version v3b (0% Live, Only Shadow Traffic)
+### Shadow Traffic from Model Version v1a (100% Live) to Model Version v1b (0% Live, Only Shadow Traffic)
 ```
-pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v3a":100, "v3b":0}' --model-shadow-tag-list='["v3b"]'
+pipeline predict-kube-route --model-name=mnist --model-split-tag-and-weight-dict='{"v1a":100, "v1b":0}' --model-shadow-tag-list='["v1b"]'
 ```
 Notes:
 * If you specify a model in `--model-shadow-tag-list`, you need to explicitly specify 0% traffic split in `--model-split-tag-and-weight-dict`
@@ -207,7 +207,7 @@ predict-mnist-prometheus        RouteRule.v1alpha2.config.istio.io
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -216,11 +216,11 @@ Notes:
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
-* You should see a 100% traffic to Model Version v3a, however Model Version v3b is receiving a "best effort" amount of live traffic. (See Dashboards to verify.)
+* You should see a 100% traffic to Model Version v1a, however Model Version v1b is receiving a "best effort" amount of live traffic. (See Dashboards to verify.)
 
-[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-('{"variant": "mnist-v3a-tensorflow-tfserving-cpu", "outputs":{"classes": [3], '
+('{"variant": "mnist-v1a-tensorflow-tfserving-cpu", "outputs":{"classes": [3], '
  '"probabilities": [[2.353575155211729e-06, 3.998300599050708e-06, '
  '0.00912125688046217, 0.9443341493606567, 3.8211437640711665e-06, '
  '0.0003914404078386724, 5.226673920333269e-07, 2.389515998402203e-07, '
@@ -229,12 +229,12 @@ Notes:
 Request time: 36.414 milliseconds
 ``` 
 
-### Load Test Model Prediction Servers - Versions v3a and v3b
+### Load Test Model Prediction Servers - Versions v1a and v1b
 * Note: you need to be in the `models/` directory created when you performed the `git clone` [above](#pull-pipelineai-sample-models).
 
 **REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -243,11 +243,11 @@ Notes:
 * See [Troubleshooting](/docs/troubleshooting) for more debugging info.
 
 **Expected Output**
-* You should see a 50/50 split between Model Version v3a and Version v3b
+* You should see a 50/50 split between Model Version v1a and Version v1b
 
-[**Mnist v3a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
-('{"variant": "mnist-v3a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-v1a-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, '
  '0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, '
  '0.017851119861006737, 0.006651509087532759, 0.07679300010204315, '
@@ -270,9 +270,9 @@ Digit  Confidence
 9      0.00195427332073450
 ```
 
-[**Mnist v3b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v3)
+[**Mnist v1b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
  ```
-('{"variant": "mnist-v3b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
+('{"variant": "mnist-v1b-tensorflow-tfserving-cpu", "outputs":{"outputs": '
  '[0.11128010600805283, 1.4478532648354303e-05, 0.43401211500167847, '
  '0.06995825469493866, 0.002808149205520749, 0.2786771059036255, '
  '0.01785111241042614, 0.006651511415839195, 0.07679297775030136, '
@@ -306,7 +306,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "mnist-v3a-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
+{"variant": "mnist-v1a-tensorflow-tfserving-cpu", "outputs":{"outputs": [0.11128007620573044, 1.4478533557849005e-05, 0.43401220440864563, 0.06995827704668045, 0.0028081508353352547, 0.27867695689201355, 0.017851119861006737, 0.006651509087532759, 0.07679300010204315, 0.001954273320734501]}}
 
 ### Formatted Output
 Digit  Confidence
@@ -326,10 +326,10 @@ Notes:
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
-### Scale Model Prediction Servers - Version v3b to 2 Replicas
+### Scale Model Prediction Servers - Version v1b to 2 Replicas
 Scale the Model Server
 ```
-pipeline predict-kube-scale --model-name=mnist --model-tag=v3b --replicas=2
+pipeline predict-kube-scale --model-name=mnist --model-tag=v1b --replicas=2
 ```
 
 **Verify Scaling Event**
@@ -339,14 +339,14 @@ kubectl get pod
 ### EXPECTED OUTPUT###
 
 NAME                          READY     STATUS    RESTARTS   AGE
-predict-mnist-v3b-...-...       2/2       Running   0          8m
-predict-mnist-v3b-...-...       2/2       Running   0          10m
-predict-mnist-v3a-...-...       2/2       Running   0          10m
+predict-mnist-v1b-...-...       2/2       Running   0          8m
+predict-mnist-v1b-...-...       2/2       Running   0          10m
+predict-mnist-v1a-...-...       2/2       Running   0          10m
 ```
 
 **Re-Run REST-Based Http Load Test**
 ```
-pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v3/input/predict/test_request.json --test-request-concurrency=1000
+pipeline predict-http-test --endpoint-url=http://$PREDICT_HOST:$PREDICT_PORT/predict/mnist/invoke --test-request-path=./tensorflow/mnist-v1/input/predict/test_request.json --test-request-concurrency=1000
 ```
 Notes:
 * Make sure the Host IP is accessible.  You may need to use `127.0.0.1` or `localhost`
@@ -363,10 +363,10 @@ Notes:
 Notes:
 * Each of these will remove the `predict-mnist`
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v3a
+pipeline predict-kube-stop --model-name=mnist --model-tag=v1a
 ```
 ```
-pipeline predict-kube-stop --model-name=mnist --model-tag=v3b
+pipeline predict-kube-stop --model-name=mnist --model-tag=v1b
 ```
 
 ### Remove Pipeline" Traffic Routes
