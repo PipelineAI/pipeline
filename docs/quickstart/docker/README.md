@@ -123,7 +123,8 @@ __all__ = ['invoke']                                           <== Optional.  Be
 
 _labels = {                                                    <== Optional.  Used for metrics/labels
            'name': 'mnist',
-           'tag': 'v1tensorflow',
+           'tag': 'v1',
+           'type': 'tensorflow',
            'runtime': 'python',
            'chip': 'cpu',
           }
@@ -158,7 +159,7 @@ def invoke(request):                                           <== Required.  Ca
 def _transform_request(request):
     request_str = request.decode('utf-8')
     request_json = json.loads(request_str)
-    request_np = ((255 - np.array(request_json['image'], dtype=np.uint8)) / 255.0).reshape(1, 28, 28)
+    request_np = (np.array(request_json['image'], dtype=np.float32) / 255.0).reshape(1, 28, 28)
     return {"image": request_np}
 
 
@@ -203,7 +204,7 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 
 ### Expected Output ###
-{"variant": "mnist-v1scikit-scikit-python-cpu", "outputs":{"outputs": 5.0}}
+{"variant": "mnist-v1tensorflow-tensorflow-python-cpu", ""}
  
 ### FORMATTED OUTPUT ###
 Digit  Confidence
@@ -230,11 +231,38 @@ Notes:
 ### PipelineCLI Predict
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./scikit/mnist/model/pipeline_test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-v1scikit-scikit-python-cpu", "outputs":[188.6431188435]}'
+'{"variant": "mnist-v1tensorflow-tensorflow-python-cpu", "outputs":[188.6431188435]}'
+```
+
+# Deploy a Scikit Model
+## View Prediction Code
+```
+cat ./scikit/mnist-v1/model/pipeline_invoke_python.py
+```
+
+## Build the SciKit Model Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-build --model-name=mnist --model-tag=v1scikit --model-type=scikit --model-runtime=python --model-path=./scikit/mnist-v1/model/ 
+```
+* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
+
+## Start the SciKit Model Server
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
+```
+* Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+
+## View the SciKit Model Server Logs
+* Install [PipelineAI CLI](../README.md#install-pipelinecli)
+```
+pipeline predict-server-logs --model-name=mnist --model-tag=v1scikit
 ```
 
 # Deploy a PyTorch Model
@@ -328,7 +356,7 @@ curl -X POST -H "Content-Type: application/json" \
   
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-v1pytorch-pytorch-python-cpu", ...}'
+'{"variant": "mnist-v1mxnet-python-cpu", ...}'
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -341,11 +369,11 @@ Notes:
 ### Predict with CLI
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./pytorch/mnist-v1/model/pipeline_test_request.json
+pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json
 
 ### EXPECTED OUTPUT ###
 
-'{"variant": "mnist-v1pytorch-pytorch-python-cpu", ...}'
+'{"variant": "mnist-v1tensorflow-tensorflow-python-cpu", ...}'
 ```
 
 ## Train Models with PipelineAI
