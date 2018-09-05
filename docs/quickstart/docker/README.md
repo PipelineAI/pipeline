@@ -238,20 +238,20 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 '{"variant": "mnist-v1tensorflow-tensorflow-python-cpu", "outputs":[188.6431188435]}'
 ```
 
-# Deploy a Scikit Model
+# Deploy a Scikit-Learn Model
 ## View Prediction Code
 ```
 cat ./scikit/mnist-v1/model/pipeline_invoke_python.py
 ```
 
-## Build the SciKit Model Server
+## Build the SciKit-Learn Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1scikit --model-type=scikit --model-runtime=python --model-path=./scikit/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
-## Start the SciKit Model Server
+## Start the SciKit-Learn Model Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
@@ -259,7 +259,7 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
-## View the SciKit Model Server Logs
+## View the SciKit-Learn Model Server Logs
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v1scikit
