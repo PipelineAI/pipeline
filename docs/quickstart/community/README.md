@@ -16,7 +16,7 @@ git clone https://github.com/PipelineAI/models
 cd models/
 ```
 
-## Review `pipeline_conda_environment.yaml`
+## Review the Sample `pipeline_conda_environment.yaml` Python Requirements
 ```
 cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 
