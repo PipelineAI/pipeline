@@ -16,7 +16,18 @@ git clone https://github.com/PipelineAI/models
 cd models/
 ```
 
-## Review the Sample `pipeline_conda_environment.yaml` Requirements
+## Review the Model Before We Optimize & Deploy
+### TensorFlow Model
+```
+ls -al models/tensorflow/mnist-v1/model/pipeline_tfserving/0
+
+### EXPECTED OUTPUT ###
+
+-rw-r--r--  1 cfregly  staff  40136 Jul 20 18:38 saved_model.pb   <== TensorFlow Model
+drwxr-xr-x  4 cfregly  staff    128 Jul 20 18:38 variables
+```
+
+### Sample `pipeline_conda_environment.yaml` Requirements
 ```
 cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 
@@ -30,7 +41,7 @@ dependencies:
     - pipeline-runtime==1.0.8
 ```
 
-## Review the Sample `pipeline_invoke_<runtime>.py` Function
+## Sample `pipeline_invoke_<runtime>.py` Function
 ```
 cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 
