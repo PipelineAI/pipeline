@@ -16,6 +16,20 @@ git clone https://github.com/PipelineAI/models
 cd models/
 ```
 
+## Review `pipeline_conda_environment.yaml`
+```
+cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
+
+### EXPECTED OUTPUT ###
+
+dependencies:
+  - python=3.6
+  - pip:
+    - grpcio>=1.0
+    - tensorflow==1.10.1    
+    - pipeline-runtime==1.0.8
+```
+
 ## Review the Sample `pipeline_invoke_<runtime>.py` Function
 ```
 cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
@@ -43,6 +57,7 @@ __all__ = ['invoke']                                           <== Optional.  Be
 _labels = {                                                    <== Optional.  Used for metrics/labels
            'name': 'mnist',
            'tag': 'v1',
+           'type': 'tensorflow',
            'runtime': 'python',
            'chip': 'cpu',
           }
