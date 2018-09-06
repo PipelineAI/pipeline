@@ -28,6 +28,8 @@ drwxr-xr-x  4 cfregly  staff    128 Jul 20 18:38 variables
 ```
 
 ### Sample `pipeline_conda_environment.yaml` Requirements
+_Note:  The GRPC dependency is related to TensorFlow Serving.  However, we do support GRPC, as well as REST and Kafka._
+
 ```
 cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 
@@ -42,6 +44,7 @@ dependencies:
 ```
 
 ## Sample `pipeline_invoke_<runtime>.py` Function
+_Note:  We support Datadog, AWS CloudWatch, Google Stackdriver, Azure Log Service, and Prometheus._
 ```
 cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 
