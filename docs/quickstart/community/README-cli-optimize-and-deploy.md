@@ -48,5 +48,5 @@ Digit  Confidence
 
 ## Perform 100 Predictions in Parallel (Mini Load Test)
 ```
-pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v3/model/pipeline_test_request.json --test-request-concurrency=100
+pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json --test-request-concurrency=100
 ```
