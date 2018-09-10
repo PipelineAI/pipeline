@@ -53,8 +53,8 @@ cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
 import os
 import numpy as np
 import json
-import logging                                                 <== Optional.  Log to console, file, kafka
-from pipeline_monitor import prometheus_monitor as monitor     <== Optional.  Monitor runtime metrics
+import logging                                                 # <== Optional.  Log to console, file, kafka
+from pipeline_monitor import prometheus_monitor as monitor     # <== Optional.  Monitor runtime metrics
 from pipeline_logger import log
 
 import tensorflow as tf
@@ -66,9 +66,9 @@ _logger_stream_handler = logging.StreamHandler()
 _logger_stream_handler.setLevel(logging.INFO)
 _logger.addHandler(_logger_stream_handler)
 
-__all__ = ['invoke']                                           <== Optional.  Being a good Python citizen.
+__all__ = ['invoke']                                           # <== Optional.  Being a good Python citizen.
 
-_labels = {                                                    <== Optional.  Used for metrics/labels
+_labels = {                                                    # <== Optional.  Used for metrics/labels
            'name': 'mnist',
            'tag': 'v1',
            'type': 'tensorflow',
@@ -76,7 +76,7 @@ _labels = {                                                    <== Optional.  Us
            'chip': 'cpu',
           }
 
-def _initialize_upon_import():                                 <== Optional.  Called once upon server startup
+def _initialize_upon_import():                                 # <== Optional.  Called once upon server startup
     ''' Initialize / Restore Model Object.
     '''
     saved_model_path = './pipeline_tfserving/0'
@@ -87,35 +87,35 @@ def _initialize_upon_import():                                 <== Optional.  Ca
 _model = _initialize_upon_import()
 
 
-@log(labels=_labels, logger=_logger)                           <== Optional.  Sample and compare predictions
-def invoke(request):                                           <== Required.  Called on every prediction
+@log(labels=_labels, logger=_logger)                           # <== Optional.  Sample and compare predictions
+def invoke(request):                                           # <== Required.  Called on every prediction
     '''Where the magic happens...'''
 
-    with monitor(labels=_labels, name="transform_request"):    <== Optional.  Expose fine-grained metrics
-        transformed_request = _transform_request(request)      <== Optional.  Transform input (json) into TensorFlow (tensor)
+    with monitor(labels=_labels, name="transform_request"):    # <== Optional.  Expose fine-grained metrics
+        transformed_request = _transform_request(request)      # <== Optional.  Transform input (json) into TensorFlow (tensor)
 
-    with monitor(labels=_labels, name="invoke"):               <== Optional.  Calls _model.predict()
+    with monitor(labels=_labels, name="invoke"):               # <== Optional.  Calls _model.predict()
         response = _model(transformed_request)
 
-    with monitor(labels=_labels, name="transform_response"):   <== Optional.  Transform TensorFlow (tensor) into output (json)
+    with monitor(labels=_labels, name="transform_response"):   # <== Optional.  Transform TensorFlow (tensor) into output (json)
         transformed_response = _transform_response(response)
 
-    return transformed_response                                <== Required.  Returns the predicted value(s)
+    return transformed_response                                # <== Required.  Returns the predicted value(s)
 
 
-def _transform_request(request):
+def _transform_request(request):                               # <== Optional.  Adapt to your inputs
     request_str = request.decode('utf-8')
     request_json = json.loads(request_str)
     request_np = (np.array(request_json['image'], dtype=np.float32) / 255.0).reshape(1, 28, 28)
     return {"image": request_np}
 
 
-def _transform_response(response):
+def _transform_response(response):                             # <== Optional.  Adapt to your outputs
     return json.dumps({"classes": response['classes'].tolist(),
                        "probabilities": response['probabilities'].tolist(),
                       })
 
-if __name__ == '__main__':
+if __name__ == '__main__':                                     # <== Optional.  Main method for testing
     with open('./pipeline_test_request.json', 'rb') as fb:
         request_bytes = fb.read()
         response_bytes = invoke(request_bytes)
