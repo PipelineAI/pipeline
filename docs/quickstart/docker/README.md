@@ -35,6 +35,8 @@ pipeline env-registry-sync --tag=1.5.0
 * [Deploy an Xgboost Model](#deploy-an-xgboost-model)
 * [Deploy an MXNet Model](#deploy-an-mxnet-model)
 
+# [Train Models](README-training.md)
+
 # Deploy a TensorFlow Model
 
 ## Inspect Model Directory
