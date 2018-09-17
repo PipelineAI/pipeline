@@ -1,8 +1,8 @@
-![PipelineAI Logo](https://pipeline.ai/assets/img/logo/pipelineai-logo-150x150.png)
+![PipelineAI Logo](https://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
 # PipelineAI Quick Start (CPU + GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Community Edition](https://quickstart.pipeline.ai/community)
+* [Hosted Community Edition](https://quickstart.pipeline.ai/community)
 * [Docker](https://quickstart.pipeline.ai/docker)
 * [Kubernetes](https://quickstart.pipeline.ai/kubernetes)
 * [AWS SageMaker](https://quickstart.pipeline.ai/sagemaker)
