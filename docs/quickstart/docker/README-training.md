@@ -39,7 +39,7 @@ pipeline env-registry-sync --tag=1.5.0
 # Train a TensorFlow Model
 ## Inspect Model Directory
 ```
-ls -l ./tensorflow/mnist-v3/model
+ls -l ./tensorflow/mnist-v1/model
 
 ### EXPECTED OUTPUT ###
 ...
@@ -54,7 +54,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v3 --model-type=tensorflow --model-path=./tensorflow/mnist-v3/model
+pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
 ```
 Notes: 
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -65,7 +65,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v3 --input-host-path=./tensorflow/mnist-v3/model/ --output-host-path=./tensorflow/mnist-v3/model/ --training-runs-host-path=./tensorflow/mnist-v3/model/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./pipeline_tfserving/"
+pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v1 --input-host-path=./tensorflow/mnist-v1/model/ --output-host-path=./tensorflow/mnist-v1/model/ --training-runs-host-path=./tensorflow/mnist-v1/model/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./pipeline_tfserving/"
 ```
 Notes: 
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
@@ -73,18 +73,18 @@ Notes:
 * _Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`_
 * If you change the model (`pipeline_train.py`), you need to re-run `pipeline train-server-build ...`
 * Increase `--memory-limit` if you have issues with `Allocated Memory`
-* You should run `pipeline train-server-stop --model-name=mnist --model-tag=v3` if you see `Error response from daemon: Conflict. The container name "/train-mnist-v3" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
+* You should run `pipeline train-server-stop --model-name=mnist --model-tag=v1` if you see `Error response from daemon: Conflict. The container name "/train-mnist-v1" is already in use by container. You have to remove (or rename) that container to be able to reuse that name.`
 * If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
 
 Show Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=v3
+pipeline train-server-logs --model-name=mnist --model-tag=v1
 ```
 
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/mnist-v3/model/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -106,7 +106,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=mnist --model-tag=v3
+pipeline train-server-stop --model-name=mnist --model-tag=v1
 ```
 
 # Train a Scikit-Learn Model
