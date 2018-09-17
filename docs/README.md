@@ -7,8 +7,10 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
-### Having Issues?  Use our 24x7 Support!
-* [Slack](https://joinslack.pipeline.ai)
-* [Email](help@pipeline.ai)
-* [Web](https://support.pipeline.ai)
+# Having Issues?  Contact Us Anytime... We're Always Awake.
+* Slack:  https://joinslack.pipeline.ai
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
+* Web:  https://support.pipeline.ai
+* YouTube:  https://youtube.pipeline.ai
+* Slideshare:  https://slideshare.pipeline.ai
 * [Troubleshooting Guide](/docs/troubleshooting)
