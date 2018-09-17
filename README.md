@@ -17,8 +17,8 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Troubleshooting Guide](/docs/troubleshooting)
 
 # PipelineAI Community Events
-* [PipelineAI Deep Learning Workshops (TensorFlow + Spark + GPUs)](https://www.eventbrite.com/d/worldwide/pipelineai/?mode=search)
-* [Advanced Spark and TensorFlow Meetup (Global)](https://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
+* [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
+* [Advanced Spark and TensorFlow Meetup (Global)](https://meetup.pipeline.ai)
 
 # PipelineAI [Home](https://pipeline.ai)
 [![PipelineAI Home](https://pipeline.ai/assets/img/pipelineai-home.png)](https://pipeline.ai)
