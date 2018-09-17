@@ -1,4 +1,4 @@
-[![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-community-logo.png)](https://community.cloud.pipeline.ai)
+[![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)](https://community.cloud.pipeline.ai)
 
 # Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Install Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
