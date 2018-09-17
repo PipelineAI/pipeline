@@ -204,7 +204,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./pytorch/mnist-v1/model/ --output-host-path=./pytorch/mnist-v1/model/ --training-runs-host-path=./pytorch/mnist-v1/model/
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./pytorch/mnist-v1/model/ --output-host-path=./pytorch/mnist-v1/model/ --training-runs-host-path=./pytorch/mnist-v1/model/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -267,7 +267,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./xgboost/mnist-v1/model/ --output-host-path=./xgboost/mnist-v1/model/ --training-runs-host-path=./xgboost/mnist-v1/model/
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./xgboost/mnist-v1/model/ --output-host-path=./xgboost/mnist-v1/model/ --training-runs-host-path=./xgboost/mnist-v1/model/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
