@@ -1,23 +1,16 @@
-![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-split-black-258x62.png)
+![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
-### PipelineAI Quick Start (CPU and GPU)
+### PipelineAI Quick Start (CPU + GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
+* [Hosted Community Edition](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
-### Exploring the OpenAPI documentation
-These `yaml` files can be viewed and edited in the OpenAPI (formerly Swagger) UI.
-* Navigate to the [**OpenAPI/Swagger Editor**](http://editor.swagger.io/).
-* Click **File -> Import URL**.
-* See below for the appropriate URL to import.
-
-[![OpenAPI/Swagger Editor](http://pipeline.ai/assets/img/openapi-spec-editor.png)](http://editor.swagger.io)
-
-[**PipelineAI Predict API**](pipeline-predict.yaml)
-
-URL: `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/pipeline-predict.yaml`
-
-[**AWS SageMaker OpenAPI Specs**](sagemaker-predict.yaml)
-
-URL: `https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/api/sagemaker-predict.yaml`
+# Having Issues?  Contact Us Anytime... We're Always Awake.
+* Slack:  https://joinslack.pipeline.ai
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
+* Web:  https://support.pipeline.ai
+* YouTube:  https://youtube.pipeline.ai
+* Slideshare:  https://slideshare.pipeline.ai
+* [Troubleshooting Guide](/docs/troubleshooting)
