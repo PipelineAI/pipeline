@@ -141,7 +141,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/input/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
+pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
