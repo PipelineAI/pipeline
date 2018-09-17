@@ -46,7 +46,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v1a --model-type=te
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu`
 
-[**Mnist v1**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
+[**Mnist v1b**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1b --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model 
 ```
