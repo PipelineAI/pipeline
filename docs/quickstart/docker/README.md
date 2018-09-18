@@ -59,12 +59,11 @@ pipeline_tfserving/                <-- Required by TensorFlow Serving. Contains 
 ```
 Inspect TensorFlow Serving Model 
 ```
-ls -l ./tensorflow/mnist-v1/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/
 
 ### EXPECTED OUTPUT ###
 ...
-0/  
-1510612528/  <-- TensorFlow Serving finds the latest (highest) version 
+0/  <-- TensorFlow Serving finds the latest (highest) version 
 ...
 ```
 
