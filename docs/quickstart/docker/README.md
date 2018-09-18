@@ -172,7 +172,6 @@ Notes:
 * If you're having trouble, see our [**Troubleshooting**](/docs/troubleshooting) Guide.
 
 ### PipelineCLI Predict
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json
 
@@ -287,14 +286,12 @@ cat ./scikit/mnist-v1/model/pipeline_invoke_python.py
 ```
 
 ## Build the SciKit-Learn Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1scikit --model-type=scikit --model-runtime=python --model-path=./scikit/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the SciKit-Learn Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
 ```
@@ -302,7 +299,6 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the SciKit-Learn Model Server Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v1scikit
 ```
@@ -314,14 +310,12 @@ cat ./pytorch/mnist-v1/model/pipeline_invoke_python.py
 ```
 
 ## Build the PyTorch Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1pytorch --model-type=pytorch --model-runtime=python --model-path=./pytorch/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the PyTorch Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1pytorch
 ```
@@ -329,7 +323,6 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1pytorch
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the PyTorch Model Server Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v1pytorch
 ```
@@ -341,14 +334,12 @@ cat ./xgboost/mnist-v1/model/pipeline_invoke_python.py
 ```
 
 ## Build the Xgboost Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1xgboost --model-type=xgboost --model-runtime=python --model-path=./xgboost/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the Xgboost Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1xgboost
 ```
@@ -356,7 +347,6 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1xgboost
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the Xgboost Model Server Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v1xgboost
 ```
@@ -368,14 +358,12 @@ cat ./mxnet/mnist-v1/model/pipeline_invoke_python.py
 ```
 
 ## Build the MXNet Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1mxnet --model-type=mxnet --model-runtime=mxnet --model-path=./mxnet/mnist-v1/model/ 
 ```
 * For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
 
 ## Start the MXNet Model Server
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1mxnet
 ```
@@ -383,7 +371,6 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1mxnet
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
 
 ## View the MXNet Model Server Logs
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-logs --model-name=mnist --model-tag=v1mxnet
 ```
@@ -397,7 +384,6 @@ curl -X POST -H "Content-Type: application/json" \
   -w "\n\n"
 ```
 Notes:
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * You may see `502 Bad Gateway` or `'{"results":["Fallback!"]}'` if you predict too quickly.  Let the server settle a bit - and try again.
 * You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
 * If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
@@ -405,7 +391,6 @@ Notes:
 * If you're having trouble, see our [**Troubleshooting**](/docs/troubleshooting) Guide.
 
 ### Predict with CLI
-* Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
 pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json
 ```
