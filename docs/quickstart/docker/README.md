@@ -35,8 +35,6 @@ pipeline env-registry-sync --tag=1.5.0
 * [Deploy an Xgboost Model](#deploy-an-xgboost-model)
 * [Deploy an MXNet Model](#deploy-an-mxnet-model)
 
-# [Train Models](README-training.md)
-
 # Deploy a TensorFlow Model
 
 ## Inspect Model Directory
@@ -411,7 +409,7 @@ pipeline predict-server-test --endpoint-url=http://localhost:8080/invoke --test-
 ```
 
 ## Train Models with PipelineAI
-* Click [HERE](README-training.md) to Train Models
+* Click [HERE](README-training.md) to Train Models with PipelineAI
 
 ## PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
