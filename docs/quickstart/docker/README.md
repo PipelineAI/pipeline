@@ -95,7 +95,7 @@ Notes:
 * Also, your nginx and prometheus configs will need to be adjusted.
 * In other words, try not to change the ports!
 * For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+* If you're having trouble, see our [**Troubleshooting**](/docs/troubleshooting) Guide.
 
 ## Inspect `pipeline_invoke_python.py`
 _Note:  Only the `invoke()` method is required.  Everything else is optional._
@@ -248,7 +248,7 @@ Notes:
 * You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
 * If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+* If you're having trouble, see our [**Troubleshooting**](/docs/troubleshooting) Guide.
 
 ### PipelineCLI Predict
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -402,7 +402,7 @@ Notes:
 * You will likely see `Fallback!` on the first successful invocation.  This is GOOD!  This means your timeouts are working.  Check out the `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.
 * If you continue to see `Fallback!` even after a minute or two, you may need to increase the value of   `PIPELINE_MODEL_SERVER_TIMEOUT_MILLISECONDS` in `pipeline_modelserver.properties`.  (This is rare as the default is 5000 milliseconds, but it may happen.)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.  This usually happens when using Docker Quick Terminal on Windows 7.
-* If you're having trouble, see our [Troubleshooting](/docs/troubleshooting) Guide.
+* If you're having trouble, see our [**Troubleshooting**](/docs/troubleshooting) Guide.
 
 ### Predict with CLI
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
