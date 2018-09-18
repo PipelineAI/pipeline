@@ -76,7 +76,7 @@ Notes:
 * `--model-path` must be relative
 * Start Docker on your machine if you see `ERRO[0002] failed to dial gRPC: cannot connect to the Docker daemon. Is 'docker daemon' running on this host?: dial unix /var/run/docker.sock: connect: connection refused`
 * Add `--http-proxy=...` and `--https-proxy=...` if you see `CondaHTTPError: HTTP 000 CONNECTION FAILED for url`
-* If you have issues, see the comprehensive [**Troubleshooting**](docs/troubleshooting/README.md) section below.
+* If you have issues, see the comprehensive [**Troubleshooting**](/docs/troubleshooting/) section below.
 * `--model-type`: **tensorflow**, **scikit**, **python**, **keras**, **spark**, **java**, **xgboost**, **pmml**, **caffe**
 * `--model-runtime`: **jvm**, **tfserving**, **python**, **cpp**, **tensorrt**
 * `--model-chip`: **cpu**, **gpu**, **tpu**
