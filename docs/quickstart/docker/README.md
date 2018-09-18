@@ -88,6 +88,7 @@ pipeline predict-server-start --model-name=mnist --model-tag=v1tensorflow --memo
 ```
 Notes:
 * Ignore `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
+* If you see `Unable to find image 'pipelineai/predict-mnist:v1tensorflow' locally docker: Error response from daemon: manifest for pipelineai/predict-mnist:v1tensorflow not found.`, make sure the Docker image built successfully above.
 * If you see `port is already allocated` or `already in use by container`, you already have a container running.  List and remove any conflicting containers.  For example, `docker ps` and/or `docker rm -f train-mnist-v1`.
 * You can change the port(s) by specifying the following: `--predict-port=8081`, `--prometheus-port=9091`, `--grafana-port=3001`.  
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
