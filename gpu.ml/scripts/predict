@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Args:
-#  $1: grpc_port
-#  $2: x_observed
-
-curl -H "Content-Type: application/json" -X POST -d '{"x_observed":'$2'}' http://localhost:$1/v1/; echo

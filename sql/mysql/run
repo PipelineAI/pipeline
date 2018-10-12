@@ -1,7 +1,0 @@
-#!/bin/bash
-
-#service mysql start
-
-mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mysql/plugin --user=mysql --log-error=/var/log/mysql/error.log --pid-file=/var/run/mysqld/mysqld.pid --socket=/var/run/mysqld/mysqld.sock --bind-address=0.0.0.0 --port=3306
-
-tail -f /var/log/mysql/error.log

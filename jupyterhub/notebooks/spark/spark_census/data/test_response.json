@@ -1,3 +1,0 @@
-('{"results":[[{\'income\': \'NodeScoreDistribution{result=<=50K, '
- 'probability_entries=[<=50K=0.9564524694636218, >50K=0.04354753053637812], '
- "entityId=7, confidence_entries=[]}'}]]}")

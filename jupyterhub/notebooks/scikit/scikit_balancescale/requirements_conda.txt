@@ -1,5 +1,0 @@
-ujson==1.35
-pandas==0.20.2
-numpy>=1.13.0
-dill==0.2.5
-scikit-learn==0.18.1

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/presto.ml/worker-hpa.yaml $PIP_COMMAND_OPTS
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/apachespark.ml/worker-hpa.yaml $PIO_COMMAND_OPTS

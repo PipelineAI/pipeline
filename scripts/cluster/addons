@@ -1,7 +1,0 @@
-#!/bin/bash
-
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.6.0.yaml
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.3.0.yaml
-kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/route53-mapper/v1.3.0.yml
-#kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/logging-elasticsearch/v1.5.0.yaml
-#kubectl $PIO_COMMAND -f https://raw.githubusercontent.com/fluxcapacitor/pipeline/$PIO_VERSION/dashboard.ml/weavescope/weavescope.yaml

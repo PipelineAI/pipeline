@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# Note:  The port must be set here as a localized env variable, 
-#   otherwise Zeppelin picks the Kubernetes-injected value
-#   that includes a full "tcp://<host>:<port>" type of url
-ZEPPELIN_PORT=3123 MASTER=$SPARK_MASTER $ZEPPELIN_HOME/bin/zeppelin.sh start

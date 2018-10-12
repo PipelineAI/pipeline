@@ -1,3 +1,0 @@
-#!/bin/bash
-
-python /root/src/main/python/debug/debug_model.py

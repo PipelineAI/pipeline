@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# Args:
-#  $1: low|medium|high load
-echo 'Load Testing Http-Grpc Proxy + Tensorflow Serving...'
-jmeter -n -t /root/tests/predict-$1.jmx

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd ~/webdis
-./webdis webdis.json &
-
-cd ~
-redis-server config/redis.conf
