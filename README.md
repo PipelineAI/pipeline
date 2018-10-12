@@ -7,6 +7,8 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [Kubernetes](https://quickstart.pipeline.ai/kubernetes)
 * [AWS SageMaker](https://quickstart.pipeline.ai/sagemaker)
 
+[![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
+
 # Having Issues?  Contact Us Anytime... We're Always Awake.
 * Slack:  https://joinslack.pipeline.ai
 * Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
