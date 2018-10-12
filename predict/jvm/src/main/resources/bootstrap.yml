@@ -1,0 +1,16 @@
+server:
+  port: 9040
+spring:
+  application:
+    name: predictjvm 
+  cloud:
+    config:
+      enabled: false
+  http:
+    multipart:
+      maxFileSize: 500MB
+      max-file-size: 500MB
+      max-request-size: 500MB
+netflix:
+  appinfo:
+    name: ${spring.application.name}

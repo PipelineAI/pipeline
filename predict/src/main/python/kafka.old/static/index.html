@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>PipelineAI Prediction Stream</title>
+<script type="text/javascript">
+<!-- Note: nginx will complain if we put a '/' at the end of this url. -->
+var host = window.location.host;
+var ws = new WebSocket("ws://" + host + "/stream/ws/kafka/predictions");
+ws.onmessage = function(event) {
+  // console.log(event);
+  eventJson = JSON.parse(event.data)
+  document.body.innerHTML = '<p/>Date: ' + new Date() + '<p/><b>Prediction: ' + eventJson.log_outputs + '</b><br/><br/>Image: ' + eventJson.log_inputs + '<p/><hr/>';
+}
+</script>
+</head>
+<body>
+</body>
+</html>
