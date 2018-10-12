@@ -1,0 +1,52 @@
+#!/bin/bash
+
+start_model_training_python3() {
+
+    echo ""
+    echo "Starting Python-based Model Training..."
+    echo ""
+
+    source activate $PIPELINE_CONDA_ENV_NAME
+
+    cd $PIPELINE_MODEL_PATH && python pipeline_train.py && cd /root
+    echo ""
+    echo "...Training Complete!"
+    echo ""
+}
+
+start_model_serving_python3 () {
+
+    echo ""
+    echo "Starting Python-based Model Serving..."
+    echo ""
+
+    source activate $PIPELINE_CONDA_ENV_NAME
+
+    cd $PIPELINE_MODEL_PATH \
+      && PYTHONPATH=$PIPELINE_MODEL_PATH:$PYTHONPATH \
+        $PIPELINE_MODEL_SERVER_PATH/model_server_python3.py \
+        --PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH \
+        --PIPELINE_MODEL_SERVER_PORT=$PIPELINE_MODEL_SERVER_PORT \
+        --PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=$PIPELINE_MODEL_SERVER_PROMETHEUS_PORT
+
+    cd /root
+}
+
+source sysutils/container-limits.sh
+
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+echo "PIPELINE_MODEL_SERVER_PATH=$PIPELINE_MODEL_SERVER_PATH"
+echo "PIPELINE_MODEL_PATH=$PIPELINE_MODEL_PATH"
+echo "PIPELINE_MODEL_SERVER_PORT=$PIPELINE_MODEL_SERVER_PORT"
+echo "PIPELINE_MODEL_SERVER_PROMETHEUS_PORT=$PIPELINE_MODEL_SERVER_PROMETHEUS_PORT"
+
+[ -s $PIPELINE_MODEL_PATH/pipeline_train.py ] \
+    && start_model_training_python3
+
+start_model_serving_python3

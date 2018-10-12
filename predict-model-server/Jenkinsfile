@@ -1,0 +1,50 @@
+#!/usr/bin/env groovy
+@Library( 'pipeline-shared-library@1.0.1' ) _ // make sure you include the trailing underscore
+
+properties([buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5', daysToKeepStr: '15'))])
+
+// !!!!!!!!!!!!!!!!!! REQUIREMENTS !!!!!!!!!!!!!!!!!!
+//   * S3 does not support underscores "_" in bucket names
+//   * Python does not support dashes "-" in package directory paths
+
+def imageName = 'predict-model-server'
+def tag = 'master'
+def githubOrg = 'fluxcapacitor'
+def sourceImageName = [ githubOrg, imageName].join('/')
+def imageNameAndTag = [ sourceImageName, tag ].join(':')
+def slackTitle = imageName
+def slackChannel = "#fluxcapacitor-pipeline-jenkins"
+def jobName = getJobName()
+
+node {
+    wrap([$class: 'AnsiColorBuildWrapper']) {
+        if ("${env.BRANCH_NAME}" == 'master') {
+            try {
+                stage('Build Docker Image') {
+                    checkoutProject()
+                    buildDockerImage tags: [tag]
+                }
+
+                stage('Tag and Publish Docker Image') {
+                    checkoutProject()
+
+                    tagDockerImage sourceImageName: sourceImageName, tags: [tag]
+
+                    publishDockerImage tags: [tag]
+                }
+
+                stage('Notify Slack') {
+                    def slackMessage = "Jenkins job = ${jobName}\n jobUrl = ${env.JOB_URL}\nbuildUrl = ${env.BUILD_URL}\n" +
+                            "branch = ${env.BRANCH_NAME}\ndockerImage = ${imageNameAndTag}\nSUCCESSFUL"
+                    notifySlack title: slackTitle, message: slackMessage, channel: slackChannel, color: 'good'
+                }
+
+            } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe) {
+                printErrorDesc(fe)
+                def slackMessage = "Jenkins job = ${jobName}\n jobUrl = ${env.JOB_URL}\nbuildUrl = ${env.BUILD_URL}\n" +
+                        "branch = ${env.BRANCH_NAME}\ndockerImage = ${imageNameAndTag}\nFlowInterruptedException ${fe}"
+                notifySlack title: slackTitle, message: slackMessage, channel: slackChannel, color: 'bad'
+            }
+        }
+    }
+}

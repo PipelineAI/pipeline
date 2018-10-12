@@ -1,0 +1,123 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: predict-python3-zscore-v0-0-1-000
+  labels:
+    name: predict-python3-zscore-v0-0-1-000
+    k8s-app: predict-python3-zscore-v0-0-1-000
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: predict-python3-zscore-v0-0-1-000
+  template:
+    metadata:
+      labels:
+        k8s-app: predict-python3-zscore-v0-0-1-000
+      annotations:
+        prometheus.io/port: 'http-metrics'
+        prometheus.io/scrape: 'true'
+    spec:
+      containers:
+      - name: prediction-python
+        image: fluxcapacitor/predict-python3-zscore:0-0-1-000
+        imagePullPolicy: "Always"
+        ports:
+        - name: http
+          containerPort: 9876
+          protocol: TCP
+        - name: https
+          containerPort: 443
+          protocol: TCP
+        - name: http-metrics
+          containerPort: 10254
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 9876
+            scheme: HTTP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 9876
+            scheme: HTTP
+          initialDelaySeconds: 180
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 4000m
+            memory: 8000Mi
+          requests:
+            cpu: 1000m
+            memory: 2000Mi
+        env:
+        - name: PIPELINE_MODEL_TYPE
+          value: python3
+        - name: PIPELINE_MODEL_NAME
+          value: zscore
+        - name: PIPELINE_MODEL_VERSION
+          value: 0-0-1-000
+      nodeSelector:
+        prediction: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: predict-python3-zscore-v0-0-1-000
+  labels:
+    k8s-app: predict-python3-zscore-v0-0-1-000
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 9876
+    targetPort: http
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: https
+    protocol: TCP
+  - name: http-metrics
+    port: 10254
+    targetPort: http-metrics
+    protocol: TCP
+  selector:
+    k8s-app: predict-python3-zscore-v0-0-1-000
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: predict-python3-zscore-v0-0-1-000
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: predict-python3-zscore-v0-0-1-000
+  minReplicas: 1
+  maxReplicas: 40
+  targetCPUUtilizationPercentage: 55
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: predict-python3-zscore-v0-0-1-000
+  namespace: default
+  labels:
+    k8s-app: predict-python3-zscore-v0-0-1-000
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - "*.community.pipeline.io"
+    secretName: tls-certificate
+  rules:
+  - host: predict-python3-zscore-v0-0-1-000.community.pipeline.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: predict-python3-zscore-v0-0-1-000
+          servicePort: 9876

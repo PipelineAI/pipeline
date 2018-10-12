@@ -1,0 +1,105 @@
+#!/usr/bin/env groovy
+@Library( 'pipeline-shared-library@1.0.0' ) _ // make sure you include the trailing underscore
+
+properties([
+        parameters([string(defaultValue: 'fluxcapacitor-us-east-1/model-store/python/zscore/0-0-1-000',
+                description: '''Amazon S3 path to the model artifacts.  Path is comprised of the bucket name, model
+store directory name, model type, model name and model version delimited by forward slashes.
+Example:
+s3modelDirectoryPath = fluxcapacitor-us-east-1/model-store/python/zscore/0-0-1-000
+bucket name = fluxcapacitor-us-east-1
+model store directory name = model-store
+model type = python
+model name = zscore
+model version = 0-0-1-000''', name: 's3modelDirectoryPath')
+        ]),
+        pipelineTriggers([]),
+        buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5', daysToKeepStr: '15')),
+        disableConcurrentBuilds()
+])
+
+node {
+    wrap([$class: 'AnsiColorBuildWrapper']) {
+        try {
+            // Constants
+            def slackChannel = "#fluxcapacitor-pipeline-jenkins"
+            def githubOrg = 'fluxcapacitor'
+            def dockerImageNamePrefix = 'predict'
+            // Variables
+            def jobName = getJobName()
+            def s3modelDirectoryPath, modelValues, modelStoreS3Bucket, modelStoreDirectory, modelType, modelName, tag
+            def modelS3ObjectName, imageName, sourceImageName, imageNameAndTag, slackTitle
+
+            def trimGroovy = {
+                it.startsWith('s3://') ? it - 's3://' : it
+                it.endsWith('/') ? it.substring(0, it.length() - 1) : it
+            }
+
+            stage('Populate Variables') {
+                s3modelDirectoryPath = trimGroovy(params.s3modelDirectoryPath)
+                modelValues = s3modelDirectoryPath.split('/')
+                modelStoreS3Bucket = modelValues[0]     // fluxcapacitor-us-east-1
+                modelStoreDirectory = modelValues[1]    // model-store
+                modelType = modelValues[2]              // python
+                modelName = modelValues[3]              // zscore
+                tag = modelValues[4]                    // 0-0-1-000
+                modelS3ObjectName = [modelStoreDirectory, modelType, modelName, tag].join('/') + '/'
+                imageName = [ dockerImageNamePrefix, modelType, modelName ].join('-')
+                sourceImageName = [ githubOrg, imageName].join('/')
+                imageNameAndTag = [ sourceImageName, tag ].join(':')
+                slackTitle = imageName
+                echo "${jobName} variables:"
+                echo "s3modelDirectoryPath: ${params.s3modelDirectoryPath}"
+                echo "modelStoreS3Bucket: ${modelStoreS3Bucket}"
+                echo "modelStoreDirectory: ${modelStoreDirectory}"
+                echo "modelType: ${modelType}"
+                echo "modelName: ${modelName}"
+                echo "tag: ${tag}"
+                echo "modelS3ObjectName: ${modelS3ObjectName}"
+                echo "imageName: ${imageName}"
+                echo "sourceImageName: ${sourceImageName}"
+                echo "imageNameAndTag: ${imageNameAndTag}"
+            }
+
+            stage('Build Docker Image') {
+                checkout scm
+                stage('s3Download') {
+                    // Download Model artifacts from S3 using the Jenkins pipeline-aws-plugin
+                    // https://github.com/jenkinsci/pipeline-aws-plugin
+                    withAWS(role: 'datascience_role', roleAccount: '<insert AWS Account ID>', region: 'us-east-1') {
+                        s3Download(file: 'model/', bucket: modelStoreS3Bucket, path: modelS3ObjectName, force: true)
+                    }
+                }
+                sh """
+                docker run --rm \
+                -v `pwd`:/workdir \
+                -v /var/run/docker.sock:/var/run/docker.sock \
+                docker build --build-arg MODEL_S3_OBJECT_NAME=${modelS3ObjectName} -t fluxcapacitor/${imageName}:${tag} .
+                """
+            }
+
+            stage('Tag and Publish Docker Image') {
+                checkoutProject()
+
+                tagDockerImage sourceImageName: sourceImageName, tags: [tag]
+
+                def publishImageName = [githubOrg, imageName].join('/')
+                publishDockerImage imageName: publishImageName, tags: [tag]
+            }
+
+            stage('Notify Slack') {
+                def slackMessage = "Jenkins job = ${jobName}\n jobUrl = ${env.JOB_URL}\nbuildUrl = ${env.BUILD_URL}\n" +
+                        "branch = ${env.BRANCH_NAME}\nmodelType = ${modelType}\nmodelName = ${modelName}\ntag = ${tag}\n" +
+                        "dockerImage = ${imageNameAndTag}\nSUCCESSFUL"
+                notifySlack title: slackTitle, message: slackMessage, channel: slackChannel, color: 'good'
+            }
+        } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe) {
+            def slackMessage = "Jenkins job = ${jobName}\n jobUrl = ${env.JOB_URL}\nbuildUrl = ${env.BUILD_URL}\n" +
+                    "branch = ${env.BRANCH_NAME}\nmodelType = ${modelType}\nmodelName = ${modelName}\ntag = ${tag}\n" +
+                    "dockerImage = ${imageNameAndTag}\nFlowInterruptedException ${fe}"
+            notifySlack title: slackTitle, message: slackMessage, channel: slackChannel, color: 'bad'
+            printErrorDesc(fe)
+        }
+    }
+}
+

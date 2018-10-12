@@ -1,0 +1,40 @@
+{
+  "consul":"{{ .HOST }}:8500",
+  "logging":{
+    "level": "{{ .CP_LOG_LEVEL | default "INFO" }}",
+    "format":"default",
+    "output":"stdout"
+  },
+  "services":[
+    {
+      "name":"{{ .MPAAS_APPLICATION_NAME }}-{{ .MPAAS_ENVIRONMENT }}",
+      "port":"{{ .PORT_9876 }}",
+      "health":[
+        "/usr/bin/curl",
+        "--fail",
+        "-s",
+        "http://{{ .HOST }}:{{ .PORT_9876 }}/healthz"
+      ],
+      "interfaces":[
+        "static:{{ .HOST }}"
+      ],
+      "poll":10,
+      "ttl":30,
+      "timeout":"10s",
+      "tags":[
+        "{{ .MESOS_TASK_ID }}",
+        "iid-{{ .MESOS_TASK_ID }}",
+        "app-{{ .MPAAS_APPLICATION_NAME }}",
+        "env-{{ .MPAAS_ENVIRONMENT }}",
+        "ver-{{ .MPAAS_APPLICATION_VERSION }}",
+        "marathon",
+        "netscaler",
+        "metrics-true"
+      ],
+      "consul":{
+        "enableTagOverride":true,
+        "deregisterCriticalServiceAfter": "90m"
+      }
+    }
+  ]
+}

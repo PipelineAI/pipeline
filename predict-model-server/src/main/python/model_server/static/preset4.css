@@ -1,0 +1,50 @@
+a,
+#home-slider .caption h1 span, 
+#twitter-carousel .item span, 
+#footer .footer-bottom, 
+#single-portfolio .close-folio-item:hover, 
+.single-table.featured .btn.btn-primary, 
+.contact-info ul li a:hover, 
+#footer .footer-bottom a  {
+  color: #0db3c7;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0a8897
+}
+
+a:hover, a:focus {
+	color: #0a8897;
+}
+
+.navbar.navbar-default, 
+.service-icon, 
+.progress-bar.progress-bar-primary, 
+.single-table.featured, 
+.btn.btn-primary, 
+.twitter-icon .fa-twitter, 
+.twitter-left-control:hover, .twitter-right-control:hover, 
+.post-icon, 
+.entry-header .date:after, 
+.btn-loadmore:hover, 
+#footer, 
+.caption .btn-start:hover, 
+.left-control:hover, 
+.right-control:hover, 
+.folio-overview a:hover {
+  background-color:#0db3c7;
+}
+
+.btn-loadmore:hover  {
+	border: 1px solid #0db3c7;
+}
+
+.caption .btn-start:hover, 
+.left-control:hover, 
+.right-control:hover {
+	border-color: #0db3c7;
+}
+
+.twitter-icon .fa-twitter:after {
+	border-color: #0db3c7 transparent transparent;
+}

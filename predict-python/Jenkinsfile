@@ -1,0 +1,95 @@
+#!/usr/bin/env groovy
+properties([buildDiscarder(logRotator(artifactNumToKeepStr: '5', daysToKeepStr: '15'))])
+
+def modelType
+def modelName
+def modelVersion
+def imageName
+def githubOrg = 'fluxcapacitor'
+def dockerImageNamePrefix = 'predict'
+def modelStoreS3Bucket = 'pipeline-us-east-1'
+def modelStoreS3Location = 'model-store'
+def slackTitle = 'predict-model-deploy'
+def slackChannel = "#ds-pipeline-jenkins"
+def slackColor = 'good'
+def versions = [
+        [modelType: 'python3', modelName: 'zscore', modelVersion: '0-0-1-000'],
+        [modelType: 'python3', modelName: 'zscore', modelVersion: '0-0-2-000']
+]
+
+node {
+    wrap([$class: 'AnsiColorBuildWrapper']) {
+
+        env.JOB_NAME = 'fluxcapacitor/predict'
+
+        try{
+
+            def branches = [:]
+            for (int i = 0; i < versions.size(); i++) {
+                def model_data = versions.get(i)
+                modelType = model_data["modelType"]
+                modelName = model_data["modelName"]
+                modelVersion = model_data["modelVersion"]
+                imageName = [ dockerImageNamePrefix, modelType, modelName ].join('-')
+                imageNameAndVersion = [ imageName, modelVersion ].join(':')
+                branches["model${i}"] = {
+                    node {
+                        // Jenkine AnsiColor plugin - https://wiki.jenkins.io/display/JENKINS/AnsiColor+Plugin
+                        wrap([$class: 'AnsiColorBuildWrapper']) {
+                            try{
+                                slackColor = 'good'
+
+                                stage('Build Docker Image') {
+                                    checkout scm
+                                    stage('s3Download') {
+                                        // Jenkins pipeline-aws-plugin - https://github.com/jenkinsci/pipeline-aws-plugin
+                                        withAWS(role:'datascience_role', roleAccount:'123YourAWSAccount', region: 'us-east-1') {
+                                            def modelPath = [ modelStoreS3Location, modelType, modelName, modelVersion, ].join('/') + '/'
+                                            s3Download(file: 'model/', bucket: modelStoreS3Bucket,
+                                                    path: modelPath,
+                                                    force: true)
+                                        }
+                                    }
+                                    sh """
+                                    docker run --rm \
+                                    -v `pwd`:/workdir \
+                                    -v /var/run/docker.sock:/var/run/docker.sock \
+                                    docker build --build-arg MODEL_TYPE=${modelType} --build-arg MODEL_NAME=${modelName} \
+                                    --build-arg MODEL_VERSION=${modelVersion} -t fluxcapacitor/${imageName}:${modelVersion} .
+                                    """
+
+                                    notifySlack title: slackTitle,
+                                            message: "Jenkins ${env.JOB_NAME} Branch ${env.BRANCH_NAME} " +
+                                            "Build Docker image ${imageName} successful",
+                                            channel: slackChannel, color: slackColor
+                                }
+
+                                stage('Publish Docker Image') {
+                                    checkout scm
+                                    sh """
+                                    docker run --rm \
+                                    -v `pwd`:/workdir \
+                                    -v /var/run/docker.sock:/var/run/docker.sock \
+                                    docker tag fluxcapacitor/${imageName}:${modelVersion}
+                                    """
+
+                                    notifySlack title: slackTitle,
+                                            message: "Jenkins ${env.JOB_NAME} Branch ${env.BRANCH_NAME} " +
+                                            " publishDockerImage ${imageNameAndVersion} successful",
+                                            channel: slackChannel, color: slackColor
+                                }
+
+                            }catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe){
+                                // handle error
+                            }
+                        }
+                    }
+                }
+            }
+
+            parallel branches
+        }catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException fe){
+            // handle error
+        }
+    }
+}
