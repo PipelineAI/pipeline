@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }} 
+  namespace: {{ PIPELINE_NAMESPACE }}
+  annotations:
+    kubernetes.io/ingress.class: "istio"
+  labels:
+    istio: ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /predict/{{ PIPELINE_RESOURCE_NAME }}/.*
+        backend:
+          serviceName: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+          servicePort: 8080 
+# Note:  the traffic splits and shadows are defined as separate RouteRules.
+#        this is just defining the path -> service/port translation.

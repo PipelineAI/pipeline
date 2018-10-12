@@ -1,0 +1,4 @@
+.pipeline-generated-*
+generated-*
+__pycache__
+*.out

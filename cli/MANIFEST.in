@@ -1,0 +1,2 @@
+include README.rst
+include cli_pipeline/templates/docker/*.template cli_pipeline/templates/yaml/*.template  

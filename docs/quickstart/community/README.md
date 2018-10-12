@@ -31,10 +31,9 @@ drwxr-xr-x  4 cfregly  staff    128 Jul 20 18:38 variables
 _Note:  The GRPC dependency is related to TensorFlow Serving.  However, we do support GRPC, as well as REST and Kafka._
 
 ```
-cat ./tensorflow/mnist-v1/model/pipeline_invoke_python.py
+cat ./tensorflow/mnist-v1/model/pipeline_conda_environment.yaml
 
 ### EXPECTED OUTPUT ###
-
 dependencies:
   - python=3.6
   - pip:

@@ -1,0 +1,27 @@
+.mypy_cache
+.editorconfig
+.pydevproject
+.vscode
+.settings/
+.settings/org.eclipse.core.resources.prefs
+nodesource_setup.sh
+filebrowser.db
+.DS_Store
+*secret*
+nohup*
+.project
+.pipeline-generated-*
+build/
+cli_pipeline.egg-info
+nohup.out
+*.pyc
+dist
+/.pypi-creds
+/README.html
+# Pycharm
+.idea
+*.iml
+*un~
+*swp
+*swo
+/venv

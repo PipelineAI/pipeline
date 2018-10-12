@@ -1,0 +1,131 @@
+apiVersion: config.istio.io/v1alpha2 
+kind: RouteRule 
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-invoke
+  namespace: {{ PIPELINE_NAMESPACE }}
+spec:
+   destination: 
+      name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+   match:
+     request:
+       headers:
+         uri:
+           prefix: /predict/{{ PIPELINE_RESOURCE_NAME }}/invoke
+   rewrite:
+     uri: /invoke
+   precedence: 2
+   # Note:  'tag' is used by PipelineAI, 'version' is used by Istio.
+   #        for now, keep these together - and keep them the same value
+   route:
+   {% for idx in range(PIPELINE_RESOURCE_NUM_SPLIT_TAGS_AND_WEIGHTS) %}
+   - labels:
+       tag: "{{ PIPELINE_RESOURCE_SPLIT_TAG_LIST[idx] }}"
+       version: "{{ PIPELINE_RESOURCE_SPLIT_TAG_LIST[idx] }}"
+     weight: {{ PIPELINE_RESOURCE_SPLIT_WEIGHT_LIST[idx] }}
+   {% endfor %}
+   mirror:
+   {% for idx in range(PIPELINE_RESOURCE_NUM_SHADOW_TAGS) %}
+     name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+     labels:
+       tag: "{{ PIPELINE_RESOURCE_SHADOW_TAG_LIST[idx] }}"
+       version: "{{ PIPELINE_RESOURCE_SHADOW_TAG_LIST[idx] }}"
+   {% endfor %}
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-ping
+  namespace: {{ PIPELINE_NAMESPACE }}
+spec:
+  destination:
+    name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+  match:
+    request:
+      headers:
+        uri:
+          prefix: /predict/{{ PIPELINE_RESOURCE_NAME }}/ping
+  rewrite:
+    uri: /ping
+  precedence: 2 
+  route:
+  - weight: 100
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-dashboardstream
+  namespace: {{ PIPELINE_NAMESPACE }}
+spec:
+  destination:
+    name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+  match:
+    request:
+      headers:
+        uri:
+          prefix: /predict/{{ PIPELINE_RESOURCE_NAME }}/dashboard.stream
+  rewrite:
+    uri: /dashboard.stream
+  precedence: 2
+  route:
+  - weight: 100
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-prometheus 
+  namespace: {{ PIPELINE_NAMESPACE }}
+spec:
+  destination:
+    name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+  match:
+    request:
+      headers:
+        uri:
+          prefix: /predict/{{ PIPELINE_RESOURCE_NAME }}/prometheus/
+  rewrite:
+    uri: /prometheus/
+  precedence: 2
+  route:
+  - weight: 100
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-metrics 
+  namespace: {{ PIPELINE_NAMESPACE }}
+spec:
+  destination:
+    name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+  match:
+    request:
+      headers:
+        uri:
+          prefix: /predict/{{ PIPELINE_RESOURCE_NAME }}/metrics/
+  rewrite:
+    uri: /metrics/
+  precedence: 2
+  route:
+  - weight: 100
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-denytherest
+  namespace: {{ PIPELINE_NAMESPACE }}
+spec:
+  destination:
+    name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+  match:
+    request:
+      headers:
+        uri:
+          prefix: /predict/{{ PIPELINE_RESOURCE_NAME }}
+  rewrite:
+    uri: /
+  precedence: 1
+  route:
+  - weight: 100
+  httpFault:
+    abort:
+      percent: 100
+      httpStatus: 403 # Forbidden for all URLs except those specified at a higher precedence (>1)
