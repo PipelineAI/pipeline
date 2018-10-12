@@ -1,0 +1,37 @@
+global:
+  scrape_interval:     1s
+
+scrape_configs:
+  # Note:  The metrics_path's below are controlled by config/nginx/default
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Note:  config/nginx/default has a mapping for /metrics 
+  #        and rewrites to /metrics/python (for now)
+  - job_name: 'model_server_python'
+    metrics_path: /metrics/python
+    static_configs:
+      - targets: ['localhost:8080']
+
+  # Note:  This is for single Docker image (Dev Edition).
+  #        And while we *can* scrape these other endpoints in Dev Edition,
+  #           this is not how production works.
+  #        Production has only 1 endpoint avaiable to scrape.
+  #           this endpoint is defined in (cli-private/cli_pipeline/templates/yaml/predict-deploy.yaml.template)
+
+# Disabling due to following warning thrown by prometheus when scraping this endpoint:
+# level=warn ts=2018-04-07T22:03:34.977023546Z caller=scrape.go:697 component="scrape manager" scrape_pool=model_server_jvm_extra_metrics target=http://localhost:8080/metrics/jvm msg="append failed" err="no token found"
+#
+#  - job_name: 'model_server_jvm'
+#    metrics_path: /metrics/jvm
+#    static_configs:
+#      - targets: ['localhost:8080']
+
+# Disabling these extra metrics.
+# See config/nginx/default for the internal path (:9040/prometheus)
+#  - job_name: 'model_server_jvm_extra_metrics'
+#    metrics_path: /metrics/jvm-extra
+#    static_configs:
+#      - targets: ['localhost:8080']

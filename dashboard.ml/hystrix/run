@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cd /root
-java -Djava.security.egd=file:/dev/./urandom -jar standalone-hystrix-dashboard-$HYSTRIX_VERSION-all.jar 

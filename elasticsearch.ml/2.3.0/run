@@ -1,4 +1,0 @@
-#!/bin/bash
-
-$ELASTICSEARCH_HOME/bin/elasticsearch
-#   -Des.insecure.allow.root=true

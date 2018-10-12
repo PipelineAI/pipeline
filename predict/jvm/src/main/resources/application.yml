@@ -1,0 +1,35 @@
+# http://aredko.blogspot.com/2016/
+# https://njalnordmark.wordpress.com/2017/05/08/using-prometheus-with-spring-boot/
+# https://github.com/njanor/spring-boot-prometheus-demo
+# https://github.com/maust/spring-boot-prometheus
+
+# defaults to /metrics
+#
+#endpoints:
+#  prometheus:
+#    path: "metrics" 
+
+logging:
+  level:
+    ROOT: ERROR
+    org.springframework: ERROR
+    ai.pipeline: ERROR
+    java.io: ERROR
+    java.nio: ERROR
+    java.util: ERROR
+    scala.collection: ERROR
+    org.jpmml: ERROR
+    org.xml: ERROR
+    com.soundcloud: ERROR
+    io.prometheus: ERROR
+    redis.clients: ERROR
+management:
+  port: 9040 
+  security:
+    enabled: false
+spring:
+  http:
+    multipart:
+      maxFileSize: 500MB
+      max-file-size: 500MB
+      max-request-size: 500MB

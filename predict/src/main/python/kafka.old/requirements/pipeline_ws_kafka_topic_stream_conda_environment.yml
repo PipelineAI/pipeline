@@ -1,0 +1,6 @@
+dependencies:
+  - tornado=4.5.2
+  - pip=9.0.1=py36_1
+  - python=3.6.1=2
+  - pip:
+      - confluent-kafka>=0.11.0

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -z "${KUBECONFIG}" ]; then
-    KUBECONFIG=~/.kube/config
-fi
-
-kubectl --kubeconfig="$KUBECONFIG" delete -f manifests/examples/example-app
-

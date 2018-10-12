@@ -1,91 +1,111 @@
-![PipelineIO](http://pipeline.io/images/pipeline-io-logo-shadow-210x186.png)
+![PipelineAI Logo](https://pipeline.ai/assets/img/pipelineai.png)
 
-### Built with Love and Scale by ex-Netflix, Databricks, and Tensorflow Engineers
-![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
-![Databricks](http://pipeline.io/images/databricks-logo-350x69.png) 
-![Netflix](http://pipeline.io/images/netflixoss-logo-white-295x55.png) 
+# PipelineAI Quick Start (CPU + GPU)
+Train and Deploy your ML and AI Models in the Following Environments:
+* [Hosted Community Edition](https://quickstart.pipeline.ai/community)
+* [Docker](https://quickstart.pipeline.ai/docker)
+* [Kubernetes](https://quickstart.pipeline.ai/kubernetes)
+* [AWS SageMaker](https://quickstart.pipeline.ai/sagemaker)
 
-## Videos
-* [Continuously Train & Deploy Spark ML and Tensorflow AI Models from Jupyter Notebook to Production (StartupML Conference Jan 2017)](https://www.youtube.com/embed/swiPWUxBvSc)
-* [Recent Advancements in Data Science Workflows: From Jupyter-based Notebook to NetflixOSS-based Production (Big Data Spain Nov 2016)](https://www.youtube.com/embed/QPI_RtIrO7g)
+# Having Issues?  Contact Us Anytime... We're Always Awake.
+* Slack:  https://joinslack.pipeline.ai
+* Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
+* Web:  https://support.pipeline.ai
+* YouTube:  https://youtube.pipeline.ai
+* Slideshare:  https://slideshare.pipeline.ai
+* Workshop:  https://workshop.pipeline.ai
+* [Troubleshooting Guide](/docs/troubleshooting)
 
-## Resources
-### Documentation
-* [**Wiki**](https://github.com/fluxcapacitor/pipeline/wiki)
+# PipelineAI Community Events
+* [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
+* [Advanced Spark and TensorFlow Meetup (Global)](https://meetup.pipeline.ai)
 
-### Workshops
+# PipelineAI [Home](https://pipeline.ai)
+[![PipelineAI Home](https://pipeline.ai/assets/img/pipelineai-home.png)](https://pipeline.ai)
+[![PipelineAI Home 1](https://pipeline.ai/assets/img/pipelineai-home-1.png)](https://pipeline.ai)
+[![PipelineAI Home 2](https://pipeline.ai/assets/img/pipelineai-home-2.png)](https://pipeline.ai)
 
-[**Sign Up Now!**](http://pipeline.io#upcoming-workshops)
+# PipelineAI [Features](https://pipeline.ai/features)
 
-![Workshop Architecture](http://pipeline.io/images/architecture-overview-645x473.png)
+## Consistent, Immutable, Reproducible Model Runtimes
+![Consistent Model Environments](https://pipeline.ai/assets/img/docker-gobbles-ml.png)
 
-![Workshop Tools](http://pipeline.io/images/pancake-stack-645x363.png)
+Each model is built into a separate Docker image with the appropriate Python, C++, and Java/Scala Runtime Libraries for training or prediction.
 
-## Quick Start
-### Local Laptop
-**Kubernetes Mini + PipelineIO Cluster for your Laptop**
-* PipelineIO [**Local**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Mini) (Local Laptop)
+Use the same Docker Image from Local Laptop to Production to avoid dependency surprises.
 
-![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) ![Docker](http://pipeline.io/images/docker-logo-150x126.png)
+## Sample Machine Learning and AI Models
+Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model samples for the following:
+* Scikit-Learn
+* TensorFlow
+* Keras
+* Spark ML (formerly called Spark MLlib)
+* XGBoost
+* PyTorch
+* Caffe/2
+* Theano
+* MXNet
+* PMML/PFA
+* Custom Java/Python/C++ Ensembles
 
-**Kubernetes + PipelineIO Cluster on any Cloud or Data Center**
-* Pipeline on [**AWS**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-AWS)
+![Nvidia GPU](https://pipeline.ai/assets/img/nvidia-cuda-338x181.png) ![TensorFlow](https://pipeline.ai/assets/img/tensorflow-logo-202x168.png) 
 
-![AWS](http://pipeline.io/images/aws-logo-185x73.png)
+![Spark ML](https://pipeline.ai/assets/img/spark-logo-254x163.png) ![Scikit-Learn](https://pipeline.ai/assets/img/scikit-logo-277x150.png) 
 
-* Pipeline on [**Google**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Google)
+![R](https://pipeline.ai/assets/img/r-logo-280x212.png) ![PMML](https://pipeline.ai/img/pmml-logo-210x96.png)
 
-![Google Cloud Platform](http://pipeline.io/images/gce-logo-190x90.png)
+![Xgboost](https://pipeline.ai/assets/img/xgboost-logo-280x120.png) ![Model Ensembles](https://pipeline.ai/assets/img/ensemble-logo-285x125.png)
 
-* PipelineIO on [**Azure**](https://github.com/fluxcapacitor/pipeline/wiki/Setup-Pipeline-Azure)
+## Supported Model Runtimes (CPU and GPU)
+* Python (Scikit, TensorFlow, etc)
+* Java
+* Scala
+* Spark ML
+* C++
+* Caffe2
+* Theano
+* TensorFlow Serving
+* Nvidia TensorRT (TensorFlow, Caffe2)
+* MXNet
+* CNTK
+* ONNX
 
-![Azure](http://pipeline.io/images/azure-logo-200x103.png)
+## Supported Streaming Engines
+* Kafka
+* Kinesis
+* Flink
+* Spark Streaming
+* Heron
+* Storm
 
-## Global 24x7 [Support](http://pipelineio.zendesk.com) for Everyone!
-* Create a [**Ticket**](http://pipelineio.zendesk.com)
-* Email **help@pipeline.io**
+# Advanced PipelineAI Product Features
+* Click [HERE](https://pipeline.ai/products) to compare PipelineAI Products.
 
-## Reference Architecture
-![Reference Architecture](http://advancedspark.com/img/architecture-overview-768x563.png)
+## Drag N' Drop Model Deploy
+![PipelineAI Drag n' Drop Model Deploy UI](https://pipeline.ai/assets/img/drag-n-drop-tri-color.png)
 
-## Other Features
-### 100% Open Source
-![Jupyter](http://pipeline.io/images/jupyter-logo-105x106.png) 
-![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-48x50.png)![Zeppelin](http://pipeline.io/images/zeppelin-logo-wide-110x50.png) 
-![Spark](http://pipeline.io/images/spark-logo-150x78.png) 
-![Tensorflow](http://pipeline.io/images/tensorflow-logo-150x128.png)
+## Generate Optimize Model Versions Upon Upload
+![Automatic Model Optimization and Native Code Generation](https://pipeline.ai/assets/img/automatic-model-optimization-native-code-generation.png)
 
-### 100% Open Source using Kubernetes + Docker
-![PipelineIO Kubernetes](https://s3.amazonaws.com/fluxcapacitor.com/img/weavescope-pipelineio.png)
-![Kubernetes](http://pipeline.io/images/kubernetes-logo-200x171.png) 
-![Docker](http://pipeline.io/images/docker-logo-150x126.png)
+## Distributed Model Training and Hyper-Parameter Tuning
+![PipelineAI Advanced Model Training UI](https://pipeline.ai/assets/img/pipelineai-train-compare-ui.png)
 
-### PMML + Native C++/Java Code Generation for Optimized CPU/GPU Performance
-![Generate and Optimize Spark ML Model](https://s3.amazonaws.com/fluxcapacitor.com/img/ml-model-generating-and-optimizing.png) 
-![Nvidia GPU](http://pipeline.io/images/nvidia-cuda-338x181.png) ![Intel CPU](http://pipeline.io/images/intel-logo-250x165.png)
+![PipelineAI Advanced Model Training UI 2](https://pipeline.ai/assets/img/pipelineai-train-compare-ui-2.png)
 
-### Deploy directly from Jupyter Notebook to Hybrid-Cloud Microservices
-![Deploy Spark ML Model to Production](https://s3.amazonaws.com/fluxcapacitor.com/img/deploy-ml-model-to-production.png)
+## Continuously Deploy Models to Clusters of PipelineAI Servers
+![PipelineAI Weavescope Kubernetes Cluster](https://pipeline.ai/assets/img/weavescope-with-header.png)
 
-### NetflixOSS-based Microservices for High Scalability and Availability
-![NetflixOSS-based Microservices](http://pipeline.io/images/hystrix-example-600x306.png)
+## View Real-Time Prediction Stream
+![Live Stream Predictions](https://pipeline.ai/assets/img/live-stream-predictions.png)
 
-### Continuous Train/Deploy Spark ML and Tensorflow AI Pipelines to Production
-![Kafka](http://pipeline.io/images/kafka-logo-wide-219x98.png) ![Kinesis](http://pipeline.io/images/kinesis-logo-110x110.png) **KINESIS**
+## Compare Both Offline (Batch) and Real-Time Model Performance
+![PipelineAI Model Comparison](https://pipeline.ai/assets/img/dashboard-batch-and-realtime.png)
 
-## Community
-### Global Advanced Spark and Tensorflow [Meetup](http://www.meetup.com/Advanced-Spark-and-TensorFlow-Meetup/)
+## Compare Response Time, Throughput, and Cost-Per-Prediction
+![PipelineAI Compare Performance and Cost Per Prediction](https://pipeline.ai/assets/img/compare-cost-per-prediction.png)
 
-![Meetup](http://pipeline.io/images/meetup-442x300.png)
+## Shift Live Traffic to Maximize Revenue and Minimize Cost
+![PipelineAI Traffic Shift Multi-armed Bandit Maxmimize Revenue Minimize Cost](https://pipeline.ai/assets/img/maximize-revenue-minimize-costs.png)
 
-### Slideshare [Slides](http://www.slideshare.net/cfregly)
-
-![Slideshare](http://advancedspark.com/img/slideshare.png)
-
-### YouTube [Videos](https://www.youtube.com/playlist?list=PL7pBcJ870QHeNRBXdKirc4fdtbtbB5Xy-)
-
-![YouTube](http://advancedspark.com/img/youtube-300x134.png)
-
-### Docker [Images](https://hub.docker.com/u/fluxcapacitor)
-
-![Docker](http://pipeline.io/images/docker-logo-150x126.png)
+## Continuously Fix Borderline Predictions through Crowd Sourcing 
+![Borderline Prediction Fixing and Crowd Sourcing](https://pipeline.ai/assets/img/fix-slack.png)

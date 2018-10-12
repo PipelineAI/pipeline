@@ -1,5 +1,0 @@
-#!/bin/bash
-
-$SPARK_HOME/sbin/start-slave.sh --cores $SPARK_WORKER_CORES --memory $SPARK_WORKER_MEMORY --webui-port 6061 $SPARK_MASTER
-
-tail -f $SPARK_HOME/logs/spark--org.apache.spark.deploy.worker.Worker-1-$HOSTNAME.out 

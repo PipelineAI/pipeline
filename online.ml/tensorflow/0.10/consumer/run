@@ -1,9 +1,0 @@
-#!/bin/bash
-#export TENSORFLOW_HOME=~/tensorflow-$TENSORFLOW_VERSION
-#export TENSORFLOW_SERVING_HOME=~/serving
-#export BAZEL_HOME=~/bazel-$BAZEL_VERSION
-#export PATH=$TENSORFLOW_HOME:$TENSORFLOW_SERVING_HOME/bin:$BAZEL_HOME/bin:$PATH
-
-python src/online-tensorflow-consumer.py 2>&1 > online-tensorflow-consumer.log & 
-
-tail -f online-tensorflow-consumer.log

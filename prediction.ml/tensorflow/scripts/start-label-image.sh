@@ -1,1 +1,0 @@
-java -Djava.library.path=/root/lib/jni/ -cp /root/target/scala-2.11/classes:/root/lib/libtensorflow-1.0.0-PREVIEW1.jar com.advancedspark.serving.prediction.tensorflow.LabelImage /root/store/tensorflow_inception/export/00000001 /root/store/images/advanced-spark-and-tensorflow-meetup-6000-cake.jpg

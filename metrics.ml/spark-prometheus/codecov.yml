@@ -1,8 +1,0 @@
-comment:
-  layout: header, changes, diff
-coverage:
-  status:
-    patch: false
-    project:
-      default:
-        target: 90

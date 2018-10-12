@@ -1,0 +1,18 @@
+.project
+jvm/.cache-main
+nohup.out
+eclipse-generated/
+.pipeline-generated-*
+generated-*
+mnist/
+*-deploy.yaml
+*-svc.yaml
+*-autoscale.yaml
+target/
+*.tar.gz
+.cache-main
+object-detection-mod/
+.DS_Store
+# IntelliJ IDEA & Pycharm
+.idea
+*.iml

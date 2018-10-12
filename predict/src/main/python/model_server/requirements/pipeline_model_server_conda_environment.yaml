@@ -1,0 +1,10 @@
+channels:
+  - anaconda
+  - conda-forge
+dependencies:
+  - tornado=5.0.2
+  - python=3.6
+  - gunicorn=19.8.1
+  - python-confluent-kafka==0.11.4
+  - pip:
+      - pipeline-runtime==1.0.8

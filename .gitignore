@@ -1,3 +1,11 @@
+site/
+.ipynb_checkpoints/
+.DS_Store
+/bin/
+/eclipse-generated/
+.classpath
+.project
+__pycache__/
 .cache-main
 .cache-tests
 .idea
@@ -5,7 +13,7 @@
 .settings
 .project
 jmeter.log
-nohup.out
+nohup*.out
 __pycache__
 .DS_Store
 .cache-tests

@@ -1,0 +1,75 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
+  namespace: {{ PIPELINE_NAMESPACE }}
+  labels:
+    app: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+    resource_type: model
+    name: {{ PIPELINE_RESOURCE_NAME }}
+    tag: {{ PIPELINE_RESOURCE_TAG }}
+#    type: {{ PIPELINE_RESOURCE_SUBTYPE }}
+#    runtime: {{ PIPELINE_RUNTIME }}
+#    chip: {{ PIPELINE_CHIP }}
+spec:
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+        resource_type: model
+        name: {{ PIPELINE_RESOURCE_NAME }}
+        tag: {{ PIPELINE_RESOURCE_TAG }}
+#        type: {{ PIPELINE_RESOURCE_SUBTYPE }}
+#        runtime: {{ PIPELINE_RUNTIME }}
+#        chip: {{ PIPELINE_CHIP }}
+        # Note:  'tag' is used by PipelineAI, 'version' is used by Istio.
+        #        for now, keep these together - and keep them the same value
+        version: "{{ PIPELINE_RESOURCE_TAG }}"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8080"
+        # Used for istio 0.8.0+
+        # sidecar.istio.io/proxyImage: docker.io/istio/proxyv2:0.8.0
+    spec:
+      containers:
+      - name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
+        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/{{ PIPELINE_IMAGE_REGISTRY_REPO }}/{{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}:{{ PIPELINE_RESOURCE_TAG }} 
+        resources:
+          limits:
+            memory: 1000Mi
+          requests:
+            memory: 1000Mi
+        imagePullPolicy: "Never"
+        restartPolicy: "Never"
+        terminationMessagePolicy: "FallbackToLogsOnError"
+        env:
+        - name: PIPELINE_STREAM_LOGGER_URL
+          value: {{ PIPELINE_STREAM_LOGGER_URL }}
+        - name: PIPELINE_STREAM_LOGGER_TOPIC
+          value: {{ PIPELINE_STREAM_LOGGER_TOPIC }}
+        - name: PIPELINE_STREAM_INPUT_URL
+          value: {{ PIPELINE_STREAM_INPUT_URL }}
+        - name: PIPELINE_STREAM_INPUT_TOPIC
+          value: {{ PIPELINE_STREAM_INPUT_TOPIC }}
+        - name: PIPELINE_STREAM_OUTPUT_URL
+          value: {{ PIPELINE_STREAM_OUTPUT_URL }}
+        - name: PIPELINE_STREAM_OUTPUT_TOPIC
+          value: {{ PIPELINE_STREAM_OUTPUT_TOPIC }}
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 15 
+          periodSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 15 
+          periodSeconds: 5
+          failureThreshold: 3
