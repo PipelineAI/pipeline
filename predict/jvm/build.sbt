@@ -40,6 +40,7 @@ val tensorflowVersion = "1.4.0"
 val grpcVersion = "1.6.1"
 val protobufVersion = "3.4.0"
 val prometheusHystrixVersion = "3.2.0"
+val mleapVersion = "0.12.0"
 
 lazy val deps = Seq(
   "io.prometheus" % "simpleclient_hotspot" % prometheusSimpleClientHotspotVersion, 
@@ -49,6 +50,10 @@ lazy val deps = Seq(
   "org.codehaus.janino"  % "commons-compiler"   % janinoVersion,
   "org.jblas" 	         % "jblas"          		   % jblasVersion,
   "org.springframework.boot" % "spring-boot-starter-web"   % springBootVersion,
+  "ml.combust.mleap" %% "mleap-core" % mleapVersion,
+  "ml.combust.mleap" %% "mleap-runtime" % mleapVersion,
+  "ml.combust.mleap" %% "mleap-base" % mleapVersion,
+  "ml.combust.mleap" %% "mleap-spark" % mleapVersion,
   "org.scalanlp"         %% "breeze"                       % breezeVersion % "provided",
   "redis.clients"      % "jedis"     % jedisVersion, 
   "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
