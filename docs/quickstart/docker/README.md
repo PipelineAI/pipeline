@@ -65,6 +65,16 @@ ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/
 ...
 ```
 
+```
+ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/0/
+
+### EXPECTED OUTPUT ###
+...
+saved_model.pb  <-- Graph
+variables/      <-- Variables
+...
+```
+
 ## Build the Model into a Runnable Docker Image
 * This command bundles the TensorFlow runtime with the model.
 
