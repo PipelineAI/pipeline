@@ -54,7 +54,7 @@ pipeline_train.py                  <-- Required. `main()` is required. Pass args
 
 Arguments between `[` `]` are optional 
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
+pipeline train-server-build --model-name=mnist --model-tag=v1tensorflow --model-type=tensorflow --model-path=./tensorflow/mnist-v1/model
 ```
 Notes: 
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
@@ -65,7 +65,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v1 --input-host-path=./tensorflow/mnist-v1/model/ --output-host-path=./tensorflow/mnist-v1/model/ --training-runs-host-path=./tensorflow/mnist-v1/model/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./pipeline_tfserving/"
+pipeline train-server-start --memory-limit=2G --model-name=mnist --model-tag=v1tensorflow --input-host-path=./tensorflow/mnist-v1/model/ --output-host-path=./tensorflow/mnist-v1/model/ --training-runs-host-path=./tensorflow/mnist-v1/model/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./pipeline_tfserving/"
 ```
 Notes: 
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
@@ -78,7 +78,7 @@ Notes:
 
 Show Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v1tensorflow
 ```
 
 ## View Trained Model Output (Locally)
@@ -106,7 +106,7 @@ http://localhost:6006
 
 ## Stop Training Server
 ```
-pipeline train-server-stop --model-name=mnist --model-tag=v1
+pipeline train-server-stop --model-name=mnist --model-tag=v1tensorflow
 ```
 
 # Train a Scikit-Learn Model
@@ -130,7 +130,7 @@ cat ./scikit/mnist/model/pipeline_train.py
 
 ## Build Training Server
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=scikit --model-path=./scikit/mnist/model
+pipeline train-server-build --model-name=mnist --model-tag=v1scikit --model-type=scikit --model-path=./scikit/mnist/model
 ```
 Notes:  
 * `--model-path` must be relative.  
@@ -141,7 +141,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
+pipeline train-server-start --model-name=mnist --model-tag=v1scikit --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --training-runs-host-path=./scikit/mnist/model/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -150,7 +150,7 @@ Notes:
 
 ## View the Training Logs
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v1scikit
 
 ### EXPECTED OUTPUT ###
 
@@ -192,7 +192,7 @@ cat ./pytorch/mnist-v1/model/pipeline_train.py
 ## Build Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=pytorch --model-path=./pytorch/mnist-v1/model/
+pipeline train-server-build --model-name=mnist --model-tag=v1pytorch --model-type=pytorch --model-path=./pytorch/mnist-v1/model/
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -204,7 +204,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./pytorch/mnist-v1/model/ --output-host-path=./pytorch/mnist-v1/model/ --training-runs-host-path=./pytorch/mnist-v1/model/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1pytorch --input-host-path=./pytorch/mnist-v1/model/ --output-host-path=./pytorch/mnist-v1/model/ --training-runs-host-path=./pytorch/mnist-v1/model/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -213,7 +213,7 @@ Notes:
 ## View the Training Logs
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v1pytorch
 
 ### EXPECTED OUTPUT ###
 
@@ -255,7 +255,7 @@ cat ./xgboost/mnist-v1/model/pipeline_train.py
 ## Build Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-build --model-name=mnist --model-tag=v1 --model-type=xgboost --model-path=./xgboost/mnist-v1/model/
+pipeline train-server-build --model-name=mnist --model-tag=v1xgboost --model-type=xgboost --model-path=./xgboost/mnist-v1/model/
 ```
 Notes:
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
@@ -267,7 +267,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1 --input-host-path=./xgboost/mnist-v1/model/ --output-host-path=./xgboost/mnist-v1/model/ --training-runs-host-path=./xgboost/mnist-v1/model/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1xgboost --input-host-path=./xgboost/mnist-v1/model/ --output-host-path=./xgboost/mnist-v1/model/ --training-runs-host-path=./xgboost/mnist-v1/model/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -276,7 +276,7 @@ Notes:
 ## View the Training Logs
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-logs --model-name=mnist --model-tag=v1
+pipeline train-server-logs --model-name=mnist --model-tag=v1xgboost
 
 ### EXPECTED OUTPUT ###
 
