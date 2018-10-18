@@ -83,7 +83,9 @@ Note:  You'll want to put `istioctl` on your permanent PATH - or copy to `/usr/l
 
 ### Deploy Istio to Cluster
 ```
-kubectl apply -f https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/quickstart/kubernetes/istio-0.7.1-default-namespace.yaml
+wget https://raw.githubusercontent.com/PipelineAI/pipeline/master/docs/quickstart/kubernetes/istio-0.7.1-default-namespace.yaml
+
+kubectl apply -f ./istio-0.7.1-default-namespace.yaml
 ```
 
 **Verify Istio Components**
@@ -144,13 +146,6 @@ PREDICT_PORT=$(kubectl get service istio-ingress -o jsonpath='{.spec.ports[?(@.n
 Notes:
 * Make sure you install Istio.  See above!
 * Make sure nothing is running on port 80 (ie. default Web Server on your laptop).
-* _If you skipped the build instructions above, run the following:_
-```
-pipeline predict-server-pull --model-name=mnist --model-tag=v1a
-```
-```
-pipeline predict-server-pull --model-name=mnist --model-tag=v1b
-```
 
 [**Mnist v1a**](https://github.com/PipelineAI/models/tree/master/tensorflow/mnist-v1)
 ```

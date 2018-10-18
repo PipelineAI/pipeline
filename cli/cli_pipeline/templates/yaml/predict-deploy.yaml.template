@@ -6,8 +6,8 @@ metadata:
   labels:
     app: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
     resource_type: model
-    name: {{ PIPELINE_RESOURCE_NAME }}
-    tag: {{ PIPELINE_RESOURCE_TAG }}
+    name: "{{ PIPELINE_RESOURCE_NAME }}"
+    tag: "{{ PIPELINE_RESOURCE_TAG }}"
 #    type: {{ PIPELINE_RESOURCE_SUBTYPE }}
 #    runtime: {{ PIPELINE_RUNTIME }}
 #    chip: {{ PIPELINE_CHIP }}
@@ -18,8 +18,8 @@ spec:
       labels:
         app: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
         resource_type: model
-        name: {{ PIPELINE_RESOURCE_NAME }}
-        tag: {{ PIPELINE_RESOURCE_TAG }}
+        name: "{{ PIPELINE_RESOURCE_NAME }}"
+        tag: "{{ PIPELINE_RESOURCE_TAG }}"
 #        type: {{ PIPELINE_RESOURCE_SUBTYPE }}
 #        runtime: {{ PIPELINE_RUNTIME }}
 #        chip: {{ PIPELINE_CHIP }}
