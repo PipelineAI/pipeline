@@ -89,7 +89,6 @@ ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/
 ### EXPECTED OUTPUT ###
 ...
 0/           <-- 1st training run
-1511367765/  <-- Additional training runs (timestamp)
 ...
 ```
 _Multiple training runs will produce multiple subdirectories - each with a different timestamp._
