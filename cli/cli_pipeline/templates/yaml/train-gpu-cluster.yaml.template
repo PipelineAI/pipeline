@@ -44,7 +44,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE}}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}-{{ task_type }}-{{ task_index }}
-  namespace: {{ PIPELINE_NAMESPACE }}
+  namespace: "{{ PIPELINE_NAMESPACE }}"
 spec:
   selector:
     name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE}}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
@@ -60,7 +60,7 @@ kind: ReplicaSet
 apiVersion: extensions/v1beta1
 metadata:
   name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE}}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}-{{ task_type }}-{{ task_index }}
-  namespace: {{ PIPELINE_NAMESPACE }}
+  namespace: "{{ PIPELINE_NAMESPACE }}"
 spec:
   replicas: 1
   template:
