@@ -46,9 +46,9 @@ echo ""
 ##########################################
 
 # TODO:  if model_task_type == "master" (or chief?), run tensorboard
-[ "$PIPELINE_RESOURCE_TYPE" == "tensorflow" ] && start_tensorboard &
+[ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard &
+[ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard &
 
-# TODO:  Make sure this works for non-TF stuff!!
 # Note:  TF_CONFIG must be passed in as env var
 python $PIPELINE_RESOURCE_PATH/pipeline_train.py $PIPELINE_TRAIN_ARGS
 
