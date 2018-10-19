@@ -20,12 +20,9 @@ Train and Deploy your ML and AI Models in the Following Environments:
 * [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
 * [Advanced Spark and TensorFlow Meetup (Global)](https://meetup.pipeline.ai)
 
-# PipelineAI [Home](https://pipeline.ai)
-[![PipelineAI Home](https://pipeline.ai/assets/img/pipelineai-home.png)](https://pipeline.ai)
-[![PipelineAI Home 1](https://pipeline.ai/assets/img/pipelineai-home-1.png)](https://pipeline.ai)
-[![PipelineAI Home 2](https://pipeline.ai/assets/img/pipelineai-home-2.png)](https://pipeline.ai)
-
-# PipelineAI [Features](https://pipeline.ai/features)
+# PipelineAI Products
+* [Features](https://pipeline.ai/features)
+* [Products](https://pipeline.ai/products)
 
 ## Consistent, Immutable, Reproducible Model Runtimes
 ![Consistent Model Environments](https://pipeline.ai/assets/img/docker-gobbles-ml.png)
@@ -77,9 +74,6 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 * Spark Streaming
 * Heron
 * Storm
-
-# Advanced PipelineAI Product Features
-* Click [HERE](https://pipeline.ai/products) to compare PipelineAI Products.
 
 ## Drag N' Drop Model Deploy
 ![PipelineAI Drag n' Drop Model Deploy UI](https://pipeline.ai/assets/img/drag-n-drop-tri-color.png)
