@@ -1,7 +1,5 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
-_Note:  These Instructions are a Work in Progress..._
-
 ## Pull PipelineAI [Sample Models](https://github.com/PipelineAI/models)
 ```
 git clone https://github.com/PipelineAI/models
@@ -89,7 +87,6 @@ ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/
 ### EXPECTED OUTPUT ###
 ...
 0/           <-- 1st training run
-1511367765/  <-- Additional training runs (timestamp)
 ...
 ```
 _Multiple training runs will produce multiple subdirectories - each with a different timestamp._
