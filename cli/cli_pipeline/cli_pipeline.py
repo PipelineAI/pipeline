@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.217"
+__version__ = "1.5.218"
 
 import base64 as _base64
 import glob as _glob
@@ -25,12 +25,6 @@ import jinja2 as _jinja2
 import kubernetes.client as _kubeclient
 import kubernetes.config as _kubeconfig
 import requests as _requests
-
-from dotenv import load_dotenv as _load_dotenv, find_dotenv as _find_dotenv
-
-ENV_FILE = _find_dotenv()
-if ENV_FILE:
-    _load_dotenv(ENV_FILE)
 
 # 200 OK
 # Standard response for successful HTTP requests.
@@ -1541,6 +1535,75 @@ def env_registry_sync(tag,
                    image_registry_url,
                    image_registry_repo)
     # TODO:  Return http/json
+
+
+def env_registry_tag(from_image_registry_url,
+                     from_image_registry_repo,
+                     from_image,
+                     from_tag,
+                     to_image_registry_url,
+                     to_image_registry_repo,
+                     to_image,
+                     to_tag,
+                     chip=_default_model_chip):
+
+    cmd = 'docker tag %s/%s/%s:%s %s/%s/%s:%s' % (from_image_registry_url, from_image_registry_repo, image, from_tag, to_image_registry_url, to_image_registry_repo, image, to_tag) 
+    print(cmd)
+    _subprocess.call(cmd, shell=True)
+    print("")    
+
+    
+def _env_registry_fulltag(from_image_registry_url,
+                          from_image_registry_repo,
+                          from_tag,
+                          to_image_registry_url,
+                          to_image_registry_repo,
+                          to_tag,
+                          chip=_default_model_chip):
+
+    for image in _pipelineai_dockerhub_gpu_image_list:
+        env_registry_tag(from_image_registry_url=from_image_registry_url,
+                         from_image_registry_repo=from_image_registry_repo,
+                         from_image=image,
+                         from_tag=from_tag,
+                         to_image_registry_url=to_image_registry_url,
+                         to_image_registry_repo=to_image_registry_repo,
+                         to_image=image,
+                         to_tag=to_tag,
+                         chip=chip)
+
+    for image in _pipelineai_dockerhub_cpu_image_list:
+        env_registry_tag(from_image_registry_url=from_image_registry_url,
+                         from_image_registry_repo=from_image_registry_repo,
+                         from_image=image,
+                         from_tag=from_tag,
+                         to_image_registry_url=to_image_registry_url,
+                         to_image_registry_repo=to_image_registry_repo,
+                         to_image=image,
+                         to_tag=to_tag,
+                         chip=chip)
+
+    for image in _pipelineai_ecr_gpu_image_list:
+        env_registry_tag(from_image_registry_url=from_image_registry_url,
+                         from_image_registry_repo=from_image_registry_repo,
+                         from_image=image,
+                         from_tag=from_tag,
+                         to_image_registry_url=to_image_registry_url,
+                         to_image_registry_repo=to_image_registry_repo,
+                         to_image=image,
+                         to_tag=to_tag,
+                         chip=chip)
+
+    for image in _pipelineai_ecr_cpu_image_list:
+        env_registry_tag(from_image_registry_url=from_image_registry_url,
+                         from_image_registry_repo=from_image_registry_repo,
+                         from_image=image,
+                         from_tag=from_tag,
+                         to_image_registry_url=to_image_registry_url,
+                         to_image_registry_repo=to_image_registry_repo,
+                         to_image=image,
+                         to_tag=to_tag,
+                         chip=chip)
 
 
 def _env_registry_fullsync(tag,
