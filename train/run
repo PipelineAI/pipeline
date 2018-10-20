@@ -23,7 +23,7 @@ start_tensorboard() {
 
     # TODO: Sync this with guild's PIPELINE_TRAINING_RUNS_HOME
     #       Currently, PIPELINE_TRAINING_RUNS_HOME is unused
-    tensorboard --port 6006 --logdir $PIPELINE_OUTPUT_PATH
+    tensorboard --port 6006 --logdir $PIPELINE_OUTPUT_PATH &
     echo "...TensorBoard Started!"
 }
 
@@ -46,8 +46,8 @@ echo ""
 ##########################################
 
 # TODO:  if model_task_type == "master" (or chief?), run tensorboard
-[ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard &
-[ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard &
+[ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard 
+[ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard 
 
 # Note:  TF_CONFIG must be passed in as env var
 python $PIPELINE_RESOURCE_PATH/pipeline_train.py $PIPELINE_TRAIN_ARGS
