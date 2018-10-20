@@ -1,5 +1,5 @@
 channels:
-  - anaconda
+  - defaults
   - conda-forge
 dependencies:
   - tornado=5.0.2
