@@ -117,8 +117,8 @@ rm -rf ~/.local/lib/python3.6/site-packages/cli_pipeline*
 ## Training Args and Paths
 * If you change the model (`pipeline_train.py`), you'll need to re-run `pipeline train-server-build ...`
 * `--input-host-path` and `--output-host-path` are host paths (outside the Docker container) mapped inside the Docker container as `/opt/ml/input` (PIPELINE_INPUT_PATH) and `/opt/ml/output` (PIPELINE_OUTPUT_PATH) respectively.
-* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accesible by your model inside the Docker container. 
-* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker conatiner .
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are environment variables accessible by your model inside the Docker container. 
+* PIPELINE_INPUT_PATH and PIPELINE_OUTPUT_PATH are hard-coded to `/opt/ml/input` and `/opt/ml/output`, respectively, inside the Docker container.
 * `--input-host-path` and `--output-host-path` should be absolute paths that are valid on the HOST Kubernetes Node
 * Avoid relative paths for * `--input-host-path` and `--output-host-path` unless you're sure the same path exists on the Kubernetes Node 
 * If you use `~` and `.` and other relative path specifiers, note that `--input-host-path` and `--output-host-path` will be expanded to the absolute path of the filesystem where this command is run - this is likely not the same filesystem path as the Kubernetes Node!

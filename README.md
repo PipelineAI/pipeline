@@ -99,7 +99,7 @@ Click [**HERE**](https://github.com/PipelineAI/models/tree/master) to view model
 ![PipelineAI Compare Performance and Cost Per Prediction](https://pipeline.ai/assets/img/compare-cost-per-prediction.png)
 
 ## Shift Live Traffic to Maximize Revenue and Minimize Cost
-![PipelineAI Traffic Shift Multi-armed Bandit Maxmimize Revenue Minimize Cost](https://pipeline.ai/assets/img/maximize-revenue-minimize-costs.png)
+![PipelineAI Traffic Shift Multi-armed Bandit Maximize Revenue Minimize Cost](https://pipeline.ai/assets/img/maximize-revenue-minimize-costs.png)
 
 ## Continuously Fix Borderline Predictions through Crowd Sourcing 
 ![Borderline Prediction Fixing and Crowd Sourcing](https://pipeline.ai/assets/img/fix-slack.png)
