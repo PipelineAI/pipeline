@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+
+# Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
+cd /root
+
+export KAFKA_BROKER_ID=$(hostname)
+export KAFKA_ADVERTISED_LISTENERS="PLAINTEXT://POD_IP:9092"
+
+[ "$PIPELINE_STREAM_ENABLE_MQTT" == "True" ] || [ "$PIPELINE_STREAM_ENABLE_MQTT" == "true" ] \
+  && mosquitto &
+
+zookeeper-server-start /root/config/kafka/zookeeper.properties &
+
+[ "$PIPELINE_STREAM_ENABLE_KAFKA_REST_API" == "True" ] || [ "$PIPELINE_STREAM_ENABLE_KAFKA_REST_API" == "true" ] \
+  && kafka-rest-start /root/config/kafka/kafka-rest.properties &
+
+schema-registry-start /root/config/kafka/schema-registry.properties &
+
+kafka-server-start /root/config/kafka/server.properties

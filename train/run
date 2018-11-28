@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Observed Behavior:
+#   If PS dies, Master needs restart.
+#   If Master dies, training continues (however no checkpoint hooks or PS health checks are being performed)
+#   If 1 Worker dies, training continues on remaining Worker(s).
+#   If Worker is restarted, Training continues on the Worker.
+#   All PS, Master, and Worker must be started before training starts.
+
+# Based on these posts...
+#   https://medium.com/onfido-tech/higher-level-apis-in-tensorflow-67bfb602e6c0
+#   https://github.com/GoogleCloudPlatform/cloudml-samples/tree/master/census/customestimator/trainer
+#   https://github.com/tensorflow/models/tree/master/tutorials/image/cifar10_estimator
+
+# Notes:  Paths must be mounted into the container (ie. Docker or Kubernetes)
+#         Hyper-Parameters must follow the regex defined in 
+#           https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/training/python/training/hparam.py
+
+start_tensorboard() {
+    echo ""
+    echo "Starting TensorBoard UI..."
+    source activate $PIPELINE_RESOURCE_TRAIN_CONDA_ENV_NAME
+
+    # TODO: Sync this with guild's PIPELINE_TRAINING_RUNS_HOME
+    #       Currently, PIPELINE_TRAINING_RUNS_HOME is unused
+    tensorboard --port 6006 --logdir $PIPELINE_OUTPUT_PATH &
+    echo "...TensorBoard Started!"
+}
+
+source activate $PIPELINE_RESOURCE_TRAIN_CONDA_ENV_NAME
+
+# TODO:  Make sure this works for non-TF stuff!!
+
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+
+##########################################
+# GPU-Only
+[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libcuda.* /usr/lib/x86_64-linux-gnu/
+[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libnvidia* /usr/lib/x86_64-linux-gnu/
+##########################################
+
+# TODO:  if model_task_type == "master" (or chief?), run tensorboard
+[ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard 
+[ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard 
+
+# Note:  TF_CONFIG must be passed in as env var
+python $PIPELINE_RESOURCE_PATH/pipeline_train.py $PIPELINE_TRAIN_ARGS
+
+sleep 300 # sleep 5 mins to allow time to inspect model with tensorboard running inside this container

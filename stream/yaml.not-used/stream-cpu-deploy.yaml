@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment 
+metadata:
+  name: stream-cpu
+  labels:
+    app: stream-cpu
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: stream-cpu
+    spec:
+      containers:
+      - name: stream-cpu
+        image: docker.io/pipelineai/stream-cpu:1.5.0
+        imagePullPolicy: "Always"
+        env:
+        - name: PIPELINE_STREAM_LOGGER_TOPIC
+          value: logger
+        - name: PIPELINE_STREAM_INPUT_TOPIC
+          value: input
+        - name: PIPELINE_STREAM_OUTPUT_TOPIC
+          value: output
+        - name: PIPELINE_STREAM_ENABLE_KAFKA_REST_API
+          value: "true"
+        - name: PIPELINE_STREAM_ENABLE_MQTT
+          value: "true"
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        ports:
+        - containerPort: 9092
+        - containerPort: 8082
+        - containerPort: 8081
+        - containerPort: 1883
+#        - containerPort: 2181

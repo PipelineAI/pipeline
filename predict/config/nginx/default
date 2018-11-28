@@ -1,0 +1,174 @@
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+# Default server configuration
+#
+server {
+        listen 8080 default_server;
+        # There have been some reports of nginx startup issues in environments with ipv6 DISABLED.
+        # Hopefully, the ipv6only flag will mitigate the issue in this specific environment.
+        listen [::]:8080 default_server ipv6only=on;
+
+        error_log syslog:server=unix:/dev/log;
+        access_log syslog:server=unix:/dev/log;
+
+        root /var/www/html;
+
+        index index.html;
+
+        server_name _;
+
+        # We only send to JVM if it's a POST.
+        # For GET (browser), we show the developer-friendly, postman-like, simple-prediction UI.
+        # This currently matches our quickstart documentation (curl commands, etc)
+        # Note: This is actually /predict/<model-name>/predict - the Istio RouteRules convert to /predict
+        location ~ /predict {
+          if ($request_method = POST ) {
+            rewrite    /predict /invoke break;
+            proxy_pass http://127.0.0.1:9040;
+          }
+          # Otherwise, treat like a GET (from browser, for example)
+          #   Assume the user is calling this from their browser (they're confused on how to use this server)
+          #   Pass through to the /var/www/html/index.html (html/index.html in this repo)
+          rewrite    /predict / break;
+        }
+
+        # Support for AWS SageMaker via /invocations
+        location ~ /invocations {
+          if ($request_method = POST ) {
+            rewrite    /invocations /invoke break;
+            proxy_pass http://127.0.0.1:9040;
+          }
+          # Otherwise, treat like a GET (from browser, for example)
+          #   Assume the user is calling this from their browser (they're confused on how to use this server)
+          #   Pass through to the /var/www/html/index.html (html/index.html in this repo)
+          rewrite    /invocations / break;
+        }
+
+        location ~ /invoke {
+          if ($request_method = POST ) {
+            rewrite    /invoke /invoke break;
+            proxy_pass http://127.0.0.1:9040;
+          }
+          # Otherwise, treat like a GET (from browser, for example)
+          #   Assume the user is calling this from their browser (they're confused on how to use this server)
+          #   Pass through to the /var/www/html/index.html (html/index.html in this repo)
+          rewrite    /invoke / break;
+        }
+
+        ###############################################
+        # BEWARE OF TRAILING '/' 404!!
+        # MORE-SPECIFIC PATTERNS MUST BE FIRST!!
+        ###############################################
+        # The following are declared in the predict-deploy.yaml.template
+        # annotations:
+        #   prometheus.io/scrape: "true"
+        #   prometheus.io/path: "/metrics""
+        #   prometheus.io/port: "8080"
+        #
+        # This is declared in the config/prometheus/prometheus.yaml for model_server_python
+        #   and match the endpoint defined in model_server_python.py
+        location ~ /metrics/python {
+          rewrite    /metrics/python /metrics break;
+          proxy_pass http://127.0.0.1:9876;
+        }
+
+        # This is declared in the prometheus config for jvm
+        #   and match the endpoint defined in jvm/src/main/resources/application.yaml
+        location ~ /metrics/jvm {
+          rewrite    /metrics/jvm /metrics break;
+          proxy_pass http://127.0.0.1:9040;
+        }
+
+        #  We are forced to pick python or jvm!
+        #
+        # For now, let's choose python since we're focusing on
+        #   python-based custom metrics inside the predict() function
+        #
+        location ~ /metrics {
+          rewrite    /metrics /metrics/python break;
+          proxy_pass http://127.0.0.1:8080;
+        }
+
+        # This is declared in the prometheus config for jvm
+        #   and match the endpoint defined in jvm/src/main/resources/application.yaml
+        # These are additional metrics at /prometheus (TODO: research difference between /metrics and /prometheus)
+        location ~ /metrics/jvm-extras {
+          rewrite    /metrics/jvm-extras /prometheus break;
+          proxy_pass http://127.0.0.1:9040;
+        }
+
+        # Note:  This is for stream-based predictions (not eventsource/sse/websocket stream)
+        # That's why we don't need to upgrade the connection or set_header Connection "" like /hystrix.stream
+        location ~ /stream/ {
+          rewrite    /(.*) /$1 break;
+          proxy_pass http://127.0.0.1:8082;
+        }
+
+        # https://serverfault.com/questions/801628/for-server-sent-events-sse-what-nginx-proxy-configuration-is-appropriate
+        location ~ /hystrix.stream {
+          proxy_http_version 1.1;
+          proxy_set_header Connection "";
+          proxy_pass http://127.0.0.1:9040;
+        }
+
+        # Note:  we still need to proxy_set_header Connection ""
+        # Change to hystrix.stream and send to JVM
+        location ~ /dashboard.stream {
+          proxy_http_version 1.1;
+          proxy_set_header Connection "";
+          rewrite    /dashboard.stream /hystrix.stream break;
+          proxy_pass http://127.0.0.1:9040;
+        }
+
+        location ~ /hystrix-dashboard/ {
+          rewrite    /hystrix-dashboard/(.*) /hystrix-dashboard/$1 break;
+          proxy_pass http://127.0.0.1:7979;
+        }
+
+        location ~ /dashboard/ {
+          rewrite    /dashboard/(.*) /hystrix-dashboard/$1 break;
+          proxy_pass http://127.0.0.1:7979;
+        }
+
+        location ~ /ping/jvm {
+          rewrite    /ping/jvm /ping break;
+          proxy_pass http://127.0.0.1:9040;
+        }
+
+        location ~ /ping/python {
+          rewrite    /ping/python /ping break;
+          proxy_pass http://127.0.0.1:9876;
+        }
+
+        # Required by SageMaker
+        # Same goofy pattern as above with
+        #   /metrics => /metrics/jvm /metrics/python
+        location ~ /ping {
+          rewrite    /ping /ping/python break;
+          proxy_pass http://127.0.0.1:8080;
+        }
+
+        # We only send to JVM if it's a POST.
+        # For GET (browser), we show the developer-friendly, postman-like, simple-prediction UI.
+        # This currently matches our quickstart documentation (curl commands, etc)
+        # Note: This is actually /predict/mnist - the Istio RouteRules convert to /
+        location ~ / {
+          # POST - assume this is a prediction and send to :9040
+          if ($request_method = POST ) {
+            rewrite / /invoke break;
+            proxy_pass http://127.0.0.1:9040;
+          }
+          # Otherwise, treat like a GET (from browser, for example)
+          #   Assume the user is calling this from their browser (they're confused on how to use this server)
+          #   Pass through to the /var/www/html/index.html (html/index.html in this repo)
+        }
+}

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: online-tensorflow-producer
+  labels:
+    app: online-tensorflow-producer
+spec:
+  replicas: 1
+  selector:
+    name: online-tensorflow-producer
+  template:
+    metadata:
+      labels:
+        name: online-tensorflow-producer
+    spec:
+      containers:
+      - name: online-tensorflow-producer
+        image: docker.io/fluxcapacitor/online-tensorflow-producer-0.10:master
+        imagePullPolicy: "Always"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        - name: STREAM_HOST_AND_PORT_LIST
+          value: $(KAFKA_SERVICE_HOST):$(KAFKA_SERVICE_PORT_NATIVE_KAFKA)
+        - name: TOPIC_NAME
+          value: dogs_and_cats
+        - name: IMAGE_PATHS_GLOB_STRING
+          value: /root/datasets/dogs_and_cats/*/*.jpg

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# This starts ZooKeeper, Kafka, Schema-Registry, and Kafka-REST
+
+confluent start kafka-rest
+
+tail -f $CONFLUENT_HOME/logs/server.log

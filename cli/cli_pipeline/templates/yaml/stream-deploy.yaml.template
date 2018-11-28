@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment 
+metadata:
+  name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }} 
+  namespace: {{ PIPELINE_NAMESPACE }}
+  labels:
+    app: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
+    faas_function: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
+    spec:
+      containers:
+      - name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
+        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/{{ PIPELINE_IMAGE_REGISTRY_REPO }}/{{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_IMAGE_REGISTRY_BASE_CHIP}}:{{ PIPELINE_IMAGE_REGISTRY_BASE_TAG }}
+        imagePullPolicy: "IfNotPresent"
+        terminationMessagePolicy: "FallbackToLogsOnError"
+        env:
+        - name: PIPELINE_STREAM_LOGGER_TOPIC
+          value: {{ PIPELINE_STREAM_LOGGER_TOPIC }}
+        - name: PIPELINE_STREAM_INPUT_TOPIC
+          value: {{ PIPELINE_STREAM_INPUT_TOPIC }} 
+        - name: PIPELINE_STREAM_OUTPUT_TOPIC
+          value: {{ PIPELINE_STREAM_OUTPUT_TOPIC }}
+        - name: PIPELINE_STREAM_ENABLE_MQTT
+          value: "{{ PIPELINE_STREAM_ENABLE_MQTT }}"
+        - name: PIPELINE_STREAM_ENABLE_KAFKA_REST_API
+          value: "{{ PIPELINE_STREAM_ENABLE_KAFKA_REST_API }}"
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        ports:
+        - containerPort: 9092
+        - containerPort: 8082
+        - containerPort: 8081
+        - containerPort: 1883

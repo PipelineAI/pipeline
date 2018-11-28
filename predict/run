@@ -1,0 +1,225 @@
+#!/bin/bash
+
+start_model_serving_python () {
+    echo "PIPELINE_NAME=$PIPELINE_NAME"
+    echo "PIPELINE_TAG=$PIPELINE_TAG"
+    echo "PIPELINE_RUNTIME=$PIPELINE_RUNTIME"
+    echo "PIPELINE_CHIP=$PIPELINE_CHIP"
+    echo "PIPELINE_RESOURCE_TYPE=$PIPELINE_RESOURCE_TYPE"
+    echo "PIPELINE_RESOURCE_SUBTYPE=$PIPELINE_RESOURCE_SUBTYPE"
+    echo "PIPELINE_RESOURCE_NAME=$PIPELINE_RESOURCE_NAME"
+    echo "PIPELINE_RESOURCE_TAG=$PIPELINE_RESOURCE_TAG"
+    echo "PIPELINE_RESOURCE_PATH=$PIPELINE_RESOURCE_PATH"
+    echo "PIPELINE_RESOURCE_SERVER_PATH=$PIPELINE_RESOURCE_SERVER_PATH"
+    echo "PIPELINE_RESOURCE_SERVER_PORT=$PIPELINE_RESOURCE_SERVER_PORT"
+    echo "PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT"
+
+    echo ""
+    echo "Starting Python-based Model Serving..."
+    echo ""
+
+    source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
+
+    # cd here to preserve the model's natural './' paths`
+#    cd $PIPELINE_RESOURCE_PATH \
+#      && 
+    PYTHONPATH=$PIPELINE_RESOURCE_PATH:$PIPELINE_RESOURCE_SERVER_PATH:$PYTHONPATH \
+        $PIPELINE_RESOURCE_SERVER_PATH/model_server_python.py \
+        --PIPELINE_NAME=$PIPELINE_NAME \
+        --PIPELINE_TAG=$PIPELINE_TAG \
+        --PIPELINE_RUNTIME=$PIPELINE_RUNTIME \
+        --PIPELINE_CHIP=$PIPELINE_CHIP \
+        --PIPELINE_RESOURCE_TYPE=$PIPELINE_RESOURCE_TYPE \
+        --PIPELINE_RESOURCE_SUBTYPE=$PIPELINE_RESOURCE_SUBTYPE \
+        --PIPELINE_RESOURCE_NAME=$PIPELINE_RESOURCE_NAME \
+        --PIPELINE_RESOURCE_TAG=$PIPELINE_RESOURCE_TAG \
+        --PIPELINE_RESOURCE_PATH=$PIPELINE_RESOURCE_PATH \
+        --PIPELINE_RESOURCE_SERVER_PORT=$PIPELINE_RESOURCE_SERVER_PORT \
+        --PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT
+
+#    cd /root
+}
+
+start_model_kafka_serving_python () {
+    echo "PIPELINE_NAME=$PIPELINE_NAME"
+    echo "PIPELINE_TAG=$PIPELINE_TAG"
+    echo "PIPELINE_RUNTIME=$PIPELINE_RUNTIME"
+    echo "PIPELINE_CHIP=$PIPELINE_CHIP"
+    echo "PIPELINE_RESOURCE_TYPE=$PIPELINE_RESOURCE_TYPE"
+    echo "PIPELINE_RESOURCE_SUBTYPE=$PIPELINE_RESOURCE_SUBTYPE"
+    echo "PIPELINE_RESOURCE_NAME=$PIPELINE_RESOURCE_NAME"
+    echo "PIPELINE_RESOURCE_TAG=$PIPELINE_RESOURCE_TAG"
+    echo "PIPELINE_RESOURCE_PATH=$PIPELINE_RESOURCE_PATH"
+    echo "PIPELINE_RESOURCE_SERVER_PATH=$PIPELINE_RESOURCE_SERVER_PATH"
+    echo "PIPELINE_STREAM_INPUT_BOOTSTRAP_SERVERS=$PIPELINE_STREAM_INPUT_BOOTSTRAP_SERVERS"
+    echo "PIPELINE_STREAM_INPUT_CONSUMER_GROUP_ID=$PIPELINE_STREAM_INPUT_CONSUMER_GROUP_ID"
+    echo "PIPELINE_STREAM_INPUT_TOPIC=$PIPELINE_STREAM_INPUT_TOPIC"
+    echo "PIPELINE_STREAM_OUTPUT_BOOTSTRAP_SERVERS=$PIPELINE_STREAM_OUTPUT_BOOTSTRAP_SERVERS"
+    echo "PIPELINE_STREAM_OUTPUT_TOPIC=$PIPELINE_STREAM_OUTPUT_TOPIC"
+
+    echo ""
+    echo "Starting Python-based Model Kafka Consumer..."
+    echo ""
+
+    source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
+
+#    cd $PIPELINE_RESOURCE_PATH \
+#      && 
+    PYTHONPATH=$PIPELINE_RESOURCE_PATH:$PIPELINE_RESOURCE_SERVER_PATH:$PYTHONPATH \
+        $PIPELINE_RESOURCE_SERVER_PATH/model_kafka_server_python.py \
+        --PIPELINE_NAME=$PIPELINE_NAME \
+        --PIPELINE_TAG=$PIPELINE_TAG \
+        --PIPELINE_RUNTIME=$PIPELINE_RUNTIME \
+        --PIPELINE_CHIP=$PIPELINE_CHIP \
+        --PIPELINE_RESOURCE_SUBTYPE=$PIPELINE_RESOURCE_SUBTYPE \
+        --PIPELINE_RESOURCE_NAME=$PIPELINE_RESOURCE_NAME \
+        --PIPELINE_RESOURCE_TAG=$PIPELINE_RESOURCE_TAG \
+        --PIPELINE_RESOURCE_PATH=$PIPELINE_RESOURCE_PATH \
+        --PIPELINE_STREAM_INPUT_BOOTSTRAP_SERVERS=$PIPELINE_STREAM_INPUT_BOOTSTRAP_SERVERS \
+        --PIPELINE_STREAM_INPUT_CONSUMER_GROUP_ID=$PIPELINE_STREAM_INPUT_CONSUMER_GROUP_ID \
+        --PIPELINE_STREAM_INPUT_TOPIC=$PIPELINE_STREAM_INPUT_TOPIC \
+        --PIPELINE_STREAM_OUTPUT_BOOTSTRAP_SERVERS=$PIPELINE_STREAM_OUTPUT_BOOTSTRAP_SERVERS \
+        --PIPELINE_STREAM_OUTPUT_TOPIC=$PIPELINE_STREAM_OUTPUT_TOPIC
+
+#    cd /root
+}
+
+start_model_serving_jvm () {
+    echo "PIPELINE_JVM_MODEL_SERVER_PATH=$PIPELINE_JVM_MODEL_SERVER_PATH"
+    source sysutils/container-limits.sh
+    export JAVA_MAX_MEM_RATIO=85
+    export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+    echo ""
+    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
+    echo ""
+    echo "Starting JVM-based Model Serving..."
+    echo ""
+    cd $PIPELINE_JVM_MODEL_SERVER_PATH \
+      && java $JAVA_OPTIONS \
+        -Djava.security.egd=file:/dev/./urandom \
+        -Dorg.eclipse.jetty.LEVEL=ERROR \
+        -Dorg.eclipse.jetty.websocket.LEVEL=ERROR \
+        -jar /root/jvm/lib/sbt-launch-1.0.2.jar \
+        "runMain ai.pipeline.predict.jvm.PredictionServiceMain"
+}
+
+start_hystrix_dashboard () {
+    echo "PIPELINE_HYSTRIX_DASHBOARD_PORT=$PIPELINE_HYSTRIX_DASHBOARD_PORT"
+    source sysutils/container-limits.sh
+    export JAVA_MAX_MEM_RATIO=85
+    export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+    echo ""
+    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
+    echo ""
+    echo "Starting JVM-based Dashboard Server..."
+    echo ""
+    
+    java -jar /root/dashboard/jetty-0.4.7.RC0.jar --path /hystrix-dashboard --port $PIPELINE_HYSTRIX_DASHBOARD_PORT /root/dashboard/hystrix-dashboard-0.1.0-dev.0.uncommitted.war
+}
+
+start_tensorflow_serving () {
+    echo "PIPELINE_RESOURCE_NAME=$PIPELINE_RESOURCE_NAME"
+    echo "PIPELINE_RESOURCE_PATH=$PIPELINE_RESOURCE_PATH"
+    echo "PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT=$PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT"
+    echo "PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING=$PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING"
+    echo ""
+    echo "Starting TensorFlow Serving..."
+    source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
+    echo ""
+    echo "Scan for blacklisted operations..."
+    saved_model_cli scan --dir $(find $PIPELINE_RESOURCE_PATH/pipeline_tfserving -mindepth 1 -maxdepth 1 -type d)
+    echo ""
+    # TODO:  Script this to run 'show' on all models within all subdirs to avoid the error detailed below
+    echo "Model Input and Output Signatures..."
+    saved_model_cli show --dir $(find $PIPELINE_RESOURCE_PATH/pipeline_tfserving -mindepth 1 -maxdepth 1 -type d) --all
+    echo ""
+    echo "Errors in the saved_model_cli commands above may occur when multiple subdirectories exist in $PIPELINE_RESOURCE_PATH/pipeline_tfserving"
+    echo "These should be harmless."
+    echo ""
+    tensorflow_model_server --port=$PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_PORT \
+        --model_name=tfserving --model_base_path=$PIPELINE_RESOURCE_PATH/pipeline_tfserving \
+        --batching_parameters_file=$PIPELINE_RESOURCE_PATH/pipeline_tfserving.properties \
+        --enable_batching=$PIPELINE_RESOURCE_SERVER_TENSORFLOW_SERVING_REQUEST_BATCHING \
+        --file_system_poll_wait_seconds=5
+    echo ""
+}
+
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+
+source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
+
+source sysutils/container-limits.sh
+
+# Start Nginx Server
+service nginx start
+
+# Start Prometheus Metrics Server
+[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && prometheus --config.file=/root/config/prometheus/prometheus.yml &
+
+# Start Grafana Dashboard Server
+[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && grafana-server --homepath=/root/grafana-$GRAFANA_VERSION --config=/root/config/grafana/grafana.ini cfg:default.log.mode=console &
+
+# Start Kafka REST API (includes Kafka Broker and Kafka Schema Registry)
+#  cd /root 
+#  zookeeper-server-start /root/config/kafka/zookeeper.properties &
+#  kafka-rest-start /root/config/kafka/kafka-rest.properties &
+#  schema-registry-start /root/config/kafka/schema-registry.properties &
+#  kafka-server-start /root/config/kafka/server.properties &
+#fi
+##########################################
+
+echo "Required Environment Variables..."
+echo "PIPELINE_NAME=$PIPELINE_NAME"
+echo "PIPELINE_TAG=$PIPELINE_TAG"
+echo "PIPELINE_RUNTIME=$PIPELINE_RUNTIME"
+echo "PIPELINE_CHIP=$PIPELINE_CHIP"
+echo "PIPELINE_RESOURCE_NAME=$PIPELINE_RESOURCE_NAME"
+echo "PIPELINE_RESOURCE_TAG=$PIPELINE_RESOURCE_TAG"
+echo "PIPELINE_RESOURCE_TYPE=$PIPELINE_RESOURCE_TYPE"
+echo "PIPELINE_RESOURCE_SUBTYPE=$PIPELINE_RESOURCE_SUBTYPE"
+echo "PIPELINE_RESOURCE_PATH=$PIPELINE_RESOURCE_PATH"
+echo "PIPELINE_SINGLE_SERVER_ONLY=$PIPELINE_SINGLE_SERVER_ONLY"
+echo "PIPELINE_ENABLE_STREAM_PREDICTIONS=$PIPELINE_ENABLE_STREAM_PREDICTIONS"
+
+echo "Optional Environment Variables..."
+
+set -o allexport; source $PIPELINE_RESOURCE_PATH/pipeline_modelserver.properties; set +o allexport
+
+echo "PIPELINE_RESOURCE_SERVER_FALLBACK_STRING=$PIPELINE_RESOURCE_SERVER_FALLBACK_STRING"
+echo "PIPELINE_RESOURCE_SERVER_TIMEOUT_MILLISECONDS=$PIPELINE_RESOURCE_SERVER_TIMEOUT_MILLISECONDS"
+echo "PIPELINE_RESOURCE_SERVER_CONCURRENCY_NUM_THREADS=$PIPELINE_RESOURCE_SERVER_CONCURRENCY_THREADS"
+echo "PIPELINE_RESOURCE_SERVER_THRESHOLD_NUM_REJECTIONS=$PIPELINE_RESOURCE_SERVER_THRESHOLD_REJECTIONS"
+
+ls -l $PIPELINE_RESOURCE_PATH
+
+#start_websocket_kafka_log_stream &
+
+##########################################
+# GPU-Only
+[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libcuda.* /usr/lib/x86_64-linux-gnu/
+#[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libcudnn.* /usr/lib/x86_64-linux-gnu/
+[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libnvidia* /usr/lib/x86_64-linux-gnu/
+##########################################
+
+# Start Tornado/Python-based Model Server
+[ "$PIPELINE_RUNTIME" == "tflite" ] && start_model_serving_python &
+[ "$PIPELINE_RUNTIME" == "python" ] && start_model_serving_python &
+[ "$PIPELINE_RUNTIME" == "tfserving" ] && start_model_serving_python &
+
+# Start TensorFlow Serving Model Server
+[ "$PIPELINE_RUNTIME" == "tfserving" ] && start_tensorflow_serving &
+
+# Single Server (Dev Local) Only (Default for OSS)
+[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && start_hystrix_dashboard &
+
+# Streaming Mode
+[ "$PIPELINE_ENABLE_STREAM_PREDICTIONS"  == "true" ] && start_model_kafka_serving_python &
+
+# For now, always start JVM since this is part of the routing layer
+start_model_serving_jvm

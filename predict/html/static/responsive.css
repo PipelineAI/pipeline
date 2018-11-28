@@ -1,0 +1,184 @@
+/* lg */ 
+@media (min-width: 1200px) {
+
+}
+
+/* md */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* sm */
+@media (min-width: 768px) and (max-width: 991px) {
+ 	.social-icons ul li {
+		margin-bottom: 10px;
+	}
+	.btn-signup {
+		padding: 10px 20px;
+	}
+
+	.navbar-default .navbar-nav>li>a {
+		font-size: 12px;
+	}
+
+}
+
+/* xs */
+@media (max-width: 767px) {
+	body {
+		font-size: 14px;
+	}
+	#home-slider .caption h1 {
+		font-size: 40px;
+	}
+	#home-slider .caption {
+		font-size: 15px;
+		padding: 0 30px;
+	}
+	.left-control, .right-control {
+		font-size: 20px;
+		height: 30px;
+		line-height: 25px;
+		width: 30px;
+	}
+	#home-slider:hover .right-control {
+		right: 15px;
+	}
+	#home-slider:hover .left-control {
+		left: 15px;
+	}
+	.caption .btn-start {
+		font-size: 12px;
+		padding: 10px 30px;
+	}
+	.navbar-brand {
+		padding: 0 15px 15px;
+	}
+	.navbar-toggle {
+	  border:1px solid #fff;
+	}
+
+	.navbar-toggle .icon-bar {
+	  background-color: #fff;
+	}
+	.navbar-default .navbar-nav>li>a {
+		padding-top: 10px;
+		font-size: 12px;
+		padding-bottom: 10px;
+	}
+
+	/*services*/
+	section {
+		padding: 45px 0;
+	}
+	.heading {
+		font-size: 14px;
+		padding-bottom: 45px;
+	}
+	.heading h2 {
+		font-size: 26px;
+	}
+	.service-info h3 {
+		font-size: 20px;
+	}
+	.our-services .col-sm-4 {
+		margin-bottom: 32px;
+		padding-bottom: 20px;
+	}
+	.our-services .col-sm-4:nth-child(4), 
+	.our-services .col-sm-4:nth-child(5), 
+	.our-services .col-sm-4:nth-child(6) {
+		padding-top: 0;
+	}
+	.service-icon {
+		font-size: 30px;
+		height: 65px;
+		line-height: 62px;
+		width: 65px;
+	}
+	.our-services .col-sm-4:hover .service-icon:before {
+		height: 90px;
+		width: 90px;
+	}
+	.about-info {
+		text-align: center;
+		margin-bottom: 50px;
+	}
+	.team-member {
+		margin-bottom: 50px;
+	}
+	.social-icons ul li a {
+		font-size: 14px;
+		height: 30px;
+		line-height: 30px;
+		width: 30px;
+	}	
+	.count .col-xs-6 {
+		margin-bottom: 35px;
+	}
+	#features {
+		min-height: 330px;
+	}
+	#features i {
+		font-size: 35px;
+	}
+	#features h3 {
+		font-size: 25px;
+	}
+	.btn-signup {
+		font-size: 12px;
+		margin-top: 25px;
+		padding: 10px 35px;
+	}
+	.single-table{
+		margin-bottom: 40px;
+		padding: 20px;
+	}
+	#twitter {
+		padding-bottom: 75px;
+	}
+	.twitter-left-control, 
+	.twitter-right-control {
+		top: inherit;
+		bottom: 30px;
+		height: 25px;
+		width: 25px;
+		line-height: 23px;
+		font-size: 14px;
+	}
+	.twitter-left-control {
+		left: 40%
+	} 
+	.twitter-right-control {
+		right: 40%
+	}
+	#blog {
+		overflow: hidden;
+	}
+	.entry-header h2 {
+		line-height: 20px;
+	}
+	.blog-posts .col-sm-4 {
+		margin-bottom: 35px;
+	}
+	.load-more {
+		margin-top: 35px;
+	}
+	.btn-loadmore {
+		font-size: 12px;
+		padding: 15px 75px;
+	}
+	#contact-us .heading {
+		padding-top: 35px;
+	}
+	.contact-info {
+		padding-left: 0;
+	}
+	#footer .footer-bottom {
+		text-align: center;
+	}
+	.footer-bottom p.pull-right {
+		float: none !important;
+	}
+}
+

@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
+    }
+}
+
+plugins {
+    id 'nebula.netflixoss' version '4.0.1'
+    id 'me.champeau.gradle.jmh' version '0.3.1'
+    id 'net.saliman.cobertura' version '2.2.8'
+}
+
+ext {
+    githubProjectName = rootProject.name
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+
+    apply plugin: 'net.saliman.cobertura'
+}
+
+subprojects {
+    apply plugin: 'nebula.netflixoss'
+    apply plugin: 'java'
+    apply plugin: 'nebula.provided-base'
+	apply plugin: 'nebula.compile-api'
+	
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+
+
+    group = "com.netflix.${githubProjectName}"
+
+    eclipse {
+        classpath {
+            // include 'provided' dependencies on the classpath
+            plusConfigurations += [configurations.provided]
+            downloadSources = true
+            downloadJavadoc = true
+        }
+    }
+
+    idea {
+        module {
+            // include 'provided' dependencies on the classpath
+            scopes.COMPILE.plus += [configurations.provided]
+        }
+    }
+}
