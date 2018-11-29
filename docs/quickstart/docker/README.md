@@ -105,7 +105,8 @@ Notes:
 * If you change the ports, be sure to change the ports in the examples below to match your new ports.
 * Also, your nginx and prometheus configs will need to be adjusted.
 * In other words, try not to change the ports!
-* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you use `nvidia-docker2` with `--start-cmd-extra-args="--runtime=nvidia"` (or `nvidia-docker` with `--start-cmd=nvidia-docker`)
+
 * If you're having trouble, see our [**Troubleshooting**](/docs/troubleshooting) Guide.
 
 ## Monitor Runtime Logs
@@ -307,7 +308,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v1scikit --model-ty
 pipeline predict-server-start --model-name=mnist --model-tag=v1scikit
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you use `nvidia-docker2` with `--start-cmd-extra-args="--runtime=nvidia"` (or `nvidia-docker` with `--start-cmd=nvidia-docker`)
 
 ## View the SciKit-Learn Model Server Logs
 ```
@@ -324,14 +325,14 @@ cat ./pytorch/mnist-v1/model/pipeline_invoke_python.py
 ```
 pipeline predict-server-build --model-name=mnist --model-tag=v1pytorch --model-type=pytorch --model-runtime=python --model-path=./pytorch/mnist-v1/model/ 
 ```
-* For GPU-based models, make sure you specify `--model-chip=gpu` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you use `nvidia-docker2` with `--start-cmd-extra-args="--runtime=nvidia"` (or `nvidia-docker` with `--start-cmd=nvidia-docker`)
 
 ## Start the PyTorch Model Server
 ```
 pipeline predict-server-start --model-name=mnist --model-tag=v1pytorch
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you use `nvidia-docker2` with `--start-cmd-extra-args="--runtime=nvidia"` (or `nvidia-docker` with `--start-cmd=nvidia-docker`)
 
 ## View the PyTorch Model Server Logs
 ```
@@ -355,7 +356,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v1xgboost --model-t
 pipeline predict-server-start --model-name=mnist --model-tag=v1xgboost
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you use `nvidia-docker2` with `--start-cmd-extra-args="--runtime=nvidia"` (or `nvidia-docker` with `--start-cmd=nvidia-docker`)
 
 ## View the Xgboost Model Server Logs
 ```
@@ -379,7 +380,7 @@ pipeline predict-server-build --model-name=mnist --model-tag=v1mxnet --model-typ
 pipeline predict-server-start --model-name=mnist --model-tag=v1mxnet
 ```
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
-* For GPU-based models, make sure you specify `--start-cmd=nvidia-docker` - and make sure you have `nvidia-docker` installed!
+* For GPU-based models, make sure you use `nvidia-docker2` with `--start-cmd-extra-args="--runtime=nvidia"` (or `nvidia-docker` with `--start-cmd=nvidia-docker`)
 
 ## View the MXNet Model Server Logs
 ```
