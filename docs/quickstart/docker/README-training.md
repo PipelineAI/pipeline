@@ -63,7 +63,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --train-memory-limit=2G --model-name=mnist --model-tag=v1tensorflow --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/output/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./output/pipeline_tfserving/"
+pipeline train-server-start --train-memory-limit=2G --model-name=mnist --model-tag=v1tensorflow --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/output/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=/opt/ml/output/"
 ```
 Notes: 
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
@@ -82,11 +82,11 @@ pipeline train-server-logs --model-name=mnist --model-tag=v1tensorflow
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/mnist-v1/model/output/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v1/output/   # <== This docker-internal path maps to --output-host-path above
 
 ### EXPECTED OUTPUT ###
 ...
-0/           <-- 1st training run
+0/         #  <== 1st training run
 ...
 ```
 
@@ -150,7 +150,7 @@ pipeline train-server-logs --model-name=mnist --model-tag=v1scikit
 
 ### EXPECTED OUTPUT ###
 
-Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-host-path above
+Pickled model to "/opt/ml/output/model.pkl"   # <== This docker-internal path maps to --output-host-path above
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
