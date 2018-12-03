@@ -63,7 +63,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --train-memory-limit=2G --model-name=mnist --model-tag=v1tensorflow --input-host-path=./tensorflow/mnist-v1/model/ --output-host-path=./tensorflow/mnist-v1/model/ --train-host-path=./tensorflow/mnist-v1/model/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=./pipeline_tfserving/"
+pipeline train-server-start --train-memory-limit=2G --model-name=mnist --model-tag=v1tensorflow --input-host-path=./tensorflow/mnist-v1/input/ --output-host-path=./tensorflow/mnist-v1/output/ --train-args="--train_epochs=2 --batch_size=100 --model_dir=. --data_dir=. --export_dir=/opt/ml/output/"
 ```
 Notes: 
 * You may need to clear the `--model_dir` before you start, otherwise the training job may not start
@@ -82,14 +82,13 @@ pipeline train-server-logs --model-name=mnist --model-tag=v1tensorflow
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./tensorflow/mnist-v1/model/pipeline_tfserving/
+ls -l ./tensorflow/mnist-v1/output/   # <== This docker-internal path maps to --output-host-path above
 
 ### EXPECTED OUTPUT ###
 ...
-0/           <-- 1st training run
+0/         #  <== 1st training run
 ...
 ```
-_Multiple training runs will produce multiple subdirectories - each with a different timestamp._
 
 ## View Training UI (including TensorBoard for TensorFlow Models)
 * Instead of `localhost`, you may need to use `192.168.99.100` or another IP/Host that maps to your local Docker host.
@@ -138,7 +137,7 @@ Notes:
 
 ## Start Training Server
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1scikit --input-host-path=./scikit/mnist/model/ --output-host-path=./scikit/mnist/model/ --train-host-path=./scikit/mnist/model/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
+pipeline train-server-start --model-name=mnist --model-tag=v1scikit --input-host-path=./scikit/mnist/input/ --output-host-path=./scikit/mnist/output/ --train-args="" --start-cmd-extra-args='--shm-size=512m'
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -151,7 +150,7 @@ pipeline train-server-logs --model-name=mnist --model-tag=v1scikit
 
 ### EXPECTED OUTPUT ###
 
-Pickled model to "/opt/ml/output/model.pkl"   <-- This docker-internal path maps to --output-host-path above
+Pickled model to "/opt/ml/output/model.pkl"   # <== This docker-internal path maps to --output-host-path above
 ```
 
 _Press `Ctrl-C` to exit out of the logs._
@@ -201,7 +200,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1pytorch --input-host-path=./pytorch/mnist-v1/model/ --output-host-path=./pytorch/mnist-v1/model/ --train-host-path=./pytorch/mnist-v1/model/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1pytorch --input-host-path=./pytorch/mnist-v1/input/ --output-host-path=./pytorch/mnist-v1/output/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -222,7 +221,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./pytorch/mnist-v1/model/
+ls -l ./pytorch/mnist-v1/output/
 
 ### EXPECTED OUTPUT ###
 ...
@@ -264,7 +263,7 @@ Notes:
 ## Start Training Server
 * Install [PipelineAI CLI](../README.md#install-pipelinecli)
 ```
-pipeline train-server-start --model-name=mnist --model-tag=v1xgboost --input-host-path=./xgboost/mnist-v1/model/ --output-host-path=./xgboost/mnist-v1/model/ --train-host-path=./xgboost/mnist-v1/model/ --train-args=""
+pipeline train-server-start --model-name=mnist --model-tag=v1xgboost --input-host-path=./xgboost/mnist-v1/input/ --output-host-path=./xgboost/mnist-v1/output/ --train-args=""
 ```
 Notes:
 * Ignore the following warning: `WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.`
@@ -285,7 +284,7 @@ _Press `Ctrl-C` to exit out of the logs._
 ## View Trained Model Output (Locally)
 _Make sure you pressed `Ctrl-C` to exit out of the logs._
 ```
-ls -l ./xgboost/mnist-v1/model/
+ls -l ./xgboost/mnist-v1/output/
 
 ### EXPECTED OUTPUT ###
 ...

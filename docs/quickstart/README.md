@@ -9,7 +9,7 @@
 ### Install PipelineAI CLI
 [![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
 ```
-pip install cli-pipeline==1.5.232 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.234 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
