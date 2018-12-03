@@ -49,7 +49,10 @@ echo ""
 [ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard 
 [ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard 
 
+export
+
 # Note:  TF_CONFIG must be passed in as env var
-python $PIPELINE_RESOURCE_PATH/pipeline_train.py $PIPELINE_TRAIN_ARGS
+cd $PIPELINE_RESOURCE_PATH
+python pipeline_train.py $PIPELINE_TRAIN_ARGS
 
 sleep 300 # sleep 5 mins to allow time to inspect model with tensorboard running inside this container

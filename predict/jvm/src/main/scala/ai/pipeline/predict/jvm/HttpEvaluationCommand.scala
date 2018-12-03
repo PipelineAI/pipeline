@@ -63,8 +63,6 @@ class HttpEvaluationCommand(modelUrl: String,
        val xflagsHeader = new BasicHeader("x-b3-flags", xflags)
        val xotspanHeader = new BasicHeader("x-ot-span-context", xotspan)
 
-      System.out.println(s"""HttpEvaluationCommand: before""")
-
        // TODO:  Don't hard code RequestMethod/Post and ContentType/Json
        val results = org.apache.http.client.fluent.Request
          .Post(modelUrl)
@@ -72,8 +70,6 @@ class HttpEvaluationCommand(modelUrl: String,
          .setHeaders(xreqHeader, xtraceidHeader, xspanidHeader, xparentspanidHeader, xsampledHeader, xflagsHeader, xotspanHeader)
          .execute()
          .returnContent();
-
-      System.out.println(s"""HttpEvaluationCommand: ${results}""")
 
       s"""${results}"""
     } catch {

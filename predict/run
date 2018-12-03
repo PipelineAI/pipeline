@@ -21,8 +21,8 @@ start_model_serving_python () {
     source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
 
     # cd here to preserve the model's natural './' paths`
-#    cd $PIPELINE_RESOURCE_PATH \
-#      && 
+    cd $PIPELINE_RESOURCE_PATH 
+
     PYTHONPATH=$PIPELINE_RESOURCE_PATH:$PIPELINE_RESOURCE_SERVER_PATH:$PYTHONPATH \
         $PIPELINE_RESOURCE_SERVER_PATH/model_server_python.py \
         --PIPELINE_NAME=$PIPELINE_NAME \
@@ -63,8 +63,8 @@ start_model_kafka_serving_python () {
 
     source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
 
-#    cd $PIPELINE_RESOURCE_PATH \
-#      && 
+    cd $PIPELINE_RESOURCE_PATH 
+
     PYTHONPATH=$PIPELINE_RESOURCE_PATH:$PIPELINE_RESOURCE_SERVER_PATH:$PYTHONPATH \
         $PIPELINE_RESOURCE_SERVER_PATH/model_kafka_server_python.py \
         --PIPELINE_NAME=$PIPELINE_NAME \
@@ -86,9 +86,9 @@ start_model_kafka_serving_python () {
 
 start_model_serving_jvm () {
     echo "PIPELINE_JVM_MODEL_SERVER_PATH=$PIPELINE_JVM_MODEL_SERVER_PATH"
-    source sysutils/container-limits.sh
+    source /root/sysutils/container-limits.sh
     export JAVA_MAX_MEM_RATIO=85
-    export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+    export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
     echo ""
     echo "JAVA_OPTIONS=$JAVA_OPTIONS"
     echo ""
@@ -105,9 +105,9 @@ start_model_serving_jvm () {
 
 start_hystrix_dashboard () {
     echo "PIPELINE_HYSTRIX_DASHBOARD_PORT=$PIPELINE_HYSTRIX_DASHBOARD_PORT"
-    source sysutils/container-limits.sh
+    source /root/sysutils/container-limits.sh
     export JAVA_MAX_MEM_RATIO=85
-    export JAVA_OPTIONS="$(sysutils/jvm-limits.sh)"
+    export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
     echo ""
     echo "JAVA_OPTIONS=$JAVA_OPTIONS"
     echo ""
@@ -154,7 +154,7 @@ echo ""
 
 source activate $PIPELINE_RESOURCE_PREDICT_CONDA_ENV_NAME
 
-source sysutils/container-limits.sh
+source /root/sysutils/container-limits.sh
 
 # Start Nginx Server
 service nginx start
@@ -196,7 +196,11 @@ echo "PIPELINE_RESOURCE_SERVER_TIMEOUT_MILLISECONDS=$PIPELINE_RESOURCE_SERVER_TI
 echo "PIPELINE_RESOURCE_SERVER_CONCURRENCY_NUM_THREADS=$PIPELINE_RESOURCE_SERVER_CONCURRENCY_THREADS"
 echo "PIPELINE_RESOURCE_SERVER_THRESHOLD_NUM_REJECTIONS=$PIPELINE_RESOURCE_SERVER_THRESHOLD_REJECTIONS"
 
-ls -l $PIPELINE_RESOURCE_PATH
+export
+
+echo "Current working directory..."
+cd $PIPELINE_RESOURCE_PATH
+ls -l .
 
 #start_websocket_kafka_log_stream &
 
