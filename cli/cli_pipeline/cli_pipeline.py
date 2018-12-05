@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.234"
+__version__ = "1.5.235"
 
 import base64 as _base64
 import glob as _glob
@@ -1474,7 +1474,7 @@ def resource_upload(
          Resource Tag: %s   
         Resource Name: %s
  
-    ''' % (host, resource_id[0:8], tag, name))
+    ''' % (host, resource_id, tag, name))
 
 # TODO:  This is too cryptic.  Try to simplify as following:
 #          1) use "[cpu]" instead of \[cpu\]
