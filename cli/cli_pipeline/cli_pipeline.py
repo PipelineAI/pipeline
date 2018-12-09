@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.235"
+__version__ = "1.5.236"
 
 import base64 as _base64
 import glob as _glob
@@ -2836,18 +2836,19 @@ def predict_kube_start(model_name,
             _istio_apply(yaml_path=rendered_yaml,
                          namespace=namespace)
 
-    endpoint_url = _get_model_kube_endpoint(model_name=model_name,
-                                            namespace=namespace,
-                                            image_registry_namespace=image_registry_namespace)
+# TODO:  Either fix this - or change to use gateway vs. ingress
+#    endpoint_url = _get_model_kube_endpoint(model_name=model_name,
+#                                            namespace=namespace,
+#                                            image_registry_namespace=image_registry_namespace)
 
-    endpoint_url = endpoint_url.rstrip('/')
+#    endpoint_url = endpoint_url.rstrip('/')
 
     return_dict = {
         "status": "complete",
         "model_name": model_name,
         "model_tag": model_tag,
-        "endpoint_url": endpoint_url,
-        "comments": "The `endpoint_url` is an internal IP to the ingress controller. No traffic will be allowed until you enable traffic to this endpoint using `pipeline predict-kube-route`. This extra routing step is intentional."
+#        "endpoint_url": endpoint_url,
+#        "comments": "The `endpoint_url` is an internal IP to the ingress controller. No traffic will be allowed until you enable traffic to this endpoint using `pipeline predict-kube-route`. This extra routing step is intentional."
     }
 
     if _http_mode:
