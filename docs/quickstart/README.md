@@ -9,7 +9,7 @@
 ### Install PipelineAI CLI
 [![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
 ```
-pip install cli-pipeline==1.5.235 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.236 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
@@ -36,7 +36,6 @@ default predict base image: docker.io/pipelineai/predict-cpu:1.5.0
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Hosted Community Edition](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
-* [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
 ### PipelineAI CLI Overview
