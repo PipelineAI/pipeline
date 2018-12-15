@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.236"
+__version__ = "1.5.238"
 
 import base64 as _base64
 import glob as _glob
@@ -1460,7 +1460,7 @@ def resource_upload(
     # _dict_print(endpoint, return_dict[endpoint])
 
     kubernetes_resource_type_list = ','.join(_PIPELINE_SUPPORTED_KUBERNETES_RESOURCE_TYPE_LIST)
-    # return return_dict, status_code
+
     print('''
     ...Completed.
 
@@ -1475,6 +1475,20 @@ def resource_upload(
         Resource Name: %s
  
     ''' % (host, resource_id, tag, name))
+
+
+    # TODO:  This return_dict seems malformed
+    if status_code:
+        return_dict['status_code'] = status_code
+
+    if resource_id and status_code:
+        response_dict = {'resource_id': resource_id,
+                         'status_code': status_code}
+    else:
+        response_dict = {}
+
+    return response_dict
+
 
 # TODO:  This is too cryptic.  Try to simplify as following:
 #          1) use "[cpu]" instead of \[cpu\]
