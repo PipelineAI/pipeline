@@ -55,4 +55,4 @@ export
 cd $PIPELINE_RESOURCE_PATH
 python pipeline_train.py $PIPELINE_TRAIN_ARGS
 
-sleep 300 # sleep 5 mins to allow time to inspect model with tensorboard running inside this container
+sleep 60 # sleep 1 min to allow time to inspect model with tensorboard running inside this container
