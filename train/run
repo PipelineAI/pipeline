@@ -46,10 +46,10 @@ echo ""
 ##########################################
 
 # TODO:  if model_task_type == "master" (or chief?), run tensorboard
-[ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard 
-[ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard 
-
-export
+# Single Server (Dev Local) Only (Default for OSS)
+[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && [ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard
+# Single Server (Dev Local) Only (Default for OSS)
+[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && [ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard
 
 # Note:  TF_CONFIG must be passed in as env var
 cd $PIPELINE_RESOURCE_PATH
