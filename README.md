@@ -6,7 +6,7 @@
 
 ## Profession and Enterprise Editions
 
-[Products](https://pipeline.ai/products)
+### [Compare Products](https://pipeline.ai/products)
 
 ## KubeFlow Inside!
 
