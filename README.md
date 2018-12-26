@@ -4,13 +4,13 @@
 
 [![](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)](https://community.pipeline.ai)
 
-### KubeFlow Inside
-
-[![](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)](https://community.pipeline.ai)
-
 ## Profession and Enterprise Editions
 
 [Products](https://pipeline.ai/products)
+
+## KubeFlow Inside!
+
+[![](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)](https://community.pipeline.ai)
 
 ## PipelineAI Community Events
 [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
