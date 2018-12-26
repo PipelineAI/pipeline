@@ -1,14 +1,15 @@
 ![PipelineAI Logo](https://pipeline.ai/assets/img/pipelineai.png)
 
-## PipelineAI Quick Start (CPU + GPU)
-* [Hosted Community Edition](https://quickstart.pipeline.ai/community)
 
-## Community Edition
-![(https://pipeline.ai/assets/img/pipelineai-dark-mode.png)](https://community.pipeline.ai)
+## Hosted Community Edition
 
-![(https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)](https://pipeline.ai)
+[Quick Start](https://quickstart.pipeline.ai/community)
 
-## PipelineAI Products
+![[](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)](https://community.pipeline.ai)
+
+![[](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)](https://pipeline.ai)
+
+## Profession and Enterprise Editions
 * [Products](https://pipeline.ai/products)
 
 ## PipelineAI Community Events
