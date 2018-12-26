@@ -5,9 +5,9 @@
 
 [Quick Start](https://quickstart.pipeline.ai/community)
 
-![[](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)](https://community.pipeline.ai)
+![](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)
 
-![[](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)](https://pipeline.ai)
+![](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)
 
 ## Profession and Enterprise Editions
 * [Products](https://pipeline.ai/products)
