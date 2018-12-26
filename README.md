@@ -3,9 +3,11 @@
 
 ## Hosted Community Edition
 
-[Quick Start](https://quickstart.pipeline.ai/community)
+### [Quick Start](https://quickstart.pipeline.ai/community)
 
 ![](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)
+
+### KubeFlow Inside
 
 ![](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)
 
