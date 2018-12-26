@@ -1,9 +1,8 @@
 ![PipelineAI Logo](https://pipeline.ai/assets/img/pipelineai.png)
 
-
 ## Hosted Community Edition
 
-### [Quick Start](https://quickstart.pipeline.ai/community)
+### [Try It Now!](https://community.pipeline.ai)
 
 ![](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)
 
@@ -12,11 +11,13 @@
 ![](https://pipeline.ai/assets/img/pipelineai-banner-kubecon.png)
 
 ## Profession and Enterprise Editions
-* [Products](https://pipeline.ai/products)
+
+[Products](https://pipeline.ai/products)
 
 ## PipelineAI Community Events
-* [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
-* [Advanced Spark and TensorFlow Meetup (Global)](https://meetup.pipeline.ai)
+[PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
+
+[Advanced Spark and TensorFlow Meetup (Global)](https://meetup.pipeline.ai)
 
 ## Having Issues?  Contact Us Anytime... We're Always Awake.
 * Slack:  https://joinslack.pipeline.ai
