@@ -1,8 +1,6 @@
 ![PipelineAI Logo](https://pipeline.ai/assets/img/pipelineai.png)
 
-## Hosted Community Edition
-
-### [Try It Now!](https://community.pipeline.ai)
+## Hosted Community Edition - [Try It Now](https://community.pipeline.ai)!
 
 ![](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)
 
