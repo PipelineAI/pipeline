@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.238"
+__version__ = "1.5.239"
 
 import base64 as _base64
 import glob as _glob
@@ -1272,6 +1272,7 @@ def resource_optimize_and_deploy(
 
 
 def resource_upload(
+    api_token,
     host,
     user_id,
     resource_type,
@@ -1326,7 +1327,7 @@ def resource_upload(
 
     Example::
 
-    pipeline resource-upload --host community.cloud.pipeline.ai --user-id <YOUR-USER-ID> --resource-type model --resource-subtype tensorflow --name mnist --tag <YOUR-TAG-NAME> --path ./model
+    pipeline resource-upload --api-token <YOUR-API-TOKEN> --host community.cloud.pipeline.ai --user-id <YOUR-USER-ID> --resource-type model --resource-subtype tensorflow --name mnist --tag <YOUR-TAG-NAME> --path ./model
 
     """
     print('')
@@ -1383,7 +1384,10 @@ def resource_upload(
         'overwrite': overwrite
     }
 
+    headers = {'Authorization': 'Bearer %s' % api_token}
+
     response = _requests.post(
+        headers=headers,
         url=url,
         json=body,
         verify=verify,
@@ -1412,6 +1416,7 @@ def resource_upload(
     }
 
     response = _requests.post(
+        headers=headers,
         url=url,
         data=form_data,
         files=files,
@@ -1445,6 +1450,7 @@ def resource_upload(
     }
 
     response = _requests.post(
+        headers=headers,
         url=url,
         json=body,
         verify=verify,
