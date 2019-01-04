@@ -1,4 +1,4 @@
-# Run Spark on Kubernetes
+# Run Spark on Kubernetes and PipelineAI
 
 ## Pre-requisites
 * Running Kubernetes Cluster (1.10+)
