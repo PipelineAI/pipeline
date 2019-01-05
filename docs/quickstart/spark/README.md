@@ -15,8 +15,9 @@ tar -gzvf spark-2.4.0-bin-hadoop2.7.tgz
 ```
 cd spark-2.4.0-bin-hadoop2.7/
 
-#./bin/docker-image-tool.sh -r pipelineai -t my-tag build
-#./bin/docker-image-tool.sh -r pipelineai -t my-tag push
+#./bin/docker-image-tool.sh -r pipelineai -t 1.5.0 build
+
+#./bin/docker-image-tool.sh -r pipelineai -t 1.5.0 push
 ```
 
 ## Create the following RBAC (do not use in production):
