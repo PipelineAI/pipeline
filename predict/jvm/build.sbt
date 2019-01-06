@@ -1,6 +1,6 @@
 val globalSettings = Seq(
   version := "1.0",
-  scalaVersion := "2.11.8" 
+  scalaVersion := "2.11.12" 
 )
 
 //-Dhttp.proxyHost=your.proxy.server
@@ -11,6 +11,8 @@ val globalSettings = Seq(
 sourcesInBase := false
 scalaSource in Compile := baseDirectory.value / "src"
 javaSource in Compile := baseDirectory.value / "src"
+
+mainClass in (Compile, packageBin) := Some("ai.pipeline.predict.jvm.PredictionServiceMain")
 
 lazy val settings = (project in file("."))
                     .settings(name := "prediction-jvm")
@@ -24,7 +26,7 @@ val springBootVersion = "1.5.7.RELEASE"
 val springCloudVersion = "1.3.5.RELEASE"
 val springCloudStarterConfigVersion = "1.3.2.RELEASE"
 val springCloudStarterSpectatorEurekaHystrixVersion = "1.3.4.RELEASE"
-val scalaParserCombinatorsVersion = "1.0.6"
+val scalaParserCombinatorsVersion = "1.1.1"
 val pmmlEvaluatorVersion = "1.3.9" 
 val pmmlModelVersion = "1.3.8" 
 val pmmlMetroVersion = "1.3.8" 

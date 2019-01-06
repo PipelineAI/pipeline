@@ -223,7 +223,11 @@ class PredictionService {
       }
       case Success(results) => {
         val variant = s"""${modelName + "-" + modelTag + "-" + modelType + "-" + modelRuntime + "-" + modelChip}"""
-        new ResponseEntity[String](s"""{"variant": "${variant}", "outputs":${results}}""", responseHeaders, 
+        var outputs = results;
+        if (!results.startsWith("{")) {
+            outputs = "\"" + results + "\"";
+        } 
+        new ResponseEntity[String](s"""{"variant": "${variant}", "outputs":${outputs}}""", responseHeaders, 
           HttpStatus.OK)
       }
     }
@@ -705,7 +709,7 @@ object JavaCodeGenerator {
       val clazz = CodeGenerator.compile(codeGenBundle)
       val generatedCode = CodeFormatter.format(codeGenBundle)
 
-      System.out.println(s"Generated code: \n${generatedCode}}")      
+//      System.out.println(s"Generated code: \n${generatedCode}}")      
             
       val bar = clazz.newInstance().asInstanceOf[Initializable]
       bar.initialize(references)
@@ -713,7 +717,7 @@ object JavaCodeGenerator {
       (bar.asInstanceOf[Predictable], generatedCode)
     } match {
       case Failure(t) => {
-        System.out.println(s"Could not generate code: ${codeGenBundle}", t)
+//        System.out.println(s"Could not generate code: ${codeGenBundle}", t)
         throw t
       }
       case Success(tuple) => tuple

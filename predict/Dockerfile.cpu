@@ -187,6 +187,23 @@ COPY jvm/ jvm/
 ENV \
   PIPELINE_JVM_MODEL_SERVER_PATH=/root/jvm
 
+#####################
+# Setup OpenJDK 1.11
+#####################
+RUN \
+  apt-get update \
+  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:openjdk-r/ppa \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-11-jdk openjdk-11-jre-headless \
+  && apt-get install -y apt-transport-https \
+  && apt-get install -y wget \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV \
+  JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+
 RUN \
   cd $PIPELINE_JVM_MODEL_SERVER_PATH \
   && ./build.sh

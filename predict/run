@@ -87,29 +87,31 @@ start_model_kafka_serving_python () {
 start_model_serving_jvm () {
     echo "PIPELINE_JVM_MODEL_SERVER_PATH=$PIPELINE_JVM_MODEL_SERVER_PATH"
     source /root/sysutils/container-limits.sh
-    export JAVA_MAX_MEM_RATIO=85
-    export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
-    echo ""
-    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
+#    export JAVA_MAX_MEM_RATIO=85
+#    export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
+#    echo ""
+#    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
     echo ""
     echo "Starting JVM-based Model Serving..."
     echo ""
+
+#      && java $JAVA_OPTIONS \
     cd $PIPELINE_JVM_MODEL_SERVER_PATH \
-      && java $JAVA_OPTIONS \
+        -Xshare:on \
         -Djava.security.egd=file:/dev/./urandom \
         -Dorg.eclipse.jetty.LEVEL=ERROR \
         -Dorg.eclipse.jetty.websocket.LEVEL=ERROR \
-        -jar /root/jvm/lib/sbt-launch-1.0.2.jar \
+        -jar /root/jvm/lib/sbt-launch-1.2.8.jar \
         "runMain ai.pipeline.predict.jvm.PredictionServiceMain"
 }
 
 start_hystrix_dashboard () {
     echo "PIPELINE_HYSTRIX_DASHBOARD_PORT=$PIPELINE_HYSTRIX_DASHBOARD_PORT"
     source /root/sysutils/container-limits.sh
-    export JAVA_MAX_MEM_RATIO=85
-    export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
-    echo ""
-    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
+#    export JAVA_MAX_MEM_RATIO=85
+#    export JAVA_OPTIONS="$(/root/sysutils/jvm-limits.sh)"
+#    echo ""
+#    echo "JAVA_OPTIONS=$JAVA_OPTIONS"
     echo ""
     echo "Starting JVM-based Dashboard Server..."
     echo ""
