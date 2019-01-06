@@ -1,0 +1,31 @@
+#!/bin/bash
+
+source activate $PIPELINE_RESOURCE_TRAIN_CONDA_ENV_NAME
+
+# TODO:  Make sure this works for non-TF stuff!!
+
+echo ""
+echo "___________________________________________"
+echo " __     __   ___              ___          "
+echo "|__) | |__) |__  |    | |\ | |__      /\  |"
+echo "|    | |    |___ |___ | | \| |___    /~~\ |"
+echo "___________________________________________"
+echo ""
+
+##########################################
+# GPU-Only
+[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libcuda.* /usr/lib/x86_64-linux-gnu/
+[ "$PIPELINE_CHIP" == "gpu" ] && cp /rootfs/usr/lib/x86_64-linux-gnu/libnvidia* /usr/lib/x86_64-linux-gnu/
+##########################################
+
+# TODO:  if model_task_type == "master" (or chief?), run tensorboard
+# Single Server (Dev Local) Only (Default for OSS)
+#[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && [ "$PIPELINE_RESOURCE_SUBTYPE" == "tensorflow" ] && start_tensorboard
+# Single Server (Dev Local) Only (Default for OSS)
+#[ "$PIPELINE_SINGLE_SERVER_ONLY" == "true" ] && [ "$PIPELINE_RESOURCE_SUBTYPE" == "keras" ] && start_tensorboard
+
+# Note:  TF_CONFIG must be passed in as env var
+cd $PIPELINE_RESOURCE_PATH
+python pipeline_train.py $PIPELINE_TRAIN_ARGS
+
+sleep 60 # sleep 1 min to allow time to inspect model with tensorboard running inside this container
