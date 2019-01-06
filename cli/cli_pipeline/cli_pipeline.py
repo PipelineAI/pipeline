@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.239"
+__version__ = "1.5.240"
 
 import base64 as _base64
 import glob as _glob
@@ -141,27 +141,6 @@ _kube_autoscale_template_registry = {
     'train': (['yaml/train-autoscale.yaml.template'], []),
 }
 
-# _Dockerfile_template_registry = {
-#                                  'predict-server': (['docker/predict-server-local-dockerfile.template'], []),
-#                                  'train-server': (['docker/train-server-local-dockerfile.template'], []),
-#                                 }
-
-# _kube_router_deploy_template_registry = {'predict-router-split': (['yaml/predict-deploy.yaml.template'], []),
-#                                          'predict-router-gpu-split': (['yaml/predict-gpu-deploy.yaml.template'], [])}
-
-# _kube_router_ingress_template_registry = {'predict-router-split': (['yaml/predict-ingress.yaml.template'], [])}
-# _kube_router_svc_template_registry = {'predict-router-split': (['yaml/predict-svc.yaml.template'], [])}
-# _kube_router_routerules_template_registry = {'predict-router': (['yaml/predict-routerules.yaml.template'], [])}
-# _kube_router_autoscale_template_registry = {'predict-router-split': (['yaml/predict-autoscale.yaml.template'], [])}
-
-# _kube_stream_deploy_template_registry = {'stream': (['yaml/stream-deploy.yaml.template'], [])}
-# _kube_stream_svc_template_registry = {'stream': (['yaml/stream-svc.yaml.template'], [])}
-# _kube_stream_ingress_template_registry = {'stream': (['yaml/stream-ingress.yaml.template'], [])}
-# _kube_stream_routerules_template_registry = {'stream': (['yaml/stream-routerules.yaml.template'], [])}
-
-# _train_kube_template_registry = {'train-cluster': (['yaml/train-cluster.yaml.template'], []),
-#                                  'train-gpu-cluster': (['yaml/train-gpu-cluster.yaml.template'], [])}
-
 _pipeline_api_version = 'v1'
 
 _default_pipeline_templates_path = _os.path.normpath(_os.path.join(_os.path.dirname(__file__), 'templates'))
@@ -214,18 +193,6 @@ _pipelineai_ecr_cpu_image_list = [
     'grafana',
     'admin',
     'api',
-#    'mysql-master',
-#    'redis-master',
-#    'metastore-2.1.1',
-#    'hdfs-namenode',
-#    'spark-2.3.0-base',
-#    'spark-2.3.0-master',
-#    'spark-2.3.0-worker',
-#    'spark-2.3.0-kube',
-#    'mongo-3.4.13',
-#    'pipelinedb-backend',
-#    'node-9.8.0',
-#    'pipelinedb-frontend',
     'logging-elasticsearch-6.3.0',
     'logging-kibana-oss-6.3.0',
     'logging-fluentd-kubernetes-v1.2.2-debian-elasticsearch'
@@ -275,26 +242,6 @@ _PIPELINE_API_BASE_PATH = '/admin/api/c/v1'
 # TODO:  LOCK THIS DOWN TO '.tar.gz'
 _ALLOWED_EXTENSIONS = set(['tar', 'gz', 'tar.gz'])
 
-_PIPELINE_JOBS_HOME = _environ.get(
-    "PIPELINE_JOBS_HOME",
-    _environ.get("DEFAULT_PIPELINE_JOBS_HOME")
-)
-_PIPELINE_FUNCTIONS_HOME = _environ.get(
-    "PIPELINE_FUNCTIONS_HOME",
-    _environ.get("DEFAULT_PIPELINE_FUNCTIONS_HOME")
-)
-_PIPELINE_MODELS_HOME = _environ.get(
-    "PIPELINE_MODELS_HOME",
-    _environ.get("DEFAULT_PIPELINE_MODELS_HOME")
-)
-_PIPELINE_STREAMS_HOME = _environ.get(
-    "PIPELINE_STREAMS_HOME",
-    _environ.get("DEFAULT_PIPELINE_STREAMS_HOME")
-)
-_PIPELINE_TRAIN_HOME = _environ.get(
-    "PIPELINE_TRAIN_HOME",
-    _environ.get("DEFAULT_PIPELINE_TRAIN_HOME")
-)
 _DEFAULT_PIPELINE_TEMPLATES_PATH = _os.path.normpath(
     _os.path.join(_os.path.dirname(__file__), 'templates'))
 
@@ -311,7 +258,6 @@ _PIPELINE_RESOURCE_TYPE_CONFIG_DICT = {
     'resource_types': ['job', 'model', 'stream', 'train'],
     'job': {
         'chip': _default_model_chip,
-        'home': _PIPELINE_JOBS_HOME,
         'namespace': 'job',
         'subdir_name': _job_subdir_name,
         'image_registry_namespace': _default_image_registry_job_namespace,
@@ -322,7 +268,6 @@ _PIPELINE_RESOURCE_TYPE_CONFIG_DICT = {
     },
     'model': {
         'chip': _default_model_chip,
-        'home': _PIPELINE_MODELS_HOME,
         'namespace': _default_namespace,
         'subdir_name': _model_subdir_name,
         'image_registry_namespace': _default_image_registry_predict_namespace,
@@ -333,7 +278,6 @@ _PIPELINE_RESOURCE_TYPE_CONFIG_DICT = {
     },
     'stream': {
         'chip': _default_model_chip,
-        'home': _PIPELINE_STREAMS_HOME,
         'namespace': _default_namespace,
         'subdir_name': _stream_subdir_name,
         'image_registry_namespace': _default_image_registry_stream_namespace,
@@ -344,7 +288,6 @@ _PIPELINE_RESOURCE_TYPE_CONFIG_DICT = {
     },
     'train': {
         'chip': _default_model_chip,
-        'home': _PIPELINE_TRAIN_HOME,
         'namespace': _default_namespace,
         'subdir_name': _train_subdir_name,
         'image_registry_namespace': _default_image_registry_train_namespace,
@@ -577,21 +520,6 @@ def _get_resource_config(resource_type):
     return dict(_PIPELINE_RESOURCE_TYPE_CONFIG_DICT.get(resource_type, {}))
 
 
-def _get_resource_type_home(resource_type):
-    """
-    Get home directory path by resource type.
-
-    :param resource_type:   Type of resource (job, function, model, stream)
-
-    :return:                str directory path when resource home is defined, else None
-    """
-    if resource_type in _PIPELINE_RESOURCE_TYPE_CONFIG_DICT:
-        resource = dict(_PIPELINE_RESOURCE_TYPE_CONFIG_DICT.get(resource_type))
-        return resource.get('home', None)
-    else:
-        return None
-
-
 def _get_resource_image_registry_namespace(resource_type):
     """
     Get image_registry_namespace by resource type.
@@ -656,44 +584,6 @@ def _get_resource_tag(
     return resource_tag
 
 
-def _get_resource_path(
-    user_id,
-    resource_type,
-    name,
-    tag,
-    resource_subtype
-):
-    """
-    Get resource directory path by resource type.
-
-    :param str user_id:             PipelineAI 8 character user id that uniquely
-                                        identifies the user that created the resource
-                                        for super users this user_id is not
-                                        always the current user
-                                        for non-super users this user_id is always
-                                        the current user
-    :param str resource_type:       Type of resource (job, function, model, stream)
-    :param str name:                User defined name for the resource
-    :param str tag:                 User defined tag for the resource
-    :param str resource_subtype:    Framework type, tensorflow or pmml for models,
-                                        kafka or mqtt for stream
-
-    :return:                        str resource directory path
-    """
-    resource_type_home = _get_resource_type_home(resource_type)
-    resource_name = _get_resource_name(user_id, name)
-    # IMPORTANT: do not include runtime or chip in the physical resource path because
-    #            all runtime and chip variants are produced from a single model
-    resource_path = '%s/%s/%s-%s' % (
-        resource_type_home,
-        resource_subtype,
-        resource_name,
-        tag
-    )
-
-    return resource_path
-
-
 def _get_resource_base_image_default(resource_type):
     """
     Get default base image name by resource type.
@@ -711,49 +601,6 @@ def _get_resource_base_image_default(resource_type):
         resource_config['image_registry_base_tag']
     )
     return base_image_default
-
-
-def _get_resource_subdir_path(
-    user_id,
-    resource_type,
-    name,
-    tag,
-    resource_subtype
-):
-    """
-    Get resource sub directory path containing the resource source code by resource type.
-
-    :param str user_id:             PipelineAI 8 character user id that uniquely
-                                        identifies the user that created the resource
-                                        for super users this user_id is not
-                                        always the current user
-                                        for non-super users this user_id is always
-                                        the current user
-    :param str resource_type:       Type of resource (job, function, model, stream)
-    :param str name:                User defined name for the resource
-    :param str tag:                 User defined tag for the resource
-    :param str resource_subtype:    Framework type, tensorflow or pmml for models,
-                                        kafka or mqtt for stream
-
-    :return:                    resource sub directory path containing the resource source code
-    """
-    resource_config = _get_resource_config(resource_type)
-    resource_type_home = resource_config.get('home', None)
-    resource_type_subdir_name = resource_config.get('subdir_name', None)
-
-    resource_name = _get_resource_name(user_id, name)
-
-    # IMPORTANT: do not include runtime or chip in the physical resource path because
-    #            all runtime and chip variants are produced from a single model
-    resource_path = '%s/%s/%s-%s/%s' % (
-        resource_type_home,
-        resource_subtype,
-        resource_name,
-        tag,
-        resource_type_subdir_name
-    )
-
-    return resource_path
 
 
 def resource_optimize_and_train(
@@ -1357,13 +1204,20 @@ def resource_upload(
     # *********** resource_archive_tar ********************************
     print('Packaging New Resource for PipelineAI...')
 
-    # if the model directory contains a pipeline.yaml it must be excluded from the archive
-    # because pipeline.yaml has to be generated from a yaml template so the model name matches
-    # the values supplied by the user and does not reuse an existing resource name and/or tag
-    exclude_file_list = ['pipeline.yaml']
+#    # TODO:  Revisit this as we need to preserve the user's MLproject file 
+#    # if the model directory contains a MLproject file, it must be excluded from the archive
+#    # because MLproject has to be generated from a yaml template so the model name matches
+#    # the values supplied by the user and does not reuse an existing resource name and/or tag
+#    exclude_file_list = ['MLproject']
+
+#    exclude_file_list = []
+
     if _os.path.exists(absolute_path):
         archive_path = model_archive_tar(
-            name, tag, absolute_path, exclude_file_list=exclude_file_list
+            name, 
+            tag, 
+            absolute_path, 
+            #exclude_file_list=exclude_file_list
         )
     else:
         print("Path '%s' does not exist." % absolute_path)
@@ -2680,7 +2534,6 @@ def model_archive_tar(
     tar_path='.',
     filemode='w',
     compression='gz',
-    exclude_file_list=None
 ):
     """
 
@@ -2694,8 +2547,6 @@ def model_archive_tar(
                                         Defaults to ``w``
     :param str compression:         archive compression mode
                                         Defaults to ``gz``
-    :param list exclude_file_list:  list of file names to exclude from the archive
-                                        Defaults to None
     :return:                        str path to the tar.gz archive created
     """
 
@@ -2715,15 +2566,22 @@ def model_archive_tar(
     tar_filename = '%s-%s.tar.gz' % (model_name, model_tag)
     tar_path = _os.path.join(tar_path, tar_filename)
 
-    if not isinstance(exclude_file_list, list):
-        exclude_file_list = []
+    exclude_file_list = []
+
+    pipeline_ignore_path = _os.path.join(model_path, 'pipeline_ignore')
+    if _os.path.isfile(pipeline_ignore_path):
+        with open(pipeline_ignore_path) as f:
+            content = f.readlines()
+            # you may also want to remove whitespace characters like `\n` at the end of each line
+            exclude_file_list = [x.strip() for x in content]
 
     def exclude_file(filename):
-        return filename in exclude_file_list
+        # iterate through exclude_file_list and exclude the given filename if it contains something in this list
+        excluded_filenames = [exclude_filename for exclude_filename in exclude_file_list if exclude_filename in filename]
+        return excluded_filenames
 
     with _tarfile.open(tar_path, '%s:%s' % (filemode, compression)) as tar:
         tar.add(model_path, arcname=_model_subdir_name, exclude=exclude_file, filter=_filter_tar)
-        # tar.list()
 
     return tar_path
 
