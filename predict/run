@@ -101,7 +101,7 @@ start_model_serving_jvm () {
         -Djava.security.egd=file:/dev/./urandom \
         -Dorg.eclipse.jetty.LEVEL=ERROR \
         -Dorg.eclipse.jetty.websocket.LEVEL=ERROR \
-        -jar /root/jvm/lib/sbt-launch-1.2.8.jar \
+        -jar /root/jvm/lib/sbt-launch-1.2.7.jar \
         "runMain ai.pipeline.predict.jvm.PredictionServiceMain"
 }
 
