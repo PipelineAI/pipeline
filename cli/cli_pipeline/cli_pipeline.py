@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.240"
+__version__ = "1.5.242"
 
 import base64 as _base64
 import glob as _glob
@@ -5152,138 +5152,142 @@ kubectl delete -f ~/product/yaml/notebook/notebook-%s-svc.yaml
 
 
 def _cluster_kube_create(tag,
-                         chip=_default_model_chip):
+                         admin_node,
+                         kube_config_path='~/.kube/config',
+                         docker_registry_config_path='~/.docker/config.json',
+                         chip=_default_model_chip,
+                         pipeline_templates_path=None):
+
+# kubectl create secret generic kube-config-secret --from-file=%s
+#   ~/.kube/config
+
+# kubectl create secret generic docker-registry-secret --from-file=%s
+#   ~/.docker/config.json
+#   See https://kubernetes.io/docs/concepts/containers/images/#creating-a-secret-with-a-docker-config 
+
+#apiVersion: v1
+#data:
+#  .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2RvY2tlci5pbyI6eyJ1c2VybmFtZSI6ImNocmlzIiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImF1dGgiOiJhdXRoIn19fQ== 
+#kind: Secret
+#metadata:
+#  name: docker-registry-secret
+#  namespace: default
+#type: kubernetes.io/dockerconfigjson
+
+    if not pipeline_templates_path:
+        pipeline_templates_path = _default_pipeline_templates_path
+
+    pipeline_templates_path = _os.path.expandvars(pipeline_templates_path)
+    pipeline_templates_path = _os.path.expanduser(pipeline_templates_path)
+    pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
+    pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
+
     cmd = """
-# Secrets 
-kubectl create -f ~/certs/yaml/api/api-secret.yaml
-kubectl create -f ~/certs/yaml/notebook-oauth/notebook-oauth-secret.yaml
-kubectl create -f ~/certs/yaml/tls-certificate/tls-certificate-secret.yaml
+# Label a node with admin role
+kubectl label nodes %s pipeline.ai/role=admin
 
-# Istio
-export ISTIO_VERSION=0.7.1
-kubectl create -f ~/product/yaml/istio/istio-$ISTIO_VERSION.yaml
+# Secrets
+kubectl create secret generic kube-config-secret --from-literal=foo=bar
+kubectl create secret generic docker-registry-secret --from-literal=foo=bar 
 
-# Hostpaths
-kubectl create -f ~/product/yaml/path/path-configmap.yaml
+# Admin
+kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
+kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
 
-# Jaeger
-kubectl create -f ~/product/yaml/jaeger/jaeger-configmap.yaml
-kubectl create -f ~/product/yaml/jaeger/jaeger.yaml
+# Api
+kubectl create -f %s/cluster/yaml/api/api-deploy.yaml
+kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
-# ElasticSearch (logging)
-#kubectl create -f ~/product/yaml/logging/logging-elasticsearch-deploy.yaml
-#kubectl create -f ~/product/yaml/logging/logging-elasticsearch-svc.yaml
-
-# Fluentd (logging)
-#kubectl create -f ~/product/yaml/logging/logging-fluentd-daemonset.yaml
-
-# Kibana (logging)
-#kubectl create -f ~/product/yaml/logging/logging-kibana-deploy.yaml
-#kubectl create -f ~/product/yaml/logging/logging-kibana-svc.yaml
-
-# Kubernetes Dashboard 
-#export KUBERNETES_DASHBOARD_VERSION=1.8.3
-#kubectl create -f ~/product/yaml/dashboard/kubernetes-dashboard-$KUBERNETES_DASHBOARD_VERSION.yaml
+# Notebook
+kubectl create -f %s/cluster/yaml/notebook/notebook-community-%s-deploy-noauth.yaml
+kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
 # Hystrix
-kubectl create -f ~/product/yaml/dashboard/hystrix-deploy.yaml
-kubectl create -f ~/product/yaml/dashboard/hystrix-svc.yaml
+kubectl create -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
+kubectl create -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
 
-# Turbine
+# Turbine (Part 1)
+kubectl create -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
+kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
+
+# Istio
+kubectl create -f %s/cluster/yaml/istio/istio-loadbalancer-1.0.5.yaml
+kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-prometheus.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
+
+# Turbine (Part 2)
 kubectl create clusterrolebinding serviceaccounts-view \
   --clusterrole=view \
   --group=system:serviceaccounts
-kubectl create -f ~/product/yaml/dashboard/turbine-deploy.yaml
-kubectl create -f ~/product/yaml/dashboard/turbine-svc.yaml
-
-# Prometheus
-kubectl create -f ~/product/yaml/prometheus/prometheus.yaml
-
-# Grafana
-kubectl create -f ~/product/yaml/grafana/grafana-serviceaccount.yaml
-kubectl create -f ~/product/yaml/grafana/grafana-deploy.yaml
-kubectl create -f ~/product/yaml/grafana/grafana-svc.yaml
-
-# Admin
-kubectl create -f ~/product/yaml/admin/admin-configmap.yaml
-kubectl create -f ~/product/yaml/admin/admin-deploy.yaml
-kubectl create -f ~/product/yaml/admin/admin-svc.yaml
-
-# Api
-kubectl create -f ~/product/yaml/api/api-configmap.yaml
-kubectl create -f ~/product/yaml/api/api-secret.yaml
-kubectl create -f ~/product/yaml/api/api-deploy.yaml
-kubectl create -f ~/product/yaml/api/api-svc.yaml
-
-# Heapster
-#kubectl create -f ~/product/yaml/dashboard/heapster-1.7.0.yaml
-
-# MySql
-#kubectl create -f ~/product/yaml/mysql/mysql-master-deploy.yaml
-#kubectl create -f ~/product/yaml/mysql/mysql-master-svc.yaml
-
-# Redis
-#kubectl create -f ~/product/yaml/redis/redis-master-deploy.yaml
-#kubectl create -f ~/product/yaml/redis/redis-master-svc.yaml
-
-# Hive Metastore
-#kubectl create -f ~/product/yaml/metastore/metastore-deploy.yaml
-#kubectl create -f ~/product/yaml/metastore/metastore-svc.yaml
-
-# HDFS
-#kubectl create -f ~/product/yaml/hdfs/namenode-deploy.yaml
-#kubectl create -f ~/product/yaml/hdfs/namenode-svc.yaml
-
-# Spark Master
-#kubectl create -f ~/product/yaml/spark/2.3.0/spark-2.3.0-master-deploy.yaml
-#kubectl create -f ~/product/yaml/spark/2.3.0/spark-2.3.0-master-svc.yaml
-
-# Spark Worker
-#kubectl create -f ~/product/yaml/spark/2.3.0/spark-2.3.0-worker-deploy.yaml
-#kubectl create -f ~/product/yaml/spark/2.3.0/spark-2.3.0-worker-svc.yaml
-
-# PipelineDB (DB)
-#kubectl create -f ~/product/yaml/pipelinedb/pipelinedb-db-deploy.yaml
-#kubectl create -f ~/product/yaml/pipelinedb/pipelinedb-db-svc.yaml
-
-# PipelineDB Backend
-#kubectl create -f ~/product/yaml/pipelinedb/pipelinedb-backend-deploy.yaml
-#kubectl create -f ~/product/yaml/pipelinedb/pipelinedb-backend-svc.yaml
-
-#kubectl create -f ~/product/yaml/pipelinedb/pipelinedb-frontend-deploy.yaml
-#kubectl create -f ~/product/yaml/pipelinedb/pipelinedb-frontend-svc.yaml
-
-kubectl create -f ~/product/yaml/notebook/notebook-community-%s-deploy.yaml
-kubectl create -f ~/product/yaml/notebook/notebook-%s-svc.yaml
-
-#export HELM_VERSION=2.10.0
-#echo "export HELM_VERSION=$HELM_VERSION" >> ~/.bashrc
-#echo "export HELM_VERSION=$HELM_VERSION" >> /etc/environment
-
-#cd ~
-#wget https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz
-#tar -xvzf helm-$HELM_VERSION-linux-amd64.tar.gz
-#chmod a+x linux-amd64/helm
-#mv linux-amd64/helm /usr/local/bin/helm
-#rm -rf linux-amd64
-#rm helm-v$HELM_VERSION-linux-amd64.tar.gz
-
-#helm init --upgrade --tiller-namespace default
-#kubectl create serviceaccount --namespace default tiller
-#kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-#kubectl patch deploy --namespace default tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-#helm init --service-account tiller --upgrade --tiller-namespace default
-
-#cd ~ 
-#helm install --name kafka --set cp-zookeeper.enabled=true,cp-zookeeper.persistence.enabled=false,cp-kafka.enabled=true,cp-kafka.persistence.enabled=false,cp-schema-registry.enabled=false,cp-kafka-rest.enabled=true,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false product/yaml/kafka/cp-helm-charts
-
-#kubectl delete svc cp-kafka-rest
-#kubectl create -f ~/product/yaml/kafka/kafka-rest-svc.yaml
-""" % (chip, chip)
-
+""" % (admin_node, 
+       pipeline_templates_path, 
+       pipeline_templates_path, 
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       chip, 
+       pipeline_templates_path,
+       chip,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+    )
     print(cmd)
+
     response_bytes = _subprocess.check_output(cmd, shell=True)
+
     return response_bytes.decode('utf-8')
+
+
+def _create_kube_config(api_server,
+                        user_token='',
+                        user_client_certificate_data='',
+                        user_client_key_data='',
+                        namespace=_default_namespace,
+                        pipeline_templates_path=None):
+
+    context = {
+               'PIPELINE_KUBE_API_SERVER': api_server,
+               'PIPELINE_NAMESPACE': namespace,
+               'PIPELINE_KUBE_USER_TOKEN': user_token,
+               'PIPELINE_KUBE_USER_CLIENT_CERTIFICATE_DATA': user_client_certificate_data,
+               'PIPELINE_KUBE_USER_CLIENT_KEY_DATA': user_client_key_data,
+              }
+
+    if not pipeline_templates_path:
+        pipeline_templates_path = _default_pipeline_templates_path
+
+    pipeline_templates_path = _os.path.expandvars(pipeline_templates_path)
+    pipeline_templates_path = _os.path.expanduser(pipeline_templates_path)
+    pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
+    pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'kube'))
+    filename = 'config'
+
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
+    #   since we're always passing the model_path when we build the docker image with this Dockerfile
+    rendered_Dockerfile = _os.path.normpath('.pipeline-generated-kube-config')
+    with open(rendered_Dockerfile, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
 
 
 def _main():

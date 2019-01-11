@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: admin 
+  namespace: default 
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - gateway
+  http:
+  - match:
+    - uri:
+        prefix: /admin/app
+    route:
+    - destination:
+        host: admin
+        port:
+          number:  31996 
+      weight: 100
+#    websocketUpgrade: true
+#    appendHeaders:
+#      Upgrade: required
+#      Connection: upgrade
+  - match:
+    - uri:
+        exact: /
+    rewrite:
+      uri: /admin/app
+    route:
+    - destination:
+        host: admin
+        port:
+          number: 31996
+      weight: 100
+#    websocketUpgrade: true
+#    appendHeaders:
+#      Upgrade: required
+#      Connection: upgrade

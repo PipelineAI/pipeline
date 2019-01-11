@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dashboard-hystrix
+  labels:
+    app: dashboard-hystrix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-hystrix
+  template:
+    metadata:
+      labels:
+        app: dashboard-hystrix
+    spec:
+      imagePullSecrets:
+      - name: docker-registry-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: pipeline.ai/role
+                operator: In
+                values:
+                - admin
+      containers:
+      - name: dashboard-hystrix
+        image: 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/dashboard-hystrix:1.5.0
+#        image: pipelineai/dashboard-hystrix:1.5.0
+        resources:
+          limits:
+#            cpu: 2000m
+#            memory: 2000Mi
+#          requests:
+#            cpu: 200m
+#            memory: 2000Mi
+        imagePullPolicy: "IfNotPresent"
+        terminationMessagePolicy: "FallbackToLogsOnError"
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 7979

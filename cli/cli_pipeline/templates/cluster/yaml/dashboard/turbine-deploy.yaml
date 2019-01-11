@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dashboard-turbine
+  labels:
+    app: dashboard-turbine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-turbine
+  template:
+    metadata:
+      labels:
+        app: dashboard-turbine
+    spec:
+      imagePullSecrets:
+      - name: docker-registry-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: pipeline.ai/role
+                operator: In
+                values:
+                - admin
+      containers:
+      - name: dashboard-turbine
+        image: 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/dashboard-turbine:1.5.0
+#        image: pipelineai/dashboard-turbine:1.5.0
+        imagePullPolicy: "IfNotPresent"
+        terminationMessagePolicy: "FallbackToLogsOnError"
+        resources:
+          limits:
+#            cpu: 2000m
+#            memory: 2000Mi
+#          requests:
+#            cpu: 200m
+#            memory: 2000Mi
+        env:
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+        ports:
+        - containerPort: 8989
+        - containerPort: 8990

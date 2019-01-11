@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: api 
+  namespace: default 
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - gateway
+  http:
+  - match:
+    - uri:
+        prefix: /admin/api/c
+    route:
+    - destination:
+        host: api 
+        port:
+          number: 32000 
+      weight: 100
+    websocketUpgrade: true
+#    appendHeaders:
+#      Upgrade: required
+#      Connection: upgrade
