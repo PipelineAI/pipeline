@@ -10,7 +10,7 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ### Create the cluster by specifying the admin node from above
 * Requires `cli-pipeline>=1.5.243`
 ```
-pipeline _cluster_kube_create --tag 1.5.0 --admin-node <admin-node-name>
+pipeline _cluster_kube_create --tag 1.5.0 --admin-node <node1 or node2>
 ```
 
 ### Retrieve the ELB DNS name
