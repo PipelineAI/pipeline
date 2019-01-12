@@ -18,8 +18,8 @@ Note: the ELB DNS may take some time to propagate.
 ```
 kubectl get svc istio-ingress -o wide
 
-NAME            TYPE           CLUSTER-IP     EXTERNAL-IP  PORT(S)                      AGE       SELECTOR
-istio-ingress   LoadBalancer   10.100.59.40   <dns-name>   80:32080/TCP,443:31791/TCP   7m        istio=ingress
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP  
+istio-ingressgateway   LoadBalancer   10.100.12.101   <dns-name>  
 ```
 
 ### Whitelist the DNS Name with PipelineAI (Temporary)
