@@ -16,7 +16,7 @@ pipeline _cluster_kube_create --tag 1.5.0 --admin-node <node1 or node2>
 ### Retrieve the ELB DNS name
 Note: the ELB DNS may take some time to propagate.
 ```
-kubectl get svc istio-ingress -o wide
+kubectl get svc istio-ingressgateway -o wide
 
 NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP  
 istio-ingressgateway   LoadBalancer   10.100.12.101   <dns-name>  
