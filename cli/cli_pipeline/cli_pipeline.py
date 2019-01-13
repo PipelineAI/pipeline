@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.242"
+__version__ = "1.5.243"
 
 import base64 as _base64
 import glob as _glob
@@ -5154,7 +5154,7 @@ kubectl delete -f ~/product/yaml/notebook/notebook-%s-svc.yaml
 def _cluster_kube_create(tag,
                          admin_node,
                          kube_config_path='~/.kube/config',
-                         docker_registry_config_path='~/.docker/config.json',
+                         docker_config_path='~/.docker/config.json',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 
@@ -5174,6 +5174,9 @@ def _cluster_kube_create(tag,
 #  namespace: default
 #type: kubernetes.io/dockerconfigjson
 
+# kubectl create secret docker-registry docker-registry-secret --docker-server=https://${DOCKER_IMAGE_REGISTRY_URL} --docker-username=${DOCKER_USERNAME} --docker-password=${DOCKER_PASSWORD}
+
+
     if not pipeline_templates_path:
         pipeline_templates_path = _default_pipeline_templates_path
 
@@ -5182,13 +5185,23 @@ def _cluster_kube_create(tag,
     pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
     pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
 
+    kube_config_path = _os.path.expandvars('~/.kube/config')
+    kube_config_path = _os.path.expanduser(kube_config_path)
+    kube_config_path = _os.path.abspath(kube_config_path)
+    kube_config_path = _os.path.normpath(kube_config_path)
+
+    docker_config_path = _os.path.expandvars('~/.docker/config.json')
+    docker_config_path = _os.path.expanduser(docker_config_path)
+    docker_config_path = _os.path.abspath(docker_config_path)
+    docker_config_path = _os.path.normpath(docker_config_path)
+
     cmd = """
 # Label a node with admin role
 kubectl label nodes %s pipeline.ai/role=admin
 
 # Secrets
-kubectl create secret generic kube-config-secret --from-literal=foo=bar
-kubectl create secret generic docker-registry-secret --from-literal=foo=bar 
+###kubectl create secret generic kube-config-secret --from-file=%s
+###kubectl create secret generic docker-registry-secret --from-file=%s
 
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
@@ -5226,6 +5239,8 @@ kubectl create clusterrolebinding serviceaccounts-view \
   --clusterrole=view \
   --group=system:serviceaccounts
 """ % (admin_node, 
+       kube_config_path,
+       docker_config_path,
        pipeline_templates_path, 
        pipeline_templates_path, 
        pipeline_templates_path,

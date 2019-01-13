@@ -18,6 +18,7 @@ spec:
         prometheus.io/path: "/metrics"
         prometheus.io/port: "8080"
     spec:
+# Custom docker registry
       imagePullSecrets:
       - name: docker-registry-secret
       affinity:
@@ -48,8 +49,10 @@ spec:
         volumeMounts:
         - name: dockersocket
           mountPath: /var/run/docker.sock
-        - name: kube-volume
-          mountPath: /root/.kube
+        - name: docker-volume
+          mountPath: /root/.docker
+#        - name: kube-volume
+#          mountPath: /root/.kube
         - name: notebooks-volume
           mountPath: /mnt/pipelineai/notebooks
         - name: users-volume
@@ -133,9 +136,16 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-      - name: kube-volume
-        secret:
-          secretName: kube-config-secret
+      - name: docker-volume
+        hostPath:
+          path: /root/.docker
+#        secret:
+#          secretName: docker-registry-secret
+#      - name: kube-volume
+#        hostPath:
+#          path: /root/.kube
+#        secret:
+#          secretName: kube-config-secret
       - name: datasets-volume
         hostPath:
           path: /mnt/pipelineai/datasets
