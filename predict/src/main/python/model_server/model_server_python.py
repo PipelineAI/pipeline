@@ -155,7 +155,7 @@ class ModelServerApplication(tornado.web.Application):
             (r'/metrics', MetricsHandler),
             (r'/', ModelPredictPython3Handler),
         ]
-        tornado.web.Application.__init__(self, handlers)
+        tornado.web.Application.__init__(self, handlers, debug=False, autoreload=False)
 
     def fallback(self):
         _logger.warn('Model Server Application fallback: {0}'.format(self))
