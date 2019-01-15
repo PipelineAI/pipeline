@@ -54,4 +54,4 @@ istio-ingressgateway   LoadBalancer   10.100.12.101   <dns-name>
 ```
 
 ### Whitelist the DNS Name with PipelineAI (Temporary)
-Notify chris@pipeline.ai to whitelist the <dns-name> above.
+Notify contact@pipeline.ai to whitelist the <dns-name> above.
