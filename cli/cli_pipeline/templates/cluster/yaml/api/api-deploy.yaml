@@ -49,8 +49,8 @@ spec:
         volumeMounts:
         - name: dockersocket
           mountPath: /var/run/docker.sock
-        - name: docker-volume
-          mountPath: /root/.docker
+#        - name: docker-volume
+#          mountPath: /root/.docker
 #        - name: kube-volume
 #          mountPath: /root/.kube
         - name: notebooks-volume
@@ -136,9 +136,9 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-      - name: docker-volume
-        hostPath:
-          path: /root/.docker
+#      - name: docker-volume
+#        hostPath:
+#          path: /root/.docker
 #        secret:
 #          secretName: docker-registry-secret
 #      - name: kube-volume
