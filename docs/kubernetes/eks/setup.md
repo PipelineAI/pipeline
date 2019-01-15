@@ -1,4 +1,26 @@
-### Full sync
+### Pull, Tag, and Push PipelineAI Docker Images
+* This step requires access to the private PipelineAI Docker Repo
+```
+aws ecr get-login --region us-west-2 --registry-ids 954636985443 --no-include-email | bash
+
+pipeline _env_registry_fullsync --tag=1.5.0 --chip=cpu
+
+pipeline _env_registry_fulltag --from-image-registry-url=954636985443.dkr.ecr.us-west-2.amazonaws.com \
+                               --from-image-registry-repo=pipelineai \
+                               --from-tag=1.5.0 \
+                               --to-image-registry-url=<your-docker-repo-url> \
+                               --to-image-registry-repo=pipelineai \
+                               --to-tag=1.5.0 \
+                               --chip=cpu
+
+pipeline _env_registry_fullpush --image-registry-url=<your-docker-repo-url> \
+                                --image-registry-repo=pipelineai \
+                                --tag=1.5.0 \
+                                --chip=cpu
+
+pipeline _cluster_kube_delete --tag=$PIPELINE_VERSION --chip=cpu
+pipeline _cluster_kube_create --tag=$PIPELINE_VERSION --chip=cpu
+```
 
 ### IAM Roles
 Make sure the underlying EC2 instances for your EKS cluster contain the AmazonEC2ContainerRegistryPowerUser instance policy.
@@ -15,9 +37,11 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 
 ### Create the cluster by specifying the admin node from above
-* Requires `cli-pipeline>=1.5.243`
+* Requires `cli-pipeline>=1.5.243`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
 ```
-pipeline _cluster_kube_create --tag 1.5.0 --admin-node <node1 or node2>
+pipeline _cluster_kube_create --tag 1.5.0 \
+                              --admin-node <node1 or node2> \
+                              --image-registry-url=<your-docker-repo-url>
 ```
 
 ### Retrieve the ELB DNS name
