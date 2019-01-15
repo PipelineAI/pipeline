@@ -1,5 +1,5 @@
 ### Pull, Tag, and Push PipelineAI Docker Images
-* This step requires access to the private PipelineAI Docker Repo
+This step requires access to the private PipelineAI Docker Repo
 ```
 aws ecr get-login --region us-west-2 --registry-ids 954636985443 --no-include-email | bash
 
