@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.243"
+__version__ = "1.5.244"
 
 import base64 as _base64
 import glob as _glob
@@ -5107,9 +5107,9 @@ kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
 def _cluster_kube_create(tag,
                          admin_node,
-                         docker_registry_url,
-                         docker_registry_username='',
-                         docker_registry_password='',
+                         image_registry_url,
+                         image_registry_username='',
+                         image_registry_password='',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 

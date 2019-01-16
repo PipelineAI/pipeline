@@ -115,14 +115,11 @@ spec:
         - name: PIPELINE_API_SWAGGER_CONFIG_STATIC_URL_PATH
           value: "/spec"
         - name: PIPELINE_IMAGE_REGISTRY_USERNAME
-#          value: ""
-          value: {{ PIPELINE_IMAGE_REGISTRY_USERNAME }}
+          value: "{{ PIPELINE_IMAGE_REGISTRY_USERNAME }}"
         - name: PIPELINE_IMAGE_REGISTRY_PASSWORD
-#          value: ""
-          value: {{ PIPELINE_IMAGE_REGISTRY_PASSWORD }}
+          value: "{{ PIPELINE_IMAGE_REGISTRY_PASSWORD }}"
         - name: PIPELINE_IMAGE_REGISTRY_URL
-#          value: "954636985443.dkr.ecr.us-west-2.amazonaws.com"
-          value: {{ PIPELINE_IMAGE_REGISTRY_URL }}
+          value: "{{ PIPELINE_IMAGE_REGISTRY_URL }}"
         - name: PIPELINE_IMAGE_REGISTRY_REPO
           value: "pipelineai"
         - name: PIPELINE_KAFKA_BOOTSTRAP_SERVERS
