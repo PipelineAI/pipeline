@@ -35,7 +35,8 @@ NAME                                          STATUS    ROLES     AGE       VERS
 * Requires `cli-pipeline>=1.5.243`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
 ```
 pipeline _cluster_kube_create --tag 1.5.0 \
-                              --admin-node <node1 or node2>
+                              --admin-node <node1-or-node2> \
+                              --image-registry-url <your-ecr-docker-registry-hostname>
 ```
 
 ### Retrieve the ELB DNS name
