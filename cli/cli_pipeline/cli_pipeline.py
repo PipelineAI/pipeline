@@ -5039,112 +5039,66 @@ def _get_sage_endpoint(model_name,
 
 
 def _cluster_kube_delete(tag,
-                         chip=_default_model_chip):
+                         admin_node,
+                         chip=_default_model_chip,
+                         pipeline_templates_path=None):
     cmd = """
-# Secrets 
-kubectl delete -f ~/certs/yaml/api/cloud-pipeline-ai-secret.yaml
-kubectl delete -f ~/certs/yaml/notebook-oauth/notebook-oauth-secret.yaml
-kubectl delete -f ~/certs/yaml/tls-certificate/tls-certificate-secret.yaml
-
-# Istio
-export ISTIO_VERSION=0.7.1
-kubectl delete -f ~/product/yaml/istio/istio-$ISTIO_VERSION.yaml
-
-# Hostpaths
-kubectl delete -f ~/product/yaml/path/path-configmap.yaml
-
-# Jaeger
-kubectl delete -f ~/product/yaml/jaeger/jaeger-configmap.yaml
-kubectl delete -f ~/product/yaml/jaeger/jaeger.yaml
-
-# ElasticSearch (logging)
-#kubectl delete -f ~/product/yaml/logging/logging-elasticsearch-deploy.yaml
-#kubectl delete -f ~/product/yaml/logging/logging-elasticsearch-svc.yaml
-
-# Fluentd (logging)
-#kubectl delete -f ~/product/yaml/logging/logging-fluentd-daemonset.yaml
-
-# Kibana (logging)
-#kubectl delete -f ~/product/yaml/logging/logging-kibana-deploy.yaml
-#kubectl delete -f ~/product/yaml/logging/logging-kibana-svc.yaml
-
-# Kubernetes Dashboard
-#export KUBERNETES_DASHBOARD_VERSION=1.8.3
-#kubectl delete -f ~/product/yaml/dashboard/kubernetes-dashboard-$KUBERNETES_DASHBOARD_VERSION.yaml
-
-# Hystrix
-kubectl delete -f ~/product/yaml/dashboard/hystrix-deploy.yaml
-kubectl delete -f ~/product/yaml/dashboard/hystrix-svc.yaml
-
-# Turbine
-kubectl delete clusterrolebinding serviceaccounts-view 
-kubectl delete -f ~/product/yaml/dashboard/turbine-deploy.yaml
-kubectl delete -f ~/product/yaml/dashboard/turbine-svc.yaml
-
-# Prometheus
-kubectl delete -f ~/product/yaml/prometheus/prometheus.yaml
-
-# Grafana
-kubectl delete -f ~/product/yaml/grafana/grafana-serviceaccount.yaml
-kubectl delete -f ~/product/yaml/grafana/grafana-deploy.yaml
-kubectl delete -f ~/product/yaml/grafana/grafana-svc.yaml
+# Label a node with admin role
+kubectl label nodes %s pipeline.ai/role-
 
 # Admin
-kubectl delete -f ~/product/yaml/admin/admin-configmap.yaml
-kubectl delete -f ~/product/yaml/admin/admin-deploy.yaml
-kubectl delete -f ~/product/yaml/admin/admin-svc.yaml
+kubectl delete -f %s/cluster/yaml/admin/admin-deploy.yaml
+kubectl delete -f %s/cluster/yaml/admin/admin-svc.yaml
 
 # Api
-kubectl delete -f ~/product/yaml/api/api-configmap.yaml
-kubectl delete -f ~/product/yaml/api/api-secret.yaml
-kubectl delete -f ~/product/yaml/api/api-deploy.yaml
-kubectl delete -f ~/product/yaml/api/api-svc.yaml
+kubectl delete -f .pipeline-generated-api-deploy.yaml
+kubectl delete -f %s/cluster/yaml/api/api-svc.yaml
 
-# Heapster
-#kubectl delete -f ~/product/yaml/dashboard/heapster-1.7.0.yaml
+# Notebook
+kubectl delete -f %s/cluster/yaml/notebook/notebook-community-%s-deploy-noauth.yaml
+kubectl delete -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
-# MySql
-#kubectl delete -f ~/product/yaml/mysql/mysql-master-deploy.yaml
-#kubectl delete -f ~/product/yaml/mysql/mysql-master-svc.yaml
+# Hystrix
+kubectl delete -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
+kubectl delete -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
 
-# Redis
-#kubectl delete -f ~/product/yaml/redis/redis-master-deploy.yaml
-#kubectl delete -f ~/product/yaml/redis/redis-master-svc.yaml
+# Turbine (Part 1)
+kubectl delete -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
+kubectl delete -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
-# Hive Metastore
-#kubectl delete -f ~/product/yaml/metastore/metastore-deploy.yaml
-#kubectl delete -f ~/product/yaml/metastore/metastore-svc.yaml
-
-# HDFS
-#kubectl delete -f ~/product/yaml/hdfs/namenode-deploy.yaml
-#kubectl delete -f ~/product/yaml/hdfs/namenode-svc.yaml
-
-# Spark Master
-#kubectl delete -f ~/product/yaml/spark/2.3.0/spark-2.3.0-master-deploy.yaml
-#kubectl delete -f ~/product/yaml/spark/2.3.0/spark-2.3.0-master-svc.yaml
-
-# Spark Worker
-#kubectl delete -f ~/product/yaml/spark/2.3.0/spark-2.3.0-worker-deploy.yaml
-#kubectl delete -f ~/product/yaml/spark/2.3.0/spark-2.3.0-worker-svc.yaml
-
-# PipelineDB (DB)
-#kubectl delete -f ~/product/yaml/pipelinedb/pipelinedb-db-deploy.yaml
-#kubectl delete -f ~/product/yaml/pipelinedb/pipelinedb-db-svc.yaml
-
-# PipelineDB Backend
-#kubectl delete -f ~/product/yaml/pipelinedb/pipelinedb-backend-deploy.yaml
-#kubectl delete -f ~/product/yaml/pipelinedb/pipelinedb-backend-svc.yaml
-
-#kubectl delete -f ~/product/yaml/pipelinedb/pipelinedb-frontend-deploy.yaml
-#kubectl delete -f ~/product/yaml/pipelinedb/pipelinedb-frontend-svc.yaml
-
-kubectl delete -f ~/product/yaml/notebook/notebook-community-%s-deploy.yaml
-kubectl delete -f ~/product/yaml/notebook/notebook-%s-svc.yaml
-
-#helm del --purge kafka
-
-#kubectl delete -f ~/product/yaml/kafka/kafka-rest-svc.yaml
-""" % (chip, chip)
+# Istio
+kubectl delete -f %s/cluster/yaml/istio/istio-loadbalancer-1.0.5.yaml
+kubectl delete -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-admin.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-api.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-prometheus.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
+""" % (admin_node,
+       pipeline_templates_path,
+       pipeline_templates_path,
+#       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       chip,
+       pipeline_templates_path,
+       chip,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+    )
 
     print(cmd)
     response_bytes = _subprocess.check_output(cmd, shell=True)
@@ -5153,8 +5107,9 @@ kubectl delete -f ~/product/yaml/notebook/notebook-%s-svc.yaml
 
 def _cluster_kube_create(tag,
                          admin_node,
-                         kube_config_path='~/.kube/config',
-                         docker_config_path='~/.docker/config.json',
+                         docker_registry_url,
+                         docker_registry_username='',
+                         docker_registry_password='',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 
@@ -5176,6 +5131,29 @@ def _cluster_kube_create(tag,
 
 # kubectl create secret docker-registry docker-registry-secret --docker-server=https://${DOCKER_IMAGE_REGISTRY_URL} --docker-username=${DOCKER_USERNAME} --docker-password=${DOCKER_PASSWORD}
 
+    if not pipeline_templates_path:
+        pipeline_templates_path = _default_pipeline_templates_path
+
+    pipeline_templates_path = _os.path.expandvars(pipeline_templates_path)
+    pipeline_templates_path = _os.path.expanduser(pipeline_templates_path)
+    pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
+    pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
+
+#    kube_config_path = _os.path.expandvars('~/.kube/config')
+#    kube_config_path = _os.path.expanduser(kube_config_path)
+#    kube_config_path = _os.path.abspath(kube_config_path)
+#    kube_config_path = _os.path.normpath(kube_config_path)
+
+#    docker_config_path = _os.path.expandvars('~/.docker/config.json')
+#    docker_config_path = _os.path.expanduser(docker_config_path)
+#    docker_config_path = _os.path.abspath(docker_config_path)
+#    docker_config_path = _os.path.normpath(docker_config_path)
+
+    context = {
+               'PIPELINE_IMAGE_REGISTRY_URL': image_registry_url,
+               'PIPELINE_IMAGE_REGISTRY_USERNAME': image_registry_username,
+               'PIPELINE_IMAGE_REGISTRY_PASSWORD': image_registry_password,
+              }
 
     if not pipeline_templates_path:
         pipeline_templates_path = _default_pipeline_templates_path
@@ -5185,30 +5163,27 @@ def _cluster_kube_create(tag,
     pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
     pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
 
-    kube_config_path = _os.path.expandvars('~/.kube/config')
-    kube_config_path = _os.path.expanduser(kube_config_path)
-    kube_config_path = _os.path.abspath(kube_config_path)
-    kube_config_path = _os.path.normpath(kube_config_path)
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
+    filename = 'api-deploy.yaml.template'
 
-    docker_config_path = _os.path.expandvars('~/.docker/config.json')
-    docker_config_path = _os.path.expanduser(docker_config_path)
-    docker_config_path = _os.path.abspath(docker_config_path)
-    docker_config_path = _os.path.normpath(docker_config_path)
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
+    #   since we're always passing the model_path when we build the docker image with this Dockerfile
+    rendered_Dockerfile = _os.path.normpath('.pipeline-generated-api-deploy.yaml')
+    with open(rendered_Dockerfile, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
 
     cmd = """
 # Label a node with admin role
 kubectl label nodes %s pipeline.ai/role=admin
-
-# Secrets
-###kubectl create secret generic kube-config-secret --from-file=%s
-###kubectl create secret generic docker-registry-secret --from-file=%s
 
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
 
 # Api
-kubectl create -f %s/cluster/yaml/api/api-deploy.yaml
+kubectl create -f .pipeline-generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
@@ -5239,11 +5214,9 @@ kubectl create clusterrolebinding serviceaccounts-view \
   --clusterrole=view \
   --group=system:serviceaccounts
 """ % (admin_node, 
-       kube_config_path,
-       docker_config_path,
        pipeline_templates_path, 
        pipeline_templates_path, 
-       pipeline_templates_path,
+#       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        chip, 
