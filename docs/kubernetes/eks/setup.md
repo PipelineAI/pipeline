@@ -36,7 +36,7 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 pipeline _cluster_kube_create --tag 1.5.0 \
                               --admin-node <node1-or-node2> \
-                              --image-registry-url <your-ecr-docker-registry-hostname>
+                              --image-registry-url <your-docker-repo-url>
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
