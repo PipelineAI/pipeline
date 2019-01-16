@@ -18,6 +18,7 @@ spec:
         port:
           number: 5000 
       weight: 100
+#    websocketUpgrade: true
   http:
   - match:
     - uri:
@@ -28,3 +29,4 @@ spec:
         port:
           number: 5000
       weight: 100
+#    websocketUpgrade: true
