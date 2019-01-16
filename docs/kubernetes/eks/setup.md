@@ -1,8 +1,15 @@
 ### Pull, Tag, and Push PipelineAI Docker Images
 This step requires access to the private PipelineAI Docker Repo
+
+Enter your AWS Credentials for the PipelineAI ECR Registry (`region=us-west-2`)
+```
+aws configure
+```
 ```
 aws ecr get-login --region us-west-2 --registry-ids 954636985443 --no-include-email | bash
+```
 
+```
 pipeline _env_registry_fullsync --tag=1.5.0 --chip=cpu
 
 pipeline _env_registry_fulltag --from-image-registry-url=954636985443.dkr.ecr.us-west-2.amazonaws.com \
