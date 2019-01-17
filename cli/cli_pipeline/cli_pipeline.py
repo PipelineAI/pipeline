@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.249"
+__version__ = "1.5.250"
 
 import base64 as _base64
 import glob as _glob
@@ -460,10 +460,6 @@ def _validate_runtimes(runtime_list):
 
 
 def _get_api_url(host, endpoint):
-#    path = _os.path.join(_PIPELINE_API_BASE_PATH, endpoint)
-#    url = 'https://%s%s' % (host, path)
-#    return url
-
     path = _os.path.join(_PIPELINE_API_BASE_PATH, endpoint)
     path = path.rstrip('/')
     host = host.rstrip('/')
@@ -1217,9 +1213,9 @@ def resource_upload(
     # _dict_print(endpoint, return_dict[endpoint])
 
     # *********** resource-archive-receive ********************************
-    print('Sending New Resource to PipelineAI...')
-    endpoint = 'resource-archive-receive'
     url = _get_api_url(host, endpoint)
+    print('Sending New Resource to PipelineAI to %s...' % url)
+    endpoint = 'resource-archive-receive'
     files = {'file': open(archive_path, 'rb')}
 
     form_data = {
@@ -1296,7 +1292,7 @@ def resource_upload(
          Resource Tag: %s   
         Resource Name: %s
  
-    ''' % (host, resource_id, tag, name))
+    ''' % (url, resource_id, tag, name))
 
 
     # TODO:  This return_dict seems malformed
@@ -5078,6 +5074,7 @@ def _cluster_kube_create(tag,
                          image_registry_url,
                          image_registry_username='',
                          image_registry_password='',
+                         kube_config_path='~/.kube/config',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 
@@ -5107,10 +5104,10 @@ def _cluster_kube_create(tag,
     pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
     pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
 
-#    kube_config_path = _os.path.expandvars('~/.kube/config')
-#    kube_config_path = _os.path.expanduser(kube_config_path)
-#    kube_config_path = _os.path.abspath(kube_config_path)
-#    kube_config_path = _os.path.normpath(kube_config_path)
+    kube_config_path = _os.path.expandvars('~/.kube/config')
+    kube_config_path = _os.path.expanduser(kube_config_path)
+    kube_config_path = _os.path.abspath(kube_config_path)
+    kube_config_path = _os.path.normpath(kube_config_path)
 
 #    docker_config_path = _os.path.expandvars('~/.docker/config.json')
 #    docker_config_path = _os.path.expanduser(docker_config_path)
@@ -5141,6 +5138,9 @@ def _cluster_kube_create(tag,
     with open(rendered_Dockerfile, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_Dockerfile))
+
+# Secrets
+#kubectl create secret generic kube-config-secret --from-file=%s
 
     cmd = """
 # Label a node with admin role
