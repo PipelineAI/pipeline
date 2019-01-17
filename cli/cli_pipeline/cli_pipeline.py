@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.244"
+__version__ = "1.5.248"
 
 import base64 as _base64
 import glob as _glob
@@ -459,54 +459,14 @@ def _validate_runtimes(runtime_list):
     return True
 
 
-def _get_api_url(host, endpoint):
+def _get_api_url(host_url, endpoint):
     path = _os.path.join(_PIPELINE_API_BASE_PATH, endpoint)
-    url = 'https://%s%s' % (host, path)
-    return url
+    path = path.rstrip('/')
 
+    host_url = host_url.rstrip('/')
+    host_url = '%s%s' % (host_url, path)
 
-def _get_short_user_id_hash(
-    oauth_id,
-    host,
-    verify=False,
-    cert=None,
-    timeout=None
-):
-    """
-    Use the left 8 characters of the Auth0 user_id hashed using SHA512
-    to create a unique namespace for the user to work in.
-
-    :param str oauth_id: OAuth identity provider Id that uniquely identifies the user
-                            Example: google-oauth2|104365138874137211393
-    :param str host:     PipelineAI host server dns name
-    :param bool verify:  (optional) Either a boolean, in which case it
-                            controls whether we verify the server's
-                            TLS certificate, or a string, in which case
-                            it must be a path to a CA bundle to use.
-                            Defaults to ``False``.
-    :param tuple cert:   (optional) if String, path to ssl client cert file
-                            (.pem). If Tuple, ('cert', 'key') pair.
-    :param int timeout:  (optional) Subprocess timeout in seconds
-    :return:             str - left 8 character hash
-    """
-    if not timeout:
-        timeout = _DEFAULT_SUBPROCESS_TIMEOUT_SECONDS
-    url = _get_api_url(host, '/resource-archive-receive')
-    params = {'oauth_id': oauth_id}
-
-    response = _requests.get(
-        url=url,
-        params=params,
-        verify=verify,
-        cert=cert,
-        timeout=timeout
-    )
-
-    status_code = response.status_code
-    if status_code == _HTTP_STATUS_SUCCESS_OK:
-        return response.json()['user_id']
-    else:
-        return oauth_id
+    return host_url
 
 
 def _get_resource_config(resource_type):
@@ -1255,9 +1215,9 @@ def resource_upload(
     # _dict_print(endpoint, return_dict[endpoint])
 
     # *********** resource-archive-receive ********************************
-    print('Sending New Resource to PipelineAI...')
-    endpoint = 'resource-archive-receive'
     url = _get_api_url(host, endpoint)
+    print('Sending New Resource to PipelineAI to %s...' % url)
+    endpoint = 'resource-archive-receive'
     files = {'file': open(archive_path, 'rb')}
 
     form_data = {
@@ -1326,7 +1286,7 @@ def resource_upload(
 
     Navigate to the following url to optimize, deploy, validate, and explain your model predictions in live production:
 
-        https://%s
+        %s
 
     Model details:
 
@@ -1334,7 +1294,7 @@ def resource_upload(
          Resource Tag: %s   
         Resource Name: %s
  
-    ''' % (host, resource_id, tag, name))
+    ''' % (url, resource_id, tag, name))
 
 
     # TODO:  This return_dict seems malformed
@@ -5076,6 +5036,12 @@ kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-prometheus.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
+
+# Turbine (Part 2)
+kubectl delete clusterrolebinding pipelineai-serviceaccounts-view 
+
+# Allow creation of pods and istio assets
+kubectl delete clusterrolebinding pipelineai-cluster-admin 
 """ % (admin_node,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5110,6 +5076,7 @@ def _cluster_kube_create(tag,
                          image_registry_url,
                          image_registry_username='',
                          image_registry_password='',
+                         kube_config_path='~/.kube/config',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 
@@ -5139,10 +5106,10 @@ def _cluster_kube_create(tag,
     pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
     pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
 
-#    kube_config_path = _os.path.expandvars('~/.kube/config')
-#    kube_config_path = _os.path.expanduser(kube_config_path)
-#    kube_config_path = _os.path.abspath(kube_config_path)
-#    kube_config_path = _os.path.normpath(kube_config_path)
+    kube_config_path = _os.path.expandvars('~/.kube/config')
+    kube_config_path = _os.path.expanduser(kube_config_path)
+    kube_config_path = _os.path.abspath(kube_config_path)
+    kube_config_path = _os.path.normpath(kube_config_path)
 
 #    docker_config_path = _os.path.expandvars('~/.docker/config.json')
 #    docker_config_path = _os.path.expanduser(docker_config_path)
@@ -5173,6 +5140,9 @@ def _cluster_kube_create(tag,
     with open(rendered_Dockerfile, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_Dockerfile))
+
+# Secrets
+#kubectl create secret generic kube-config-secret --from-file=%s
 
     cmd = """
 # Label a node with admin role
@@ -5210,8 +5180,13 @@ kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
 # Turbine (Part 2)
-kubectl create clusterrolebinding serviceaccounts-view \
+kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
   --clusterrole=view \
+  --group=system:serviceaccounts
+
+# Allow creation of pods and istio assets
+kubectl create clusterrolebinding pipelineai-cluster-admin \
+  --clusterrole=cluster-admin \
   --group=system:serviceaccounts
 """ % (admin_node, 
        pipeline_templates_path, 
