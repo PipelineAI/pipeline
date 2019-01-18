@@ -27,7 +27,7 @@ spec:
                 - admin
       containers:
       - name: dashboard-hystrix
-        image: 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/dashboard-hystrix:1.5.0
+        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/pipelineai/dashboard-hystrix:1.5.0
 #        image: pipelineai/dashboard-hystrix:1.5.0
         resources:
           limits:

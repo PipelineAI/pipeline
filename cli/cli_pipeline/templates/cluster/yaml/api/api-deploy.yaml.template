@@ -32,7 +32,7 @@ spec:
                 - admin
       containers:
       - name: api
-        image: 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/api:1.5.0
+        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/pipelineai/api:1.5.0
         imagePullPolicy: "IfNotPresent"
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:

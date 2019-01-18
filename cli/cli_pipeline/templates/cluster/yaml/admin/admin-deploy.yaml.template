@@ -27,7 +27,7 @@ spec:
                 - admin
       containers:
       - name: admin
-        image: 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/admin:1.5.0
+        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/pipelineai/admin:1.5.0
         imagePullPolicy: "IfNotPresent"
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:

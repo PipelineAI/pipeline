@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.251"
+__version__ = "1.5.252"
 
 import base64 as _base64
 import glob as _glob
@@ -4998,33 +4998,38 @@ def _get_sage_endpoint(model_name,
                                   image_registry_namespace)
 
 
-def _cluster_kube_delete(tag,
-                         admin_node,
-                         chip=_default_model_chip,
-                         pipeline_templates_path=None):
+def cluster_kube_uninstall(tag,
+                          admin_node,
+                          namespace='default',
+                          chip=_default_model_chip,
+                          pipeline_templates_path=None):
+
+    if not pipeline_templates_path:
+        pipeline_templates_path = _default_pipeline_templates_path
+
     cmd = """
 # Label a node with admin role
 kubectl label nodes %s pipeline.ai/role-
 
 # Admin
-kubectl delete -f %s/cluster/yaml/admin/admin-deploy.yaml
-kubectl delete -f %s/cluster/yaml/admin/admin-svc.yaml
+kubectl delete deploy admin 
+kubectl delete svc admin 
 
 # Api
-kubectl delete -f .pipeline-generated-api-deploy.yaml
-kubectl delete -f %s/cluster/yaml/api/api-svc.yaml
+kubectl delete deploy api 
+kubectl delete svc api 
 
 # Notebook
-kubectl delete -f %s/cluster/yaml/notebook/notebook-community-%s-deploy-noauth.yaml
-kubectl delete -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
+kubectl delete deploy notebook-%s 
+kubectl delete svc notebook-%s
 
 # Hystrix
-kubectl delete -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
-kubectl delete -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
+kubectl delete deploy dashboard-hystrix 
+kubectl delete svc dashboard-hystrix
 
 # Turbine (Part 1)
-kubectl delete -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
-kubectl delete -f %s/cluster/yaml/dashboard/turbine-svc.yaml
+kubectl delete deploy dashboard-turbine 
+kubectl delete svc dashboard-turbine 
 
 # Istio
 kubectl delete -f %s/cluster/yaml/istio/istio-loadbalancer-1.0.5.yaml
@@ -5047,18 +5052,8 @@ kubectl delete clusterrolebinding pipelineai-serviceaccounts-view
  # Remove ability to create pods and istio assets
 kubectl delete clusterrolebinding pipelineai-cluster-admin
 """ % (admin_node,
-       pipeline_templates_path,
-       pipeline_templates_path,
-#       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
        chip,
-       pipeline_templates_path,
-       chip,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
+       chip, 
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5075,40 +5070,17 @@ kubectl delete clusterrolebinding pipelineai-cluster-admin
     return response_bytes.decode('utf-8')
 
 
-def _cluster_kube_create(tag,
+def cluster_kube_install(tag,
                          admin_node,
-#                         kube_config_path,
                          image_registry_url,
                          image_registry_username='',
                          image_registry_password='',
+                         namespace='default',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 
-# kubectl create secret generic kube-config-secret --from-file=%s
-#   ~/.kube/config
-
-# kubectl create secret generic docker-registry-secret --from-file=%s
-#   ~/.docker/config.json
-#   See https://kubernetes.io/docs/concepts/containers/images/#creating-a-secret-with-a-docker-config 
-
-#apiVersion: v1
-#data:
-#  .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2RvY2tlci5pbyI6eyJ1c2VybmFtZSI6ImNocmlzIiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImF1dGgiOiJhdXRoIn19fQ== 
-#kind: Secret
-#metadata:
-#  name: docker-registry-secret
-#  namespace: default
-#type: kubernetes.io/dockerconfigjson
-
-# kubectl create secret docker-registry docker-registry-secret --docker-server=https://${DOCKER_IMAGE_REGISTRY_URL} --docker-username=${DOCKER_USERNAME} --docker-password=${DOCKER_PASSWORD}
-
     if not pipeline_templates_path:
         pipeline_templates_path = _default_pipeline_templates_path
-
-#    kube_config_path = _os.path.expandvars('~/.kube/config')
-#    kube_config_path = _os.path.expanduser(kube_config_path)
-#    kube_config_path = _os.path.abspath(kube_config_path)
-#    kube_config_path = _os.path.normpath(kube_config_path)
 
     pipeline_templates_path = _os.path.expandvars(pipeline_templates_path)
     pipeline_templates_path = _os.path.expanduser(pipeline_templates_path)
@@ -5129,13 +5101,54 @@ def _cluster_kube_create(tag,
     pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
     pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
-    filename = 'api-deploy.yaml.template'
+    _os.makedirs('.pipelineai', exist_ok=True)
 
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/admin/'))
+    filename = 'admin-deploy.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
     # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
     #   since we're always passing the model_path when we build the docker image with this Dockerfile
-    rendered_Dockerfile = _os.path.normpath('.pipeline-generated-api-deploy.yaml')
+    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-admin-deploy.yaml')
+    with open(rendered_Dockerfile, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
+    filename = 'api-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
+    #   since we're always passing the model_path when we build the docker image with this Dockerfile
+    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-api-deploy.yaml')
+    with open(rendered_Dockerfile, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+    filename = 'notebook-%s-deploy.yaml.template' % (chip)
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
+    #   since we're always passing the model_path when we build the docker image with this Dockerfile
+    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-notebook-deploy.yaml')
+    with open(rendered_Dockerfile, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
+    filename = 'hystrix-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
+    #   since we're always passing the model_path when we build the docker image with this Dockerfile
+    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-hystrix-deploy.yaml')
+    with open(rendered_Dockerfile, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
+    filename = 'turbine-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
+    #   since we're always passing the model_path when we build the docker image with this Dockerfile
+    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-turbine-deploy.yaml')
     with open(rendered_Dockerfile, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_Dockerfile))
@@ -5145,26 +5158,23 @@ def _cluster_kube_create(tag,
 kubectl label nodes %s pipeline.ai/role=admin
 
 # Admin
-kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
+kubectl create -f .pipelineai/generated-admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
 
-# Secrets
-#kubectl create secret generic kube-config-secret --from-file=
-
 # Api
-kubectl create -f .pipeline-generated-api-deploy.yaml
+kubectl create -f .pipelineai/generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
-kubectl create -f %s/cluster/yaml/notebook/notebook-community-%s-deploy-noauth.yaml
+kubectl create -f .pipelineai/generated-notebook-%s-deploy.yaml
 kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
 # Hystrix
-kubectl create -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
+kubectl create -f .pipelineai/generated-hystrix-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
 
 # Turbine (Part 1)
-kubectl create -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
+kubectl create -f .pipelineai/generated-turbine-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
 # Istio
@@ -5192,13 +5202,9 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
        pipeline_templates_path, 
 #       kube_config_path,
 #       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       chip, 
-       pipeline_templates_path,
        chip,
        pipeline_templates_path,
-       pipeline_templates_path,
+       chip,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
