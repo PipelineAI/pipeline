@@ -39,11 +39,9 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 
 ### Create the cluster by specifying the admin node from above
-* Requires `cli-pipeline>=1.5.244`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
+* Requires `cli-pipeline>=1.5.252`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
 ```
-pipeline _cluster_kube_create --tag 1.5.0 \
-                              --admin-node <node1-or-node2> \
-                              --image-registry-url <your-docker-repo-url>
+pipeline cluster_kube_install --tag 1.5.0 --admin-node <node1-or-node2> --image-registry-url <your-docker-repo-url>
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
