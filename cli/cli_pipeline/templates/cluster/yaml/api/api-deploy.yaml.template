@@ -51,8 +51,8 @@ spec:
           mountPath: /var/run/docker.sock
 #        - name: docker-volume
 #          mountPath: /root/.docker
-        - name: kube-volume
-          mountPath: /root/.kube
+#        - name: kube-volume
+#          mountPath: /root/.kube/config
         - name: notebooks-volume
           mountPath: /mnt/pipelineai/notebooks
         - name: users-volume
@@ -141,9 +141,9 @@ spec:
 #          path: /root/.docker
 #        secret:
 #          secretName: docker-registry-secret
-      - name: kube-volume
-        hostPath:
-          path: /root/.kube
+#      - name: kube-volume
+#        hostPath:
+#          path: /root/.kube
 #        secret:
 #          secretName: kube-config-secret
       - name: datasets-volume
