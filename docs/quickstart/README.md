@@ -9,7 +9,7 @@
 ### Install PipelineAI CLI
 [![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
 ```
-pip install cli-pipeline==1.5.252 --default-timeout=120 --ignore-installed --no-cache --upgrade
+pip install cli-pipeline==1.5.253 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
 * You may also use `--user` if you're still having issues.
