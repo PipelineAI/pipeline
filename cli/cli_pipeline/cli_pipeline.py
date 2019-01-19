@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.252"
+__version__ = "1.5.253"
 
 import base64 as _base64
 import glob as _glob
@@ -564,6 +564,7 @@ def _get_resource_base_image_default(resource_type):
 
 
 def resource_optimize_and_train(
+    api_token,
     host,
     user_id,
     resource_type,
@@ -759,7 +760,10 @@ def resource_optimize_and_train(
         'worker_replicas': worker_replicas
     }
 
+    headers = {'Authorization': 'Bearer %s' % api_token}
+
     response = _requests.post(
+        headers=headers,
         url=url,
         json=json_body,
         verify=verify,
@@ -789,6 +793,7 @@ def resource_optimize_and_train(
 
 
 def resource_optimize_and_deploy(
+    api_token,
     host,
     user_id,
     resource_type,
@@ -973,7 +978,10 @@ def resource_optimize_and_deploy(
             'image_registry_namespace': image_registry_namespace
         }
 
+        headers = {'Authorization': 'Bearer %s' % api_token}
+
         response = _requests.get(
+            headers=headers,
             url=url,
             params=params,
             verify=verify,
@@ -1048,8 +1056,11 @@ def resource_optimize_and_deploy(
         'resource_shadow_tag_list': resource_shadow_tag_list,
         'new_route': new_route,
     }
+ 
+    headers = {'Authorization': 'Bearer %s' % api_token}
 
     response = _requests.post(
+        headers=headers,
         url=url,
         json=json_body,
         verify=verify,
@@ -1229,6 +1240,8 @@ def resource_upload(
         'overwrite': overwrite
     }
 
+    headers = {'Authorization': 'Bearer %s' % api_token}
+
     response = _requests.post(
         headers=headers,
         url=url,
@@ -1262,6 +1275,8 @@ def resource_upload(
         'tag': tag,
         'timeout': timeout
     }
+
+    headers = {'Authorization': 'Bearer %s' % api_token}
 
     response = _requests.post(
         headers=headers,
@@ -2693,7 +2708,6 @@ def predict_kube_start(model_name,
         return _jsonify(return_dict)
     else:
         return return_dict
-
 
     response = _requests.get(url=endpoint_url,
                              headers=accept_headers,
