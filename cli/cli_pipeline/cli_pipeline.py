@@ -5259,6 +5259,12 @@ def _create_kube_config(api_server,
         print("'%s' => '%s'." % (filename, rendered_Dockerfile))
 
 
+def _get_short_user_id(user_id):
+    import hashlib
+    unique_id = user_id.split('|').pop().encode()
+    return hashlib.sha512(unique_id).hexdigest()[0:8]
+
+
 def _main():
     #  WARNING:
     #      the global variables below DO NOT WORK
