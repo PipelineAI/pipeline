@@ -12,6 +12,8 @@ spec:
   - match:
     - uri:
         prefix: /admin/grafana
+    - uri:
+        prefix: /public/build
     route:
     - destination:
         host: grafana 

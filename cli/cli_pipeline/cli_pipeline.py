@@ -460,11 +460,15 @@ def _validate_runtimes(runtime_list):
 
 
 def _get_api_url(host, endpoint):
-    path = _os.path.join(_PIPELINE_API_BASE_PATH, endpoint)
+    path_with_endpoint = _os.path.join(_PIPELINE_API_BASE_PATH, endpoint)
+    # Stripping / and \ because the PIPELNIE_BASE_PATH already has this
+    host = host.rstrip('/\\ ')
+
     if host.startswith('http'):
-        url = '%s%s' % (host, path)
+        url = '%s%s' % (host, path_with_endpoint)
     else:
-        url = 'https://%s%s' % (host, path)
+        # default to https://
+        url = 'https://%s%s' % (host, path_with_endpoint)
 
     return url
 
@@ -1313,6 +1317,7 @@ def resource_upload(
 
     response_dict = {}
     if host:
+        host = host.rstrip('/\\ ')
         response_dict['comments'] = 'Navigate to %s to optimize, deploy, validate, and explain your models in live production.' % host
         response_dict['host'] = host
 
@@ -5154,7 +5159,7 @@ def cluster_kube_install(tag,
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
     # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
     #   since we're always passing the model_path when we build the docker image with this Dockerfile
-    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-notebook-deploy.yaml')
+    rendered_Dockerfile = _os.path.normpath('.pipelineai/generated-notebook-%s-deploy.yaml' % chip)
     with open(rendered_Dockerfile, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_Dockerfile))

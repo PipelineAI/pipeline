@@ -12,21 +12,11 @@ spec:
   - match:
     - uri:
         prefix: /admin/tracking
+    - uri:
+        prefix: /ajax-api
     route:
     - destination:
         host: mlflow 
         port:
           number: 5000 
       weight: 100
-#    websocketUpgrade: true
-  http:
-  - match:
-    - uri:
-        prefix: /ajax-api
-    route:
-    - destination:
-        host: mlflow
-        port:
-          number: 5000
-      weight: 100
-#    websocketUpgrade: true
