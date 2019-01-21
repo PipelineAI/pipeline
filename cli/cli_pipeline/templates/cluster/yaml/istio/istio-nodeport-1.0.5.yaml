@@ -12577,6 +12577,7 @@ spec:
     - port: 3000
       targetPort: 3000
       protocol: TCP
+      nodePort: 31995
       name: http
   selector:
     app: grafana
@@ -13172,6 +13173,8 @@ spec:
             value: Admin
           - name: GF_PATHS_DATA
             value: /data/grafana
+          - name: GF_PATHS_ROOT_URL
+            value: /admin/grafana
           resources:
             requests:
               cpu: 10m

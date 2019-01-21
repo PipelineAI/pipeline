@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana 
+  namespace: default 
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - gateway
+  http:
+  - match:
+    - uri:
+        prefix: /admin/grafana
+    route:
+    - destination:
+        host: grafana 
+        port:
+          number: 3000 
+      weight: 100
