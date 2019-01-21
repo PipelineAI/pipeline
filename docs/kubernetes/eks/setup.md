@@ -1,5 +1,5 @@
 ### Pull, Tag, and Push PipelineAI Docker Images
-_Email [contact@pipeline.ai](mailto:contact@pipeline.ai)) to request access to the PipelineAI Docker Repo._
+_Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to request access to the PipelineAI Docker Repo._
 
 Enter your AWS Credentials for the PipelineAI ECR Registry (`region=us-west-2`)
 ```
@@ -57,4 +57,4 @@ istio-ingressgateway   LoadBalancer   10.100.12.101   <dns-name>
 ```
 
 ### Whitelist the DNS Name with PipelineAI
-_Email [contact@pipeline.ai](mailto:contact@pipeline.ai)) to whitelist your DNS name with PipelineAI._
+_Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI._
