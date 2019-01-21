@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.254"
+__version__ = "1.5.255"
 
 import base64 as _base64
 import glob as _glob
@@ -1296,33 +1296,44 @@ def resource_upload(
 
     kubernetes_resource_type_list = ','.join(_PIPELINE_SUPPORTED_KUBERNETES_RESOURCE_TYPE_LIST)
 
-    print('''
-    ...Completed.
+#    print('''
+#    ...Completed.
+#
+#    Navigate to the following url to optimize, deploy, validate, and explain your model predictions in live production:
+#
+#        %s
+#
+#    Model details:
+#
+#          Resource Id: %s
+#         Resource Tag: %s   
+#        Resource Name: %s
+# 
+#    ''' % (host, resource_id, tag, name))
 
-    Navigate to the following url to optimize, deploy, validate, and explain your model predictions in live production:
+    response_dict = {}
+    if host:
+        response_dict['comments'] = 'Navigate to %s to optimize, deploy, validate, and explain your models in live production.' % host
+        response_dict['host'] = host
 
-        %s
+    if tag:
+        response_dict['tag'] = tag
 
-    Model details:
+    if name:
+        response_dict['name'] = name
 
-          Resource Id: %s
-         Resource Tag: %s   
-        Resource Name: %s
- 
-    ''' % (host, resource_id, tag, name))
-
-
-    # TODO:  This return_dict seems malformed
     if status_code:
-        return_dict['status_code'] = status_code
+        response_dict['status_code'] = status_code
+        if status_code == 201:
+            response_dict['status'] = 'Success'
 
-    if resource_id and status_code:
-        response_dict = {'resource_id': resource_id,
-                         'status_code': status_code}
-    else:
-        response_dict = {}
+    if resource_id:
+        response_dict['resource_id'] = resource_id
 
-    return response_dict
+#    if _http_mode:
+    return _json.dumps(response_dict)
+#    else
+#        return return_dict
 
 
 # TODO:  This is too cryptic.  Try to simplify as following:
