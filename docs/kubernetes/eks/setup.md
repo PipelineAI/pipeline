@@ -1,5 +1,5 @@
 ### Pull, Tag, and Push PipelineAI Docker Images
-This step requires access to the private PipelineAI Docker Repo
+_Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to request access to the PipelineAI Docker Repo._
 
 Enter your AWS Credentials for the PipelineAI ECR Registry (`region=us-west-2`)
 ```
@@ -56,5 +56,5 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP
 istio-ingressgateway   LoadBalancer   10.100.12.101   <dns-name>  
 ```
 
-### Whitelist the DNS Name with PipelineAI (Temporary)
-Notify contact@pipeline.ai to whitelist the <dns-name> above.
+### Whitelist the DNS Name with PipelineAI
+_Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI._
