@@ -1,3 +1,6 @@
+### Prerequisites
+* Running EKS Cluster
+
 ### Pull, Tag, and Push PipelineAI Docker Images
 _Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to request access to the PipelineAI Docker Repo._
 
