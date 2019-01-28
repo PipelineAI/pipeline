@@ -2,7 +2,7 @@
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
 ### Prerequisites
-* Running Kubernetes
+* Running Kubernetes Cluster
 
 ### Pull, Tag, and Push PipelineAI Docker Images
 _Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to request access to the PipelineAI Docker Repo._
