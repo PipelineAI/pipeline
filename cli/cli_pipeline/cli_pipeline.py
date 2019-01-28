@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.259"
+__version__ = "1.5.260"
 
 import base64 as _base64
 import glob as _glob
@@ -5203,7 +5203,7 @@ kubectl delete deploy dashboard-turbine
 kubectl delete svc dashboard-turbine 
 
 # Istio
-kubectl delete -f %s/cluster/yaml/istio/istio-loadbalancer-1.0.5.yaml
+kubectl delete -f %s/cluster/yaml/istio/istio-loadbalancer-metricsoff-1.0.5.yaml
 sleep 10
 
 kubectl delete -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
@@ -5213,8 +5213,6 @@ kubectl delete -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
-kubectl delete -f %s/cluster/yaml/istio/virtualservice-grafana.yaml
-kubectl delete -f %s/cluster/yaml/istio/virtualservice-prometheus.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
@@ -5351,14 +5349,12 @@ kubectl create -f .pipelineai/generated-turbine-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
 # Istio
-kubectl create -f %s/cluster/yaml/istio/istio-loadbalancer-1.0.5.yaml
+kubectl create -f %s/cluster/yaml/istio/istio-loadbalancer-metricsoff-1.0.5.yaml
 kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
-kubectl create -f %s/cluster/yaml/istio/virtualservice-grafana.yaml
-kubectl create -f %s/cluster/yaml/istio/virtualservice-prometheus.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
