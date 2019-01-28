@@ -1093,6 +1093,145 @@ def resource_optimize_and_deploy(
     return return_dict, status_code
 
 
+# pipeline resource-routes-get --user-id 83f05e58 \
+#                              --api-token <api-token> \
+#                              --host community.cloud.pipeline.ai \
+#                              --name mnist \
+#                              --resource-type=model
+def resource_routes_get(
+    api_token,
+    host,
+    user_id,
+    resource_type,
+    name,
+    verify=False,
+    cert=None,
+    timeout=1800,
+    namespace=None,
+    image_registry_namespace=None):
+
+    name = _validate_and_prep_name(name)
+
+    resource_config = _get_resource_config(resource_type)
+    if not namespace:
+        namespace = resource_config['namespace']
+    if not image_registry_namespace:
+        image_registry_namespace = resource_config['image_registry_namespace']
+
+    endpoint = 'resource-kube-routes'
+    url = _get_api_url(host, endpoint)
+
+    resource_name = _get_resource_name(user_id, name)
+
+    params = {
+            'user_id': user_id,
+            'resource_type': resource_type,
+            'resource_name': resource_name,
+            'namespace': namespace,
+            'image_registry_namespace': image_registry_namespace
+    }
+
+    headers = {'Authorization': 'Bearer %s' % api_token}
+
+    response = _requests.get(
+            headers=headers,
+            url=url,
+            params=params,
+            verify=verify,
+            cert=cert,
+            timeout=timeout
+    )
+
+    kube_routes = response.json()
+
+    return_dict = {} 
+
+    status_code = response.status_code
+    if status_code > _HTTP_STATUS_SUCCESS_OK:
+        return_dict['error_message'] = '%s %s' % (endpoint, status_code)
+    else:
+        resource_split_tag_and_weight_dict = dict()
+        resource_shadow_tag_list = list()
+
+        routes_dict = kube_routes['routes']
+
+        for k, v in routes_dict.items():
+            resource_tag_dict = routes_dict[k]
+            resource_split_tag_and_weight_dict[k] = resource_tag_dict['split']
+            if resource_tag_dict.get('shadow', False) is True:
+                resource_shadow_tag_list.append(k)
+
+    return_dict['status_code'] = status_code
+    return_dict['status'] = 'complete'
+    return_dict['split_dict'] = resource_split_tag_and_weight_dict
+    return_dict['shadow_list'] = resource_shadow_tag_list
+
+    return _json.dumps(return_dict)
+
+
+def resource_routes_set(
+    api_token,
+    host,
+    user_id,
+    resource_type,
+    name,
+    resource_split_tag_and_weight_dict,
+    resource_shadow_tag_list,
+    verify=False,
+    cert=None,
+    timeout=1800,
+    namespace=None,
+    image_registry_namespace=None):
+
+    name = _validate_and_prep_name(name)
+
+    resource_config = _get_resource_config(resource_type)
+    if not namespace:
+        namespace = resource_config['namespace']
+    if not image_registry_namespace:
+        image_registry_namespace = resource_config['image_registry_namespace']
+
+    endpoint = 'resource-kube-route'
+    url = _get_api_url(host, endpoint)
+
+    resource_name = _get_resource_name(user_id, name)
+
+    json_body = {
+            'user_id': user_id,
+            'resource_type': resource_type,
+            'name': name,
+            'resource_name': resource_name,
+            'resource_split_tag_and_weight_dict': resource_split_tag_and_weight_dict,
+            'resource_shadow_tag_list':resource_shadow_tag_list,
+            'namespace': namespace,
+            'image_registry_namespace': image_registry_namespace
+    }
+
+    headers = {'Authorization': 'Bearer %s' % api_token}
+
+    response = _requests.post(
+            headers=headers,
+            url=url,
+            json=json_body,
+            verify=verify,
+            cert=cert,
+            timeout=timeout
+    )
+
+    return_dict = {}
+
+    status_code = response.status_code
+    if status_code > _HTTP_STATUS_SUCCESS_CREATED:
+        return_dict['error_message'] = '%s %s' % (endpoint, status_code)
+
+    return_dict['status_code'] = status_code
+    return_dict['status'] = 'complete'
+    return_dict['split_dict'] = resource_split_tag_and_weight_dict
+    return_dict['shadow_list'] = resource_shadow_tag_list
+
+    return _json.dumps(return_dict)
+
+
 def resource_upload(
     api_token,
     host,
