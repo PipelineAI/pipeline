@@ -42,7 +42,7 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 
 ### Create the cluster by specifying the admin node from above
-* Requires `cli-pipeline>=1.5.259`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
+* Requires `cli-pipeline>=1.5.260`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
 ```
 pipeline cluster_kube_install --tag 1.5.0 --admin-node <node1-or-node2> --image-registry-url <your-docker-repo-url>
 ```
