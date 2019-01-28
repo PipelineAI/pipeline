@@ -1169,6 +1169,8 @@ def resource_routes_get(
     return _json.dumps(return_dict)
 
 
+# pipeline resource-routes-set --user-id 83f05e58 --api-token <api-token> --host community.cloud.pipeline.ai --name transfer --resource-type=model  --resource-split-tag-and-weight-dict='{"v1pythoncpu672c6296": 40, "v2pythoncpu2b2634f7": 60, "v3pythoncpuf26e3e46": 0}' --resource-shadow-tag-list='["v3pythoncpuf26e3e46"]'
+#
 def resource_routes_set(
     api_token,
     host,
