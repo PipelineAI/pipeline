@@ -18,10 +18,12 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 
 ### Create the Cluster 
-* Requires `cli-pipeline>=1.5.260`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI.
+_This requires `cli-pipeline>=1.5.260`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI._
 
+PipelineAI CLI Args
 * `admin-name`:  Designate one of the worker nodes as the "PipelineAI Admin" node
-* `service-type`:  NodePort (ie. Local, On-Premise install) or LoadBalancer (ie. Cloud install)
+* `service-type`:  NodePort (ie. Local, On-Premise install) or LoadBalancer (ie. Cloud install).  (Default `NodePort`)
+* `image-registry-url`:  URL to the PipelineAI Docker images (Default 'docker.io')
 ```
 pipeline cluster_kube_install \
   --tag 1.5.0 \
