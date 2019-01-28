@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.256"
+__version__ = "1.5.259"
 
 import base64 as _base64
 import glob as _glob
@@ -5094,6 +5094,7 @@ kubectl delete clusterrolebinding pipelineai-cluster-admin
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
+       pipeline_templates_path,
     )
 
     print(cmd)
@@ -5237,6 +5238,7 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
        chip,
        pipeline_templates_path,
        chip,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,

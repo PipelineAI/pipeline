@@ -49,12 +49,6 @@ spec:
         volumeMounts:
         - name: dockersocket
           mountPath: /var/run/docker.sock
-#        - name: docker-volume
-#          mountPath: /root/.docker
-#        - name: kube-volume
-#          mountPath: /root/.kube/config
-        - name: notebooks-volume
-          mountPath: /mnt/pipelineai/notebooks
         - name: users-volume
           mountPath: /mnt/pipelineai/users
         #   * command line arguments take precedence over all other config values
@@ -136,24 +130,6 @@ spec:
       - name: dockersocket
         hostPath:
           path: /var/run/docker.sock
-#      - name: docker-volume
-#        hostPath:
-#          path: /root/.docker
-#        secret:
-#          secretName: docker-registry-secret
-#      - name: kube-volume
-#        hostPath:
-#          path: /root/.kube
-#        secret:
-#          secretName: kube-config-secret
-      - name: datasets-volume
-        hostPath:
-          path: /mnt/pipelineai/datasets
-          type: DirectoryOrCreate
-      - name: notebooks-volume
-        hostPath:
-          path: /mnt/pipelineai/notebooks
-          type: DirectoryOrCreate
       - name: users-volume
         hostPath:
           path: /mnt/pipelineai/users
