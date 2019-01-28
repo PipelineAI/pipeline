@@ -43,6 +43,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: "metadata.namespace"
+#        - name: TURBINE_AGGREGATOR_NAMESPACE_CONFIG
+#          value: ...
         ports:
         - containerPort: 8989
         - containerPort: 8990
