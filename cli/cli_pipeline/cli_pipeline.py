@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.261"
+__version__ = "1.5.262"
 
 import base64 as _base64
 import glob as _glob
@@ -5282,7 +5282,15 @@ def cluster_kube_install(tag,
     generated_path = _os.path.abspath(generated_path)
     generated_path = _os.path.normpath(generated_path)
 
-    _os.makedirs(generated_path, exist_ok=True)
+#    _os.makedirs(generated_path, exist_ok=True)
+
+    try: 
+        _os.makedirs(generated_path)
+    except OSError:
+        if not _os.path.isdir(generated_path):
+            raise
+        else:
+            pass
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/admin/'))
     filename = 'admin-deploy.yaml.template'
