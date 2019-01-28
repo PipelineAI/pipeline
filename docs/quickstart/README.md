@@ -36,6 +36,7 @@ default predict base image: docker.io/pipelineai/predict-cpu:1.5.0
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Hosted Community Edition](/docs/quickstart/community)
 * [Docker](/docs/quickstart/docker)
+* [Kubernetes](/docs/quickstart/kubernetes)
 * [AWS SageMaker](/docs/quickstart/sagemaker)
 
 ### PipelineAI CLI Overview
@@ -90,7 +91,9 @@ predict-server-untar         <-- Untar Model Server Tar File
 predict-stream-test          <-- Test Stream-based Model Server
 
 resource-upload              <-- Add Model to PipelineAI Cluster
-resource-optimize-and-deploy <-- Add Model to PipelineAI Cluster
+resource-optimize-and-deploy <-- Optimize and Deploy Model to PipelineAI Cluster
+resource-routes-get          <-- Retrieve Current Model Server Routes
+resource-routes-set          <-- Set Model Server Routes
 
 stream-http-consume          <-- Consume Stream Messages (REST API)
 
