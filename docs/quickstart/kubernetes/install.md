@@ -22,7 +22,7 @@ _This requires `cli-pipeline>=1.5.260`.  Click [here](https://github.com/Pipelin
 
 PipelineAI CLI Args
 * `admin-name`:  Designate one of the worker nodes as the "PipelineAI Admin" node
-* `service-type`:  NodePort (ie. Local, On-Premise install) or LoadBalancer (ie. Cloud install).  (Default `NodePort`)
+* `service-type`:  "nodeport" (ie. Local, On-Premise install) or "loadbalancer" (ie. Cloud install).  (Default `NodePort`)
 * `image-registry-url`:  URL to the PipelineAI Docker images (Default 'docker.io')
 ```
 pipeline cluster_kube_install \
