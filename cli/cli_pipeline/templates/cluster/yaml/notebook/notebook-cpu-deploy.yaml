@@ -31,7 +31,7 @@ spec:
                 - admin
       containers:
       - name: notebook-cpu
-        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/pipelineai/notebook-cpu:1.5.0
+        image: docker.io/pipelineai/notebook-cpu:1.5.0
         resources:
           limits:
             memory: 1Gi
@@ -47,27 +47,15 @@ spec:
           readOnly: true
         - name: users-volume
           mountPath: /mnt/pipelineai/users
-#        - name: datasets-volume
-#          mountPath: /mnt/pipelineai/datasets
         - name: notebooks-volume
           mountPath: /mnt/pipelineai/notebooks
-#        - name: models-volume
-#          mountPath: /mnt/pipelineai/models
-#        - name: train-volume
-#          mountPath: /mnt/pipelineai/models
         env:
         # Note:  When adding vars here, make sure you whitelist them in jupyterhub_config.py
         #        otherwise, jupyter notebooks won't be able to see them
         - name: PIPELINE_USERS_HOME
           value: /mnt/pipelineai/users
-#        - name: PIPELINE_DATASETS_HOME
-#          value: /mnt/pipelineai/datasets
         - name: PIPELINE_NOTEBOOKS_HOME
           value: /mnt/pipelineai/notebooks
-#        - name: PIPELINE_MODELS_HOME
-#          value: /mnt/pipelineai/models
-#        - name: PIPELINE_TRAIN_HOME
-#          value: /mnt/pipelineai/models
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
@@ -100,19 +88,9 @@ spec:
         hostPath:
           path: /mnt/pipelineai/users
           type: DirectoryOrCreate
-#      - name: datasets-volume
-#        hostPath:
-#          path: /mnt/pipelineai/datasets
-#          type: DirectoryOrCreate
       - name: notebooks-volume
-        hostPath:
-          path: /mnt/pipelineai/notebooks
-          type: DirectoryOrCreate      
-#      - name: models-volume
+        gitRepo:
+          repository: https://github.com/PipelineAI/notebooks
 #        hostPath:
-#          path: /mnt/pipelineai/models
-#          type: DirectoryOrCreate
-#      - name: train-volume
-#        hostPath:
-#          path: /mnt/pipelineai/models
-#          type: DirectoryOrCreate
+#          path: /mnt/pipelineai/notebooks
+#          type: DirectoryOrCreate      

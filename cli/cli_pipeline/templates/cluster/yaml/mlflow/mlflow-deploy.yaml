@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mlflow 
+  labels:
+    app: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      containers:
+      - name: mlflow
+        image: docker.io/pipelineai/mlflow:1.5.0
+        imagePullPolicy: "IfNotPresent"
+        terminationMessagePolicy: "FallbackToLogsOnError"
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 200m
+          requests:
+            memory: 1Gi
+            cpu: 200m
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: users-volume
+          mountPath: /mnt/pipelineai/users
+      volumes:
+      - name: users-volume
+        hostPath:
+          path: /mnt/pipelineai/users
+          type: DirectoryOrCreate

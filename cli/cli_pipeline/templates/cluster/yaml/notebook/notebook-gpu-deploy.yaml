@@ -31,7 +31,7 @@ spec:
                 - admin
       containers:
       - name: notebook-gpu
-        image: 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/notebook-gpu:1.5.0
+        image: docker.io/pipelineai/notebook-gpu:1.5.0
         resources:
           limits:
             memory: 1Gi

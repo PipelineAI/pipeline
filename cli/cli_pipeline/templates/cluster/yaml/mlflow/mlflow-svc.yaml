@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow 
+  labels:
+    app: mlflow
+spec:
+  type: NodePort
+  ports:
+  - name: http-mlflow
+    port: 5000 
+    targetPort: 5000
+    nodePort: 31980
+  selector:
+    app: mlflow

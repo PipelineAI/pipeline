@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.262"
+__version__ = "1.5.264"
 
 import base64 as _base64
 import glob as _glob
@@ -1807,52 +1807,6 @@ def _safe_get_istio_ingress_ip(namespace):
     return istio_ingress_ip
 
 
-def _get_model_ingress(
-    model_name,
-    namespace,
-    image_registry_namespace
-):
-
-    model_name = _validate_and_prep_name(model_name)
-
-    host = None
-    path = ''
-    ingress_name = '%s-%s' % (image_registry_namespace, model_name)
-
-    # handle ingresses.extensions not found error
-    # when no ingress has been deployed
-    try:
-        api_client_configuration = _kubeclient.ApiClient(
-            _kubeconfig.load_kube_config()
-        )
-        kubeclient_extensions_v1_beta1 = _kubeclient.ExtensionsV1beta1Api(
-            api_client_configuration
-        )
-
-        ingress = kubeclient_extensions_v1_beta1.read_namespaced_ingress(
-            name=ingress_name,
-            namespace=namespace
-        )
-
-        lb = ingress.status.load_balancer.ingress if ingress else None
-        lb_ingress = lb[0] if len(lb) > 0 else None
-
-        host = lb_ingress.hostname or lb_ingress.ip if lb_ingress else None
-
-        path = ingress.spec.rules[0].http.paths[0].path
-
-    except Exception as exc:
-        print(str(exc))
-
-    if not host:
-        host = '%s:%s' % (
-            _safe_get_istio_ingress_ip(namespace),
-            _safe_get_istio_ingress_nodeport(namespace)
-        )
-
-    return ('https://%s%s' % (host, path)).replace(".*", "invoke")
-
-
 def predict_kube_endpoint(model_name,
                           namespace=None,
                           image_registry_namespace=None):
@@ -2137,11 +2091,11 @@ def env_conda_activate(model_name,
 
     # TODO:  Check if exists.  If so, warn the user as new packages in pipeline_conda_environment.yaml
     #        will not be picked up after the initial environment creation.
-    cmd = 'source activate root && conda env update --name %s-%s -f %s/pipeline_conda_environment.yaml --prune --verbose' % (model_name, model_tag, model_path)
+    cmd = 'bash -c "source activate root && conda env update --name %s-%s -f %s/pipeline_conda_environment.yaml --prune --verbose"' % (model_name, model_tag, model_path)
     print(cmd)
     _subprocess.call(cmd, shell=True)
     print("")
-    cmd = 'source activate %s-%s' % (model_name, model_tag)
+    cmd = 'bash -c "source activate %s-%s"' % (model_name, model_tag)
     print(cmd)
     _subprocess.call(cmd, shell=True)
     print("")
@@ -5195,6 +5149,10 @@ kubectl delete svc api
 kubectl delete deploy notebook-%s 
 kubectl delete svc notebook-%s
 
+# MLflow
+kubectl delete deploy mlflow 
+kubectl delete svc mlflow
+
 # Hystrix
 kubectl delete deploy dashboard-hystrix 
 kubectl delete svc dashboard-hystrix
@@ -5282,7 +5240,9 @@ def cluster_kube_install(tag,
     generated_path = _os.path.abspath(generated_path)
     generated_path = _os.path.normpath(generated_path)
 
-#    _os.makedirs(generated_path, exist_ok=True)
+
+    # Note: This isn't python3 compat (exist_ok)
+    # _os.makedirs(generated_path, exist_ok=True)
 
     try: 
         _os.makedirs(generated_path)
@@ -5292,13 +5252,13 @@ def cluster_kube_install(tag,
         else:
             pass
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/admin/'))
-    filename = 'admin-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'generated-admin-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/admin/'))
+#    filename = 'admin-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, 'generated-admin-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
     filename = 'api-deploy.yaml.template'
@@ -5308,36 +5268,36 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-%s-deploy.yaml.template' % (chip)
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'generated-notebook-%s-deploy.yaml' % chip)
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+#    filename = 'notebook-%s-deploy.yaml.template' % (chip)
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, 'generated-notebook-%s-deploy.yaml' % chip)
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
-    filename = 'hystrix-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'generated-hystrix-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
+#    filename = 'hystrix-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, 'generated-hystrix-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
-    filename = 'turbine-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'generated-turbine-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
+#    filename = 'turbine-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, 'generated-turbine-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
     cmd = """
 # Label a node with admin role
 kubectl label nodes %s pipeline.ai/role=admin
 
 # Admin
-kubectl create -f %s/generated-admin-deploy.yaml
+kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
 
 # Api
@@ -5345,15 +5305,19 @@ kubectl create -f %s/generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
-kubectl create -f %s/generated-notebook-%s-deploy.yaml
+kubectl create -f %s/cluster/yaml/notebook/notebook-%s-deploy.yaml
 kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
+# MLflow
+kubectl create -f %s/cluster/yaml/mlflow/mlflow-deploy.yaml
+kubectl create -f %s/cluster/yaml/mlflow/mlflow-svc.yaml
+
 # Hystrix
-kubectl create -f %s/generated-hystrix-deploy.yaml
+kubectl create -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
 
 # Turbine (Part 1)
-kubectl create -f %s/generated-turbine-deploy.yaml
+kubectl create -f %s/cluster/yaml/dashbaord/turbine-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
 # Istio
@@ -5376,17 +5340,19 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
   --clusterrole=cluster-admin \
   --group=system:serviceaccounts
 """ % (admin_node,
-       generated_path,
+       pipeline_tempaltes_path,
        pipeline_templates_path, 
        generated_path,
        pipeline_templates_path, 
-       generated_path,
+       pipeline_templates_path,
        chip,
        pipeline_templates_path,
        chip,
-       generated_path,
        pipeline_templates_path,
-       generated_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        ingress_type,
@@ -5403,41 +5369,6 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
     response_bytes = _subprocess.check_output(cmd, shell=True)
 
     return response_bytes.decode('utf-8')
-
-
-def _create_kube_config(api_server,
-                        user_token='',
-                        user_client_certificate_data='',
-                        user_client_key_data='',
-                        namespace=_default_namespace,
-                        pipeline_templates_path=None):
-
-    context = {
-               'PIPELINE_KUBE_API_SERVER': api_server,
-               'PIPELINE_NAMESPACE': namespace,
-               'PIPELINE_KUBE_USER_TOKEN': user_token,
-               'PIPELINE_KUBE_USER_CLIENT_CERTIFICATE_DATA': user_client_certificate_data,
-               'PIPELINE_KUBE_USER_CLIENT_KEY_DATA': user_client_key_data,
-              }
-
-    if not pipeline_templates_path:
-        pipeline_templates_path = _default_pipeline_templates_path
-
-    pipeline_templates_path = _os.path.expandvars(pipeline_templates_path)
-    pipeline_templates_path = _os.path.expanduser(pipeline_templates_path)
-    pipeline_templates_path = _os.path.abspath(pipeline_templates_path)
-    pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'kube'))
-    filename = 'config'
-
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    # Reminder to me that we can write this file anywhere (pipelineai/models, pipelineai/models/.../model
-    #   since we're always passing the model_path when we build the docker image with this Dockerfile
-    rendered_Dockerfile = _os.path.normpath('.pipeline-generated-kube-config')
-    with open(rendered_Dockerfile, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_Dockerfile))
 
 
 def _get_short_user_id(user_id):

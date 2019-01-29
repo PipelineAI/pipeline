@@ -1,18 +1,18 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: dashboard-hystrix
+  name: dashboard-turbine
   labels:
-    app: dashboard-hystrix
+    app: dashboard-turbine
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dashboard-hystrix
+      app: dashboard-turbine
   template:
     metadata:
       labels:
-        app: dashboard-hystrix
+        app: dashboard-turbine
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
@@ -26,9 +26,10 @@ spec:
                 values:
                 - admin
       containers:
-      - name: dashboard-hystrix
-        image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/pipelineai/dashboard-hystrix:1.5.0
-#        image: pipelineai/dashboard-hystrix:1.5.0
+      - name: dashboard-turbine
+        image: docker.io/pipelineai/dashboard-turbine:1.5.0
+        imagePullPolicy: "IfNotPresent"
+        terminationMessagePolicy: "FallbackToLogsOnError"
         resources:
           limits:
 #            cpu: 2000m
@@ -36,10 +37,13 @@ spec:
 #          requests:
 #            cpu: 200m
 #            memory: 2000Mi
-        imagePullPolicy: "IfNotPresent"
-        terminationMessagePolicy: "FallbackToLogsOnError"
         env:
-        - name: GET_HOSTS_FROM
-          value: env
+        - name: "KUBERNETES_NAMESPACE"
+          valueFrom:
+            fieldRef:
+              fieldPath: "metadata.namespace"
+#        - name: TURBINE_AGGREGATOR_NAMESPACE_CONFIG
+#          value: ...
         ports:
-        - containerPort: 7979
+        - containerPort: 8989
+        - containerPort: 8990
