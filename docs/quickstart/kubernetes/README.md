@@ -22,7 +22,7 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 
 ### Create the Cluster 
-_This requires `cli-pipeline>=1.5.262`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI._
+_This requires `cli-pipeline>=1.5.266`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI._
 
 PipelineAI CLI Args
 * `admin-node`:  Designate one of the worker nodes as the "PipelineAI Admin" node
