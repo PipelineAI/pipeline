@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.264"
+__version__ = "1.5.267"
 
 import base64 as _base64
 import glob as _glob
@@ -1161,10 +1161,16 @@ def resource_routes_get(
             if resource_tag_dict.get('shadow', False) is True:
                 resource_shadow_tag_list.append(k)
 
+        return_dict['split_dict'] = resource_split_tag_and_weight_dict
+        return_dict['shadow_list'] = resource_shadow_tag_list
+
     return_dict['status_code'] = status_code
     return_dict['status'] = 'complete'
-    return_dict['split_dict'] = resource_split_tag_and_weight_dict
-    return_dict['shadow_list'] = resource_shadow_tag_list
+    return_dict['user_id'] = user_id
+    return_dict['resource_type'] = resource_type
+    return_dict['resource_name'] = resource_name
+    return_dict['namespace'] = namespace
+    return_dict['image_registry_namespace'] = image_registry_namespace
 
     return _json.dumps(return_dict)
 
@@ -1230,6 +1236,11 @@ def resource_routes_set(
     return_dict['status'] = 'complete'
     return_dict['split_dict'] = resource_split_tag_and_weight_dict
     return_dict['shadow_list'] = resource_shadow_tag_list
+    return_dict['user_id'] = user_id
+    return_dict['resource_type'] = resource_type
+    return_dict['resource_name'] = resource_name
+    return_dict['namespace'] = namespace
+    return_dict['image_registry_namespace'] = image_registry_namespace
 
     return _json.dumps(return_dict)
 
