@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.267"
+__version__ = "1.5.268"
 
 import base64 as _base64
 import glob as _glob
