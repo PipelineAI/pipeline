@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.268"
+__version__ = "1.5.269"
 
 import base64 as _base64
 import glob as _glob
@@ -5182,6 +5182,7 @@ sleep 10
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
@@ -5189,13 +5190,14 @@ kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 # Turbine (Part 2)
 kubectl delete clusterrolebinding pipelineai-serviceaccounts-view 
 
- # Remove ability to create pods and istio assets
+# Remove ability to create pods and istio assets
 kubectl delete clusterrolebinding pipelineai-cluster-admin
 """ % (admin_node,
        chip,
        chip, 
        pipeline_templates_path,
        ingress_type,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5337,6 +5339,7 @@ kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
@@ -5367,6 +5370,7 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
        pipeline_templates_path,
        pipeline_templates_path,
        ingress_type,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
