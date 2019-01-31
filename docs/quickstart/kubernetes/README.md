@@ -22,15 +22,13 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ```
 
 ### Create the Cluster 
-_This requires `cli-pipeline>=1.5.266`.  Click [here](https://github.com/PipelineAI/pipeline/blob/master/docs/quickstart/README.md#install-pipelinecli) to install the PipelineAI CLI._
-
 PipelineAI CLI Args
-* `admin-node`:  Designate one of the worker nodes as the "PipelineAI Admin" node
-* `image-registry-url`:  URL to the PipelineAI Docker images (Default 'docker.io')
-* `ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `NodePort`)
-
+* `--admin-node`:  Designate one of the worker nodes as the "PipelineAI Admin" node
+* `--image-registry-url`:  (Optional) URL to the PipelineAI Docker images (Default 'docker.io')
+* `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `NodePort`)
+* `--namespace`: (Optional) Kubernetes namespace (Default 'default')
 ```
-pipeline cluster_kube_install --tag 1.5.0  --image-registry-url docker.io --admin-node <node1-or-node2> --ingress-type <nodeport or loadbalancer>
+pipeline cluster_kube_install --tag 1.5.0  --image-registry-url=docker.io --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
