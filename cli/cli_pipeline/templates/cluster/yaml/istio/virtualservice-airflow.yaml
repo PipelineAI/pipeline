@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: airflow 
+  namespace: default 
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - gateway
+  http:
+  - match:
+    - uri:
+        prefix: /airflow/admin
+    - uri:
+        prefix: /airflow/static
+    route:
+    - destination:
+        host: airflow-web 
+        port:
+          number: 8080 
+      weight: 100
