@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.270"
+__version__ = "1.5.271"
 
 import base64 as _base64
 import glob as _glob
@@ -5361,7 +5361,7 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
 # Airflow
 helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
 """ % (admin_node,
-       pipeline_tempaltes_path,
+       pipeline_templates_path,
        pipeline_templates_path, 
        generated_path,
        pipeline_templates_path, 
