@@ -52,4 +52,4 @@ istio-ingressgateway   <NodePort/LoadBalancer>    10.100.12.101   <dns-name>
 ```
 
 ### Whitelist the DNS Name with PipelineAI
-_Email [contact@pipeline.ai](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI._
+Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI.
