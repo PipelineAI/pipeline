@@ -5,8 +5,8 @@ We recommend [JenkinsX](https://jenkins-x.io/getting-started/create-cluster/) to
 ### Prerequisites
 * Running Kubernetes Cluster
 * Python 2 or 3 (Conda with Python 3 is Preferred)
-* [PipelineAI CLI]()
-* [Helm](https://docs.helm.sh/using_helm/#installing-helm)
+* [**PipelineAI CLI**]()
+* [**Helm**](https://docs.helm.sh/using_helm/#installing-helm)
 
 ### Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
