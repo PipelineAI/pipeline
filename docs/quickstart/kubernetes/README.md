@@ -16,6 +16,10 @@ We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/
 ```
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
+Initialize Helm
+```
+helm init
+```
 
 ### AWS IAM Roles (AWS-Only)
 Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonEC2ContainerRegistryPowerUser` instance policy.   See [here](https://aws.amazon.com/blogs/security/easily-replace-or-attach-an-iam-role-to-an-existing-ec2-instance-by-using-the-ec2-console/) and [here](https://eksworkshop.com/logging/prereqs/) for more info.
