@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.269"
+__version__ = "1.5.270"
 
 import base64 as _base64
 import glob as _glob
@@ -5192,6 +5192,9 @@ kubectl delete clusterrolebinding pipelineai-serviceaccounts-view
 
 # Remove ability to create pods and istio assets
 kubectl delete clusterrolebinding pipelineai-cluster-admin
+
+# Airflow
+helm delete --purge airflow
 """ % (admin_node,
        chip,
        chip, 
@@ -5336,6 +5339,7 @@ kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 # Istio
 kubectl create -f %s/cluster/yaml/istio/istio-%s-metricsoff-1.0.5.yaml
 kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
+
 kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
@@ -5353,6 +5357,9 @@ kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
 kubectl create clusterrolebinding pipelineai-cluster-admin \
   --clusterrole=cluster-admin \
   --group=system:serviceaccounts
+
+# Airflow
+helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
 """ % (admin_node,
        pipeline_tempaltes_path,
        pipeline_templates_path, 
