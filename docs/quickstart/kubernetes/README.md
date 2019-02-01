@@ -11,8 +11,8 @@ We recommend [JenkinsX](https://jenkins-x.io/getting-started/create-cluster/) to
 ### Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
 
-### Install [Helm](https://docs.helm.sh/using_helm/#installing-helm)
-* Click [**HERE**](https://docs.helm.sh/using_helm/#installing-helm) to install Helm or run the following command:
+### Install [Helm CLI](https://docs.helm.sh/using_helm/#installing-helm)
+* Click [**HERE**](https://docs.helm.sh/using_helm/#installing-helm) to install the Helm CLI or run the following command:
 ```
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
