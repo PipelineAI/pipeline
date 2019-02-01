@@ -25,8 +25,8 @@ Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonE
 kubectl get node
 
 NAME                                          STATUS    ROLES     AGE       VERSION
-<node1>                                       Ready     <none>    24m       v1.10.3
-<node2>                                       Ready     <none>    24m       v1.10.3
+<node1>                                       Ready     <none>    24m       vx.xx.x
+<node2>                                       Ready     <none>    24m       vx.xx.x
 ```
 
 ### Create the Cluster 
