@@ -5,9 +5,17 @@ We recommend [JenkinsX](https://jenkins-x.io/getting-started/create-cluster/) to
 ### Prerequisites
 * Running Kubernetes Cluster
 * Python 2 or 3 (Conda with Python 3 is Preferred)
+* [PipelineAI CLI]()
+* [Helm](https://docs.helm.sh/using_helm/#installing-helm)
 
-# Install [PipelineAI CLI](../README.md#install-pipelinecli)
+### Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
+
+### Install [Helm](https://docs.helm.sh/using_helm/#installing-helm)
+* Click [**HERE**](https://docs.helm.sh/using_helm/#installing-helm) or run the following:
+```
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+```
 
 ### AWS IAM Roles (AWS-Only)
 Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonEC2ContainerRegistryPowerUser` instance policy.   See [here](https://aws.amazon.com/blogs/security/easily-replace-or-attach-an-iam-role-to-an-existing-ec2-instance-by-using-the-ec2-console/) and [here](https://eksworkshop.com/logging/prereqs/) for more info.
