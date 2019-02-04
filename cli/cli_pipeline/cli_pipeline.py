@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.272"
+__version__ = "1.5.273"
 
 import base64 as _base64
 import glob as _glob
@@ -5333,7 +5333,7 @@ kubectl create -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
 
 # Turbine (Part 1)
-kubectl create -f %s/cluster/yaml/dashbaord/turbine-deploy.yaml
+kubectl create -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
 # Istio
