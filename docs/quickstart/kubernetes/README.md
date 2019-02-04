@@ -36,11 +36,13 @@ NAME                                          STATUS    ROLES     AGE       VERS
 ### Create the Cluster 
 PipelineAI CLI Args
 * `--admin-node`:  Designate one of the worker nodes as the "PipelineAI Admin" node
-* `--image-registry-url`:  (Optional) URL to the PipelineAI Docker images (Default 'docker.io')
-* `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `NodePort`)
+* `--image-registry-url`: Your Docker Registry URL for images created by PipelineAI (ie. ECR, DockerHub, etc)
+* `--image-registry-username`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
+* `--image-registry-password`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
+* `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
 * `--namespace`: (Optional) Kubernetes namespace (Default 'default')
 ```
-pipeline cluster_kube_install --tag 1.5.0  --image-registry-url=docker.io --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default
+pipeline cluster_kube_install --tag 1.5.0 --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional>
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
@@ -57,3 +59,8 @@ istio-ingressgateway   <NodePort/LoadBalancer>    10.100.12.101   <dns-name>
 
 ### Whitelist the DNS Name with PipelineAI
 Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI.
+
+### Uninstall and Cleanup
+```
+pipeline cluster_kube_uninstall --tag 1.5.0 --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default
+```
