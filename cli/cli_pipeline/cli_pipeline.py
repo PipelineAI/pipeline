@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.273"
+__version__ = "1.5.274"
 
 import base64 as _base64
 import glob as _glob
@@ -5268,45 +5268,13 @@ def cluster_kube_install(tag,
         else:
             pass
 
-#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/admin/'))
-#    filename = 'admin-deploy.yaml.template'
-#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-#    rendered_path = _os.path.join(generated_path, 'generated-admin-deploy.yaml')
-#    with open(rendered_path, 'wt') as fh:
-#        fh.write(rendered)
-#        print("'%s' => '%s'." % (filename, rendered_path))
-
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
     filename = 'api-deploy.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'generated-api-deploy.yaml')
+    rendered_path = _os.path.join(generated_path, '.generated-api-deploy.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
-
-#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-#    filename = 'notebook-%s-deploy.yaml.template' % (chip)
-#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-#    rendered_path = _os.path.join(generated_path, 'generated-notebook-%s-deploy.yaml' % chip)
-#    with open(rendered_path, 'wt') as fh:
-#        fh.write(rendered)
-#        print("'%s' => '%s'." % (filename, rendered_path))
-
-#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
-#    filename = 'hystrix-deploy.yaml.template'
-#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-#    rendered_path = _os.path.join(generated_path, 'generated-hystrix-deploy.yaml')
-#    with open(rendered_path, 'wt') as fh:
-#        fh.write(rendered)
-#        print("'%s' => '%s'." % (filename, rendered_path))
-
-#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/dashboard/'))
-#    filename = 'turbine-deploy.yaml.template'
-#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-#    rendered_path = _os.path.join(generated_path, 'generated-turbine-deploy.yaml')
-#    with open(rendered_path, 'wt') as fh:
-#        fh.write(rendered)
-#        print("'%s' => '%s'." % (filename, rendered_path))
 
     cmd = """
 # Label a node with admin role
@@ -5317,7 +5285,7 @@ kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
 
 # Api
-kubectl create -f %s/generated-api-deploy.yaml
+kubectl create -f %s/.generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
