@@ -32,7 +32,7 @@ PipelineAI CLI Args
 * `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
 * `--namespace`: (Optional) Kubernetes namespace (Default 'default')
 ```
-pipeline cluster_kube_install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
+pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
@@ -52,5 +52,5 @@ Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DN
 
 ### Uninstall and Cleanup
 ```
-pipeline cluster_kube_uninstall --tag 1.5.0 --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default
+pipeline cluster-kube-uninstall --tag 1.5.0 --namespace=default
 ```
