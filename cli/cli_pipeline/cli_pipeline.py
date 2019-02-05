@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.275"
+__version__ = "1.5.276"
 
 import base64 as _base64
 import glob as _glob
@@ -5135,7 +5135,7 @@ def _get_sage_endpoint(model_name,
 
 
 def cluster_kube_uninstall(tag,
-                          admin_node,
+                          admin_node=None,
                           ingress_type='nodeport',
                           namespace='default',
                           chip=_default_model_chip,
@@ -5144,10 +5144,16 @@ def cluster_kube_uninstall(tag,
     if not pipeline_templates_path:
         pipeline_templates_path = _default_pipeline_templates_path
 
-    cmd = """
+    if admin_node:
+        cmd = """
 # Label a node with admin role
 kubectl label nodes %s pipeline.ai/role-
+""" % (admin_node)
 
+        print(cmd)
+        response_bytes = _subprocess.check_output(cmd, shell=True)
+
+    cmd = """
 # Admin
 kubectl delete deploy admin 
 kubectl delete svc admin 
@@ -5195,7 +5201,7 @@ kubectl delete clusterrolebinding pipelineai-cluster-admin
 
 # Airflow
 helm delete --purge airflow
-""" % (admin_node,
+""" % (
        chip,
        chip, 
        pipeline_templates_path,
@@ -5216,10 +5222,10 @@ helm delete --purge airflow
 
 
 def cluster_kube_install(tag,
-                         admin_node,
                          image_registry_url,
                          image_registry_username='',
                          image_registry_password='',
+                         admin_node=None,
                          ingress_type='nodeport',
                          namespace='default',
                          chip=_default_model_chip,
@@ -5276,10 +5282,16 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    cmd = """
+    if admin_node:
+        cmd = """
 # Label a node with admin role
 kubectl label nodes %s pipeline.ai/role=admin
+""" % (admin_node)
 
+        print(cmd)
+        response_bytes = _subprocess.check_output(cmd, shell=True)
+
+    cmd = """
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
@@ -5305,7 +5317,7 @@ kubectl create -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
 # Istio
-kubectl create -f %s/cluster/yaml/istio/istio-%s-1.0.5.yaml
+kubectl create -f %s/cluster/yaml/istio/istio-%s-metricsoff-1.0.5.yaml
 kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
 
 kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
@@ -5328,7 +5340,11 @@ kubectl create clusterrolebinding pipelineai-cluster-admin \
 
 # Airflow
 helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
-""" % (admin_node,
+
+sleep 5
+
+kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
+""" % (
        pipeline_templates_path,
        pipeline_templates_path, 
        generated_path,

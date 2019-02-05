@@ -91,6 +91,3 @@ spec:
       - name: notebooks-volume
         gitRepo:
           repository: https://github.com/PipelineAI/notebooks
-#        hostPath:
-#          path: /mnt/pipelineai/notebooks
-#          type: DirectoryOrCreate      
