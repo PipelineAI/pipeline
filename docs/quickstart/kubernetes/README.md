@@ -4,7 +4,7 @@ We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/
 ## Install PipelineAI on Kubernetes
 ### Prerequisites
 * Running Kubernetes Cluster
-* Python 2 or 3 (Conda with Python 3 is Preferred)
+* Python 2 or 3 ([Miniconda with Python 3.6](https://repo.continuum.io/miniconda/) is Preferred)
 * [**PipelineAI CLI**]()
 * [**Helm**](https://docs.helm.sh/using_helm/#installing-helm)
 
