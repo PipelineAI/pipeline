@@ -24,25 +24,15 @@ helm init
 ### AWS IAM Roles (AWS-Only)
 Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonEC2ContainerRegistryPowerUser` instance policy.   See [here](https://aws.amazon.com/blogs/security/easily-replace-or-attach-an-iam-role-to-an-existing-ec2-instance-by-using-the-ec2-console/) and [here](https://eksworkshop.com/logging/prereqs/) for more info.
 
-### Choose a "PipelineAI Admin" Node from the Available Worker Nodes.
-```
-kubectl get node
-
-NAME                                          STATUS    ROLES     AGE       VERSION
-<node1>                                       Ready     <none>    24m       vx.xx.x
-<node2>                                       Ready     <none>    24m       vx.xx.x
-```
-
 ### Create the Cluster 
 PipelineAI CLI Args
-* `--admin-node`:  Designate one of the worker nodes as the "PipelineAI Admin" node
 * `--image-registry-url`: Your Docker Registry URL for images created by PipelineAI (ie. ECR, DockerHub, etc)
 * `--image-registry-username`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--image-registry-password`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
 * `--namespace`: (Optional) Kubernetes namespace (Default 'default')
 ```
-pipeline cluster_kube_install --tag 1.5.0 --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional>
+pipeline cluster_kube_install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
