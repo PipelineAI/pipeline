@@ -4,9 +4,12 @@
 
 [![](https://pipeline.ai/assets/img/pipelineai-dark-mode.png)](https://community.pipeline.ai)
 
-## Profession and Enterprise Editions
 
+## Profession and Enterprise Editions
 ### [Compare Products](https://pipeline.ai/products)
+
+## Open Source GitHub
+### [Quick Start](https://quickstart.pipeline.ai)
 
 ## PipelineAI Community Events
 ### [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://webinar.pipeline.ai)
