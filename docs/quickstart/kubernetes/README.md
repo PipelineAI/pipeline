@@ -41,7 +41,7 @@ Notes:
 ### Retrieve the Ingress IP (NodePort) or DNS Name (LoadBalancer) 
 Note: the LoadBalancer DNS may take some time to propagate.
 ```
-kubectl get svc istio-ingressgateway -o wide
+kubectl get svc istio-ingressgateway -o wide --namespace=default
 
 NAME                   TYPE                       CLUSTER-IP      EXTERNAL-IP  
 istio-ingressgateway   <NodePort/LoadBalancer>    10.100.12.101   <dns-name>
