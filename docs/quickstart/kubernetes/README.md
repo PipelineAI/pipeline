@@ -4,7 +4,7 @@ We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/
 ## Install PipelineAI on Kubernetes
 ### Prerequisites
 * Running Kubernetes Cluster
-* Python 2 or 3 (Conda with Python 3 is Preferred)
+* Python 2 or 3 ([Miniconda with Python 3.6](https://repo.continuum.io/miniconda/) is Preferred)
 * [**PipelineAI CLI**]()
 * [**Helm**](https://docs.helm.sh/using_helm/#installing-helm)
 
@@ -16,13 +16,29 @@ We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/
 ```
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
-Initialize Helm
+
+Initialize Helm (and Start Tiller)
 ```
 helm init
 ```
 
+Verify Helm and Tiller are Running
+```
+kubectl get deploy tiller-deploy -n kube-system
+
+### EXPECTED OUTPUT ###
+
+NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+tiller-deploy   1         1         1            1           1h
+```
+
 ### AWS IAM Roles (AWS-Only)
 Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonEC2ContainerRegistryPowerUser` instance policy.   See [here](https://aws.amazon.com/blogs/security/easily-replace-or-attach-an-iam-role-to-an-existing-ec2-instance-by-using-the-ec2-console/) and [here](https://eksworkshop.com/logging/prereqs/) for more info.
+
+### Switch to `default` Namespace
+```
+kubectl config set-context $(kubectl config current-context) --namespace=default
+```
 
 ### Create the Cluster 
 PipelineAI CLI Args
@@ -30,9 +46,8 @@ PipelineAI CLI Args
 * `--image-registry-username`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--image-registry-password`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
-* `--namespace`: (Optional) Kubernetes namespace (Default 'default')
 ```
-pipeline cluster_kube_install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
+pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
@@ -52,5 +67,5 @@ Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DN
 
 ### Uninstall and Cleanup
 ```
-pipeline cluster_kube_uninstall --tag 1.5.0 --admin-node=<node1-or-node2> --ingress-type=<nodeport or loadbalancer> --namespace=default
+pipeline cluster-kube-uninstall --tag 1.5.0
 ```
