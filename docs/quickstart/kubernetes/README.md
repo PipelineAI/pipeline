@@ -16,9 +16,20 @@ We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/
 ```
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
-Initialize Helm
+
+Initialize Helm (and Start Tiller)
 ```
 helm init
+```
+
+Verify Helm and Tiller are Running
+```
+kubectl get deploy tiller-deploy -n kube-system
+
+### EXPECTED OUTPUT ###
+
+NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+tiller-deploy   1         1         1            1           1h
 ```
 
 ### AWS IAM Roles (AWS-Only)
