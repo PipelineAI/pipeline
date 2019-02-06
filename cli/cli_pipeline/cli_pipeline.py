@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.276"
+__version__ = "1.5.277"
 
 import base64 as _base64
 import glob as _glob
@@ -5135,23 +5135,12 @@ def _get_sage_endpoint(model_name,
 
 
 def cluster_kube_uninstall(tag,
-                          admin_node=None,
-                          ingress_type='nodeport',
-                          namespace='default',
-                          chip=_default_model_chip,
-                          pipeline_templates_path=None):
+                           ingress_type='nodeport',
+                           chip=_default_model_chip,
+                           pipeline_templates_path=None):
 
     if not pipeline_templates_path:
         pipeline_templates_path = _default_pipeline_templates_path
-
-    if admin_node:
-        cmd = """
-# Label a node with admin role
-kubectl label nodes %s pipeline.ai/role-
-""" % (admin_node)
-
-        print(cmd)
-        response_bytes = _subprocess.check_output(cmd, shell=True)
 
     cmd = """
 # Admin
@@ -5225,9 +5214,7 @@ def cluster_kube_install(tag,
                          image_registry_url,
                          image_registry_username='',
                          image_registry_password='',
-                         admin_node=None,
                          ingress_type='nodeport',
-                         namespace='default',
                          chip=_default_model_chip,
                          pipeline_templates_path=None):
 
@@ -5281,15 +5268,6 @@ def cluster_kube_install(tag,
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
-
-    if admin_node:
-        cmd = """
-# Label a node with admin role
-kubectl label nodes %s pipeline.ai/role=admin
-""" % (admin_node)
-
-        print(cmd)
-        response_bytes = _subprocess.check_output(cmd, shell=True)
 
     cmd = """
 # Admin

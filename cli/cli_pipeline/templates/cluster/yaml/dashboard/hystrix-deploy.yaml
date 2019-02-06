@@ -16,15 +16,15 @@ spec:
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: pipeline.ai/role
-                operator: In
-                values:
-                - admin
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: pipeline.ai/role
+#                operator: In
+#                values:
+#                - admin
       containers:
       - name: dashboard-hystrix
         image: docker.io/pipelineai/dashboard-hystrix:1.5.0

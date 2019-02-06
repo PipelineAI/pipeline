@@ -18,18 +18,17 @@ spec:
         prometheus.io/path: "/metrics"
         prometheus.io/port: "8080"
     spec:
-# Custom docker registry
       imagePullSecrets:
       - name: docker-registry-secret
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: pipeline.ai/role
-                operator: In
-                values:
-                - admin
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: pipeline.ai/role
+#                operator: In
+#                values:
+#                - admin
       containers:
       - name: api
         image: docker.io/pipelineai/api:1.5.0

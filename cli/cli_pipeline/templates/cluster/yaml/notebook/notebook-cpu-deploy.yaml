@@ -20,15 +20,15 @@ spec:
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: pipeline.ai/role
-                operator: In
-                values:
-                - admin
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: pipeline.ai/role
+#                operator: In
+#                values:
+#                - admin
       containers:
       - name: notebook-cpu
         image: docker.io/pipelineai/notebook-cpu:1.5.0
@@ -47,8 +47,8 @@ spec:
           readOnly: true
         - name: users-volume
           mountPath: /mnt/pipelineai/users
-        - name: notebooks-volume
-          mountPath: /mnt/pipelineai/notebooks
+#        - name: notebooks-volume
+#          mountPath: /mnt/pipelineai/notebooks
         env:
         # Note:  When adding vars here, make sure you whitelist them in jupyterhub_config.py
         #        otherwise, jupyter notebooks won't be able to see them
@@ -88,6 +88,6 @@ spec:
         hostPath:
           path: /mnt/pipelineai/users
           type: DirectoryOrCreate
-      - name: notebooks-volume
-        gitRepo:
-          repository: https://github.com/PipelineAI/notebooks
+#      - name: notebooks-volume
+#        gitRepo:
+#          repository: https://github.com/PipelineAI/notebooks
