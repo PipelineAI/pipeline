@@ -615,7 +615,6 @@ def resource_optimize_and_train(
     worker_gpu='0',
     ps_gpu='0',
     train_args='',
-#    train_host_path=None,
     verify=False,
     cert=None,
     timeout=None
@@ -756,12 +755,20 @@ def resource_optimize_and_train(
         'stream_enable_mqtt': stream_enable_mqtt,
         'stream_enable_kafka_rest_api': stream_enable_kafka_rest_api,
         'input_host_path': input_host_path,
-        'master_replicas': master_replicas,
         'output_host_path': output_host_path,
+        'master_replicas': master_replicas,
+        'worker_replicas': worker_replicas,
         'ps_replicas': ps_replicas,
+        'master_memory': master_memory,
+        'worker_memory': worker_memory,
+        'ps_memory': ps_memory,
+        'master_cpu': master_cpu,
+        'worker_cpu': worker_cpu,
+        'ps_cpu': ps_cpu,
+        'master_gpu': master_gpu,
+        'worker_gpu': worker_gpu,
+        'ps_gpu': ps_gpu,
         'train_args': train_args,
-#        'train_host_path': train_host_path,
-        'worker_replicas': worker_replicas
     }
 
     headers = {'Authorization': 'Bearer %s' % api_token}
@@ -1056,6 +1063,9 @@ def resource_optimize_and_deploy(
 #        'train_args': train_args,
 #        'train_host_path': train_host_path,
 #        'worker_replicas': worker_replicas,
+        'predict_memory_limit': predict_memory_limit,
+        'predict_cpu_limit': predict_cpu_limit,
+        'predict_gpu_limit': predict_gpu_limit,
         'resource_split_tag_and_weight_dict': resource_split_tag_and_weight_dict,
         'resource_shadow_tag_list': resource_shadow_tag_list,
         'new_route': new_route,
