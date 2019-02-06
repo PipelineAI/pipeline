@@ -24,15 +24,20 @@ helm init
 ### AWS IAM Roles (AWS-Only)
 Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonEC2ContainerRegistryPowerUser` instance policy.   See [here](https://aws.amazon.com/blogs/security/easily-replace-or-attach-an-iam-role-to-an-existing-ec2-instance-by-using-the-ec2-console/) and [here](https://eksworkshop.com/logging/prereqs/) for more info.
 
+### Setup Namespace
+We use the `default` namespace, but you may use a custom namespace.
+```
+kubectl config set-context $(kubectl config current-context) --namespace=default
+```
+
 ### Create the Cluster 
 PipelineAI CLI Args
 * `--image-registry-url`: Your Docker Registry URL for images created by PipelineAI (ie. ECR, DockerHub, etc)
 * `--image-registry-username`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--image-registry-password`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
-* `--namespace`: (Optional) Kubernetes namespace (Default 'default')
 ```
-pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
+pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> 
 ```
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
@@ -41,7 +46,7 @@ Notes:
 ### Retrieve the Ingress IP (NodePort) or DNS Name (LoadBalancer) 
 Note: the LoadBalancer DNS may take some time to propagate.
 ```
-kubectl get svc istio-ingressgateway -o wide --namespace=default
+kubectl get svc istio-ingressgateway -o wide
 
 NAME                   TYPE                       CLUSTER-IP      EXTERNAL-IP  
 istio-ingressgateway   <NodePort/LoadBalancer>    10.100.12.101   <dns-name>
@@ -52,5 +57,5 @@ Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DN
 
 ### Uninstall and Cleanup
 ```
-pipeline cluster-kube-uninstall --tag 1.5.0 --namespace=default
+pipeline cluster-kube-uninstall --tag 1.5.0
 ```
