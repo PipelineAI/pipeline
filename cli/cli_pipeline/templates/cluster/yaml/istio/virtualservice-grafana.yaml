@@ -12,12 +12,14 @@ spec:
   - match:
     - uri:
         prefix: /admin/grafana
-    - uri:
-        prefix: /public/build
-    - uri:
-        prefix: /public/img
-    - uri:
-        prefix: /public/fonts
+#    - uri:
+#        prefix: /public/build
+#    - uri:
+#        prefix: /public/img
+#    - uri:
+#        prefix: /public/fonts
+    rewrite:
+      uri: /
     route:
     - destination:
         host: grafana 
