@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.277"
+__version__ = "1.5.278"
 
 import base64 as _base64
 import glob as _glob
@@ -1455,27 +1455,15 @@ def resource_upload(
 
     response.raise_for_status()
     resource_source_add_dict = response.json()
+
     resource_id = resource_source_add_dict.get('resource_id', None)
+    experiment_id = resource_source_add_dict.get('experiment_id', None)
+    experiment_name = resource_source_add_dict.get('experiment_name', None)
+
     runtime_list = ','.join(resource_source_add_dict.get('runtime_list', []))
     return_dict[endpoint] = resource_source_add_dict
-    # _dict_print(endpoint, return_dict[endpoint])
 
     kubernetes_resource_type_list = ','.join(_PIPELINE_SUPPORTED_KUBERNETES_RESOURCE_TYPE_LIST)
-
-#    print('''
-#    ...Completed.
-#
-#    Navigate to the following url to optimize, deploy, validate, and explain your model predictions in live production:
-#
-#        %s
-#
-#    Model details:
-#
-#          Resource Id: %s
-#         Resource Tag: %s   
-#        Resource Name: %s
-# 
-#    ''' % (host, resource_id, tag, name))
 
     response_dict = {}
     if host:
@@ -1497,10 +1485,13 @@ def resource_upload(
     if resource_id:
         response_dict['resource_id'] = resource_id
 
-#    if _http_mode:
+    if experiment_id:
+        response_dict['experiment_id'] = experiment_id
+ 
+    if experiment_name:
+        response_dict['experiment_name'] = experiment_name 
+
     return _json.dumps(response_dict)
-#    else
-#        return return_dict
 
 
 # TODO:  This is too cryptic.  Try to simplify as following:
