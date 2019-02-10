@@ -1,4 +1,4 @@
-FROM ubuntu-16.04-gpu:1.5.0
+FROM pipelineai/ubuntu-16.04-gpu:1.5.0
 
 RUN \
   mkdir -p /root/logs
