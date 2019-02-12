@@ -1,6 +1,14 @@
 ## Create Kubernetes Cluster
 We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/) to install on AWS, Azure, Google Cloud, or On-Premise.
 
+Notes:
+* When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The default of 20GB is not enough to store the Docker images on each node.
+* See [HERE](https://github.com/PipelineAI/company-private/issues/807) for more info.
+
+Workarounds:
+* Pass `--node-volume-size` when using `eksctl`. (JenkinsX uses eksctl, but doesn't currently expose `--node-volume-size`)
+* Modify `/var/lib/docker` to point to a larger ephemeral disk or EBS volume.  See [HERE](https://github.com/awslabs/amazon-eks-ami/pull/143) for more info.
+
 ## Install PipelineAI on Kubernetes
 ### Prerequisites
 * Running Kubernetes Cluster
