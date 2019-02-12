@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.284"
+__version__ = "1.5.285"
 
 import base64 as _base64
 import glob as _glob
@@ -1249,6 +1249,79 @@ def resource_routes_set(
     return_dict['user_id'] = user_id
     return_dict['resource_type'] = resource_type
     return_dict['resource_name'] = resource_name
+    return_dict['namespace'] = namespace
+    return_dict['image_registry_namespace'] = image_registry_namespace
+
+    return _json.dumps(return_dict)
+
+
+# pipeline resource-scale --user-id 83f05e58 \
+#                         --api-token <api-token> \
+#                         --host community.cloud.pipeline.ai \
+#                         --name mnist \
+#                         --resource-type=model
+def resource_scale(
+    api_token,
+    host,
+    user_id,
+    resource_type,
+    name,
+    resource_tag,
+    replicas,
+    verify=False,
+    cert=None,
+    timeout=1800,
+    namespace=None,
+    image_registry_namespace=None):
+
+    name = _validate_and_prep_name(name)
+
+    resource_config = _get_resource_config(resource_type)
+    if not namespace:
+        namespace = resource_config['namespace']
+    if not image_registry_namespace:
+        image_registry_namespace = resource_config['image_registry_namespace']
+
+    endpoint = 'resource-kube-scale'
+    url = _get_api_url(host, endpoint)
+
+    resource_name = _get_resource_name(user_id, name)
+
+    json_body = {
+            'user_id': user_id,
+            'resource_type': resource_type,
+            'resource_name': resource_name,
+            'resource_tag': resource_tag,
+            'replicas': replicas,
+            'namespace': namespace,
+            'image_registry_namespace': image_registry_namespace
+    }
+
+    headers = {'Authorization': 'Bearer %s' % api_token}
+
+    response = _requests.post(
+            headers=headers,
+            url=url,
+            json=json_body,
+            verify=verify,
+            cert=cert,
+            timeout=timeout
+    )
+
+    return_dict = {}
+
+    status_code = response.status_code
+    if status_code > _HTTP_STATUS_SUCCESS_CREATED:
+        return_dict['error_message'] = '%s %s' % (endpoint, status_code)
+
+    return_dict['status_code'] = status_code
+    return_dict['status'] = 'complete'
+    return_dict['user_id'] = user_id
+    return_dict['resource_type'] = resource_type
+    return_dict['name'] = name
+    return_dict['resource_name'] = resource_name
+    return_dict['resource_tag'] = resource_tag
+    return_dict['replicas'] = replicas
     return_dict['namespace'] = namespace
     return_dict['image_registry_namespace'] = image_registry_namespace
 
