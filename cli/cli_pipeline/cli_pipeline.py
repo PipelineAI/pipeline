@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.281"
+__version__ = "1.5.282"
 
 import base64 as _base64
 import glob as _glob
@@ -1699,47 +1699,29 @@ def help():
 
 
 def version():
-    print('')
-    print('CLI version: %s' % __version__)
-    print('API version: %s' % _pipeline_api_version)
-    print('')
-    print('Default build type: %s' % _default_build_type)
-
     build_context_path = _os.path.expandvars(_default_build_context_path)
     build_context_path = _os.path.expanduser(build_context_path)
     build_context_path = _os.path.abspath(build_context_path)
     build_context_path = _os.path.normpath(build_context_path)
 
-    print('Default build context path: %s => %s' % (_default_build_context_path, build_context_path))
-    print('')
     train_base_image_default = '%s/%s/%s-%s:%s' % (_default_image_registry_url, _default_image_registry_repo, _default_image_registry_train_namespace, _default_model_chip, _default_image_registry_base_tag)
     predict_base_image_default = '%s/%s/%s-%s:%s' % (_default_image_registry_url, _default_image_registry_repo, _default_image_registry_predict_namespace, _default_model_chip, _default_image_registry_base_tag)
-    print('Default train base image: %s' % train_base_image_default)
-    print('Default predict base image: %s' % predict_base_image_default)
-    print('')
 
     return_dict = {
         "cli_version": __version__,
         "api_version": _pipeline_api_version,
         "build_type_default": _default_build_type,
         "build_context_path": build_context_path,
-        "build_context_path_default": _default_build_context_path,
+#        "build_context_path_default": _default_build_context_path,
         "train_base_image_default": train_base_image_default,
-        "predict_base_image_default": predict_base_image_default
+        "predict_base_image_default": predict_base_image_default,
+        "templates_path_default": _default_pipeline_templates_path,
     }
 
     if _http_mode:
         return _jsonify(return_dict)
     else:
         return return_dict
-
-
-def _templates_path():
-    print("")
-    print("Templates path: %s" % _default_pipeline_templates_path)
-    print("")
-
-    return _default_pipeline_templates_path
 
 
 def _get_default_model_runtime(model_type):
