@@ -36,7 +36,7 @@ spec:
 #          requests:
 #            cpu: 200m
 #            memory: 2000Mi
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         env:
         - name: GET_HOSTS_FROM

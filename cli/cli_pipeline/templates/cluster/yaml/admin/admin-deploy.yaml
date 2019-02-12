@@ -28,7 +28,7 @@ spec:
       containers:
       - name: admin
         image: docker.io/pipelineai/admin:1.5.0
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:
           limits:

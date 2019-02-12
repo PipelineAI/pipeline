@@ -28,7 +28,7 @@ spec:
       containers:
       - name: dashboard-turbine
         image: docker.io/pipelineai/dashboard-turbine:1.5.0
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:
           limits:

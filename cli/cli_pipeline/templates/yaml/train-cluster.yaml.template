@@ -73,7 +73,7 @@ spec:
       containers:
       - name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}-{{ PIPELINE_RESOURCE_TAG }}
         image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/{{ PIPELINE_IMAGE_REGISTRY_REPO }}/{{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}:{{ PIPELINE_RESOURCE_TAG }}
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         env:
         - name: TF_CONFIG

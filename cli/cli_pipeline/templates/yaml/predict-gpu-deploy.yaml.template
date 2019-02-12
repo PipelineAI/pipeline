@@ -30,7 +30,7 @@ spec:
       containers:
       - name: {{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}
         image: {{ PIPELINE_IMAGE_REGISTRY_URL }}/{{ PIPELINE_IMAGE_REGISTRY_REPO }}/{{ PIPELINE_IMAGE_REGISTRY_NAMESPACE }}-{{ PIPELINE_RESOURCE_NAME }}:{{ PIPELINE_RESOURCE_TAG }} 
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:
           limits:
@@ -38,9 +38,6 @@ spec:
             memory: 2500Mi
           requests:
             memory: 2500Mi
-        imagePullPolicy: "IfNotPresent"
-#        restartPolicy: "Always"
-        terminationMessagePolicy: "FallbackToLogsOnError"
         volumeMounts:
         - name: cuda
           mountPath: /usr/local/cuda

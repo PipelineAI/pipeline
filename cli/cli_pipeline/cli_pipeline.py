@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.282"
+__version__ = "1.5.284"
 
 import base64 as _base64
 import glob as _glob
@@ -5257,7 +5257,6 @@ def cluster_kube_install(tag,
 kubectl create -f %s/cluster/yaml/rook/operator.yaml
 kubectl create -f %s/cluster/yaml/rook/cluster.yaml
 kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
-kubectl create -f %s/cluster/yaml/rook/dashboard-external-http.yaml
 
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml

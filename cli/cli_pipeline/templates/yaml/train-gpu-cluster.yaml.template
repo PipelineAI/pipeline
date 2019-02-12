@@ -76,7 +76,7 @@ spec:
         resources:
           limits:
             nvidia.com/gpu: 1
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         env:
         - name: TF_CONFIG
