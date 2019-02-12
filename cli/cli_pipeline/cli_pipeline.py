@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.279"
+__version__ = "1.5.280"
 
 import base64 as _base64
 import glob as _glob
@@ -5271,6 +5271,12 @@ def cluster_kube_install(tag,
         print("'%s' => '%s'." % (filename, rendered_path))
 
     cmd = """
+# Rook
+kubectl create -f %s/cluster/yaml/rook/operator.yaml
+kubectl create -f %s/cluster/yaml/rook/cluster.yaml
+kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
+kubectl create -f %s/cluster/yaml/rook/dashboard-external-http.yaml
+
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
@@ -5324,6 +5330,10 @@ sleep 5
 
 kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
 """ % (
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path, 
        generated_path,

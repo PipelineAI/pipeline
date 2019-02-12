@@ -12,12 +12,6 @@ spec:
   - match:
     - uri:
         prefix: /admin/grafana
-#    - uri:
-#        prefix: /public/build
-#    - uri:
-#        prefix: /public/img
-#    - uri:
-#        prefix: /public/fonts
     rewrite:
       uri: /
     route:
@@ -25,4 +19,17 @@ spec:
         host: grafana 
         port:
           number: 3000 
+      weight: 100
+  - match: 
+    - uri:
+        prefix: /public/build
+    - uri:
+        prefix: /public/img
+    - uri:
+        prefix: /public/fonts
+    route:
+    - destination:
+        host: grafana
+        port:
+          number: 3000
       weight: 100
