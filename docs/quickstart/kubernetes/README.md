@@ -60,9 +60,12 @@ pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalanc
 Notes:  
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
 
-
 ### Retrieve the Ingress IP (NodePort) or DNS Name (LoadBalancer) 
-Note: the LoadBalancer DNS may take some time to propagate.
+
+Notes: 
+* The LoadBalancer DNS may take some time to propagate.
+* For EKS, we've applied the `service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0` annotation to enforce internal  LoadBalancer vs. external LoadBalancer.
+
 ```
 kubectl get svc istio-ingressgateway -o wide
 
