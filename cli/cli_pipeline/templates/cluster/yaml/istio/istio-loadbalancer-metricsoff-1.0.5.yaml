@@ -2215,6 +2215,7 @@ metadata:
   name: istio-ingressgateway
   namespace: default
   annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
   labels:
     chart: gateways-1.0.5
     release: istio
