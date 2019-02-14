@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.285"
+__version__ = "1.5.286"
 
 import base64 as _base64
 import glob as _glob
@@ -5383,6 +5383,15 @@ helm install --name airflow stable/airflow --set airflow.service.type=NodePort -
 sleep 5
 
 kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
+
+# Add /mnt/pipelineai/shared to Airflow
+kubectl delete -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
+kubectl delete -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
+kubectl delete -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
+
+kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
+kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
+kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
 """ % (
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5404,6 +5413,12 @@ kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "
        pipeline_templates_path,
        pipeline_templates_path,
        ingress_type,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
