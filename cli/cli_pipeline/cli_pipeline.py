@@ -5398,7 +5398,6 @@ kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
-       pipeline_templates_path, 
        generated_path,
        pipeline_templates_path, 
        pipeline_templates_path,
