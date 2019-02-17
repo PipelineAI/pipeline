@@ -14,6 +14,8 @@ spec:
         prefix: /admin/tracking
     - uri:
         prefix: /ajax-api
+    - uri:
+        prefix: /api
     route:
     - destination:
         host: mlflow 
