@@ -28,6 +28,8 @@ Initialize Helm (and Start Tiller)
 ```
 helm init
 ```
+
+Update to the latest Helm Charts
 ```
 helm repo update
 ```
