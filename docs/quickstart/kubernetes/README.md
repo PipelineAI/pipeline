@@ -85,6 +85,17 @@ Notes:
 ### Whitelist the DNS Name with PipelineAI
 Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI.
 
+### Scale the Cluster/Node Group (AWS EKS Example is Provided)
+Get the Node Group name
+```
+eksctl get nodegroup
+```
+
+Scale the Node Group from 1 to 2 Nodes
+```
+eksctl scale nodegroup --name ng-0446e025 --cluster pipelineai --nodes 2
+```
+
 ### Uninstall and Cleanup
 ```
 pipeline cluster-kube-uninstall --tag 1.5.0
