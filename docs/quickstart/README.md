@@ -15,6 +15,7 @@ pip uninstall cli-pipeline
 pip install cli-pipeline==1.5.292 --default-timeout=120 --ignore-installed --no-cache --upgrade
 ```
 Notes: 
+* You may need to uninstall any existing `cli-pipeline` using `pip uninstall cli-pipeline`
 * You may also use `--user` if you're still having issues.
 * This command line interface requires **Python 2 or 3** and **Docker** as detailed above in the Pre-Requisites section.
 * If you're having trouble, use one of our support channels [**HERE**](/docs/troubleshooting) to let us know!
