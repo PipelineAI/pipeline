@@ -77,6 +77,9 @@ NAME                   TYPE                       CLUSTER-IP      EXTERNAL-IP
 istio-ingressgateway   <NodePort/LoadBalancer>    10.100.12.101   <dns-name>
 ```
 
+Notes:
+* To use SSL with your ELB, you will need to upload a certificate, add a listener to the ELB configured with SSL on load balancer port 443 targeting instance port 31380
+
 ### Whitelist the DNS Name with PipelineAI
 Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI.
 
