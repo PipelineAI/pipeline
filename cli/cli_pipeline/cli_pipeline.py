@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.294"
+__version__ = "1.5.296"
 
 import base64 as _base64
 import glob as _glob
@@ -5424,6 +5424,9 @@ kubectl delete deploy airflow-flower
 #kubectl create -f %s/cluster/yaml/kafka/kafka-rest-svc.yaml
 #kubectl create -f %s/cluster/yaml/kafka/kafka-svc.yaml
 
+# Metrics
+kubectl create -f %s/cluster/yaml/metrics/
+
 """ % (
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5445,6 +5448,7 @@ kubectl delete deploy airflow-flower
        pipeline_templates_path,
        pipeline_templates_path,
        ingress_type,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,

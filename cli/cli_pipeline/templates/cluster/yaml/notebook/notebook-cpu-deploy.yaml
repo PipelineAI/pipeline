@@ -34,11 +34,11 @@ spec:
         image: docker.io/pipelineai/notebook-cpu:1.5.0
         resources:
           limits:
-            memory: 1Gi
-            cpu: 1000m
+            memory: 4Gi
+            cpu: 2000m
           requests:
-            memory: 1Gi
-            cpu: 1000m
+            memory: 4Gi
+            cpu: 2000m
         imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         volumeMounts:
