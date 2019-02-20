@@ -1,11 +1,11 @@
 ## Create Kubernetes Cluster
-We recommend [**Jenkins-X**](https://jenkins-x.io/getting-started/create-cluster/) to install on AWS/EKS, Azure/AKS, Google Cloud/GKE, or On-Premise.
+We recommend [**Jenkins-X**](https://jenkins-x.io/getting-started/install/) to install on AWS/EKS, Azure/AKS, Google Cloud/GKE, or On-Premise.
 
 _Note: When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The default of 20GB is not enough to store the Docker images on each node._
 
-Here is a sample command using [Jenkins-X](https://jenkins-x.io/getting-started/install/):
+Here is a sample command using [Jenkins-X](https://jenkins-x.io/commands/jx_create_cluster_eks/) with AWS EKS:
 ```
-jx create cluster eks --node-type=i3.4xlarge --node-volume-size=100GB --verbose=true --cluster-name=pipelineai --install-dependencies=true --skip-ingress=true --skip-install=true
+jx create cluster eks --node-type=i3.4xlarge --node-volume-size=100GB --verbose=true --cluster-name=pipelineai --install-dependencies=true --skip-ingress=true --skip-install=true --provider=eks --nodes=1 --eksctl-log-level=5
 ```
 
 ## Install PipelineAI on Kubernetes
