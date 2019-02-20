@@ -18,6 +18,7 @@ spec:
         port:
           number: 32000 
       weight: 100
+    timeout: 300s
     websocketUpgrade: true
 #    appendHeaders:
 #      Upgrade: required
