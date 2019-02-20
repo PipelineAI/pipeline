@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.291"
+__version__ = "1.5.292"
 
 import base64 as _base64
 import glob as _glob
@@ -5238,14 +5238,16 @@ kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
+# Remove Airflow (Requires pipelineai-cluster-admin rolebinding)
+helm delete --purge airflow
+
 # Turbine (Part 2)
 kubectl delete clusterrolebinding pipelineai-serviceaccounts-view 
 
 # Remove ability to create pods and istio assets
+# Can only delete this after removing Airflow
 kubectl delete clusterrolebinding pipelineai-cluster-admin
 
-# Airflow
-helm delete --purge airflow
 """ % (
        chip,
        chip, 
@@ -5372,12 +5374,15 @@ kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
   --clusterrole=view \
   --group=system:serviceaccounts
 
-# Allow creation of pods and routes
+# Airflow
+
+# Allow creation of pods and routes (Airflow)
 kubectl create clusterrolebinding pipelineai-cluster-admin \
   --clusterrole=cluster-admin \
   --group=system:serviceaccounts
 
-# Airflow
+helm repo update
+
 helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
 
 sleep 5
@@ -5389,9 +5394,12 @@ kubectl delete -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
 kubectl delete -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
 kubectl delete -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
 
+sleep 5
+
 kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
 kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
 kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
+
 """ % (
        pipeline_templates_path,
        pipeline_templates_path,
