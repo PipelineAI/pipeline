@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.292"
+__version__ = "1.5.293"
 
 import base64 as _base64
 import glob as _glob
@@ -5248,11 +5248,19 @@ kubectl delete clusterrolebinding pipelineai-serviceaccounts-view
 # Can only delete this after removing Airflow
 kubectl delete clusterrolebinding pipelineai-cluster-admin
 
+# Kafka
+#helm delete --purge kafka
+
+#kubectl delete -f %s/cluster/yaml/kafka/kafka-rest-svc.yaml
+#kubectl delete -f %s/cluster/yaml/kafka/kafka-svc.yaml
+
 """ % (
        chip,
        chip, 
        pipeline_templates_path,
        ingress_type,
+       pipeline_templates_path,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5332,6 +5340,11 @@ def cluster_kube_install(tag,
 kubectl create -f %s/cluster/yaml/rook/operator.yaml
 kubectl create -f %s/cluster/yaml/rook/cluster.yaml
 kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
+kubectl create -f %s/cluster/yaml/rook/toolbox.yaml
+
+kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
+kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
+kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
 
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
@@ -5400,7 +5413,19 @@ kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
 kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
 kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
 
+kubectl delete deploy airflow-flower 
+
+# Kafka 
+#helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+#helm repo update
+
+#helm install confluentinc/cp-helm-charts --name kafka --set cp-zookeeper.enabled=true,cp-zookeeper.persistence.enabled=false,cp-kafka.enabled=true,cp-kafka.persistence.enabled=false,cp-schema-registry.enabled=false,cp-kafka-rest.enabled=true,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false
+
+#kubectl create -f %s/cluster/yaml/kafka/kafka-rest-svc.yaml
+#kubectl create -f %s/cluster/yaml/kafka/kafka-svc.yaml
+
 """ % (
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5420,6 +5445,8 @@ kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
        pipeline_templates_path,
        pipeline_templates_path,
        ingress_type,
+       pipeline_templates_path,
+       pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
