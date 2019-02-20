@@ -93,7 +93,7 @@ eksctl get nodegroup
 
 Scale the Node Group from 1 to 2 Nodes
 ```
-eksctl scale nodegroup --name ng-0446e025 --cluster pipelineai --nodes 2
+eksctl scale nodegroup --name <node-group> --cluster pipelineai --nodes <num-nodes>
 ```
 
 ### Uninstall and Cleanup
