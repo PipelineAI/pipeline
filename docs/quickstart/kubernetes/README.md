@@ -7,6 +7,8 @@ Here is a sample command using [Jenkins-X](https://jenkins-x.io/commands/jx_crea
 ```
 jx create cluster eks --node-type=<instance-type> --node-volume-size=100 --verbose=true --cluster-name=pipelineai --install-dependencies=true --skip-ingress=true --skip-installation=true --nodes=1 --eksctl-log-level=5
 ```
+Notes:
+* Use `--ssh-public-key=/path/to/public/key.pub` to ssh into the worker.  You may also need to open port 22 on the worker node security group.
 
 ## Install PipelineAI on Kubernetes
 ### Prerequisites
