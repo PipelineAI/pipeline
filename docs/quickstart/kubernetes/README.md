@@ -1,5 +1,5 @@
 ## Create Kubernetes Cluster
-We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/) to install on AWS, Azure, Google Cloud, or On-Premise.
+We recommend [**JenkinsX**](https://jenkins-x.io/getting-started/create-cluster/) to install on AWS/EKS, Azure/AKS, Google Cloud/GKE, or On-Premise.
 
 _Note: When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The default of 20GB is not enough to store the Docker images on each node._
 
