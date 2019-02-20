@@ -4,6 +4,11 @@
 * Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
+### (Optional) Uninstall Any Existing PipelineAI CLI
+```
+pip uninstall cli-pipeline
+```
+
 ### Install PipelineAI CLI
 [![PyPI PipelineAI CLI](https://badge.fury.io/py/cli-pipeline@2x.png)](https://pypi.python.org/pypi/cli-pipeline/)
 ```
