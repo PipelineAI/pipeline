@@ -28,6 +28,9 @@ Initialize Helm (and Start Tiller)
 ```
 helm init
 ```
+```
+helm repo update
+```
 
 Verify Helm and Tiller are Running
 ```
