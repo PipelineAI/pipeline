@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.297"
+__version__ = "1.5.298"
 
 import base64 as _base64
 import glob as _glob
@@ -5234,7 +5234,7 @@ kubectl delete -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
-kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
+kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook-%s.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
@@ -5265,6 +5265,7 @@ kubectl delete clusterrolebinding pipelineai-cluster-admin
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
+       chip,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5342,6 +5343,8 @@ kubectl create -f %s/cluster/yaml/rook/cluster.yaml
 kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
 kubectl create -f %s/cluster/yaml/rook/toolbox.yaml
 
+sleep 120 
+
 kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
 kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
 kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
@@ -5378,7 +5381,7 @@ kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
-kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook.yaml
+kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook-%s.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
@@ -5454,6 +5457,7 @@ kubectl create -f %s/cluster/yaml/metrics/
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
+       chip,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,

@@ -35,10 +35,10 @@ spec:
         resources:
           limits:
             nvidia.com/gpu: 1
-            memory: 4Gi 
+            memory: 2Gi 
             cpu: 2000m
           requests:
-            memory: 4Gi
+            memory: 2Gi
             cpu: 2000m
         imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
