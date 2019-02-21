@@ -63,7 +63,7 @@ Apply the Nvidia GPU plugin
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.11/nvidia-device-plugin.yml
 ```
 Notes:  
-* You may need to change the version above (ie. v1.12)
+* You may need to change the version above (ie. v1.12).  Run `kubectl version` and verify the `Server Version` of Kubernetes
 
 Verify the Nvidia GPUs are recognized by Kubernetes
 ```
