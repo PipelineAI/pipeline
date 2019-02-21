@@ -56,7 +56,9 @@ kubectl config set-context $(kubectl config current-context) --namespace=default
 ```
 
 ### (Optional) Enable Kubernetes to Recognize GPUs
-_Currently, EKS only supports p2 and p3 [GPU instance types](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)_
+Notes:
+* Currently, EKS only supports p2 and p3 [GPU instance types](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)
+* For GPU with EKS, YOU MUST ACCEPT THE AMI TERMS [HERE](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)
 
 Apply the Nvidia GPU plugin
 ```
@@ -65,7 +67,7 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.1
 Notes:  
 * You may need to change the version above (ie. v1.12).  Run `kubectl version` and verify the `Server Version` of Kubernetes
 
-Verify the Nvidia GPUs are recognized by Kubernetes
+After a few minutes, verify the Nvidia GPUs within Kubernetes:
 ```
 kubectl get nodes "-o=custom-columns=NAME:.metadata.name,MEMORY:.status.allocatable.memory,CPU:.status.allocatable.cpu,GPU:.status.allocatable.nvidia\.com/gpu"
 
