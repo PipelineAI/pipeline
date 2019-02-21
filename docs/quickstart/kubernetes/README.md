@@ -120,3 +120,5 @@ eksctl scale nodegroup --name <node-group> --cluster pipelineai --nodes <num-nod
 ```
 pipeline cluster-kube-uninstall --tag 1.5.0
 ```
+Notes:
+* Use `--chip=gpu` for a GPU installation
