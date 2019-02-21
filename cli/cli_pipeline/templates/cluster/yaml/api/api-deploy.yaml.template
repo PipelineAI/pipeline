@@ -37,10 +37,10 @@ spec:
         resources:
           limits:
             memory: 1Gi
-            cpu: 500m
+            cpu: 200m
           requests:
             memory: 1Gi
-            cpu: 500m
+            cpu: 200m
         ports:
         # TODO:  Figure out values for prometheus
         - containerPort: 8080

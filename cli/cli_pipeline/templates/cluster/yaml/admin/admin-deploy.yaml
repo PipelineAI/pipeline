@@ -32,11 +32,11 @@ spec:
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:
           limits:
-            memory: 4Gi
-            cpu: 4000m
+            memory: 2Gi
+            cpu: 200m
           requests:
-            memory: 1Gi
-            cpu: 1000m
+            memory: 2Gi
+            cpu: 200m
         ports:
         - containerPort: 31996
         volumeMounts:
