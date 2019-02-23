@@ -17,6 +17,9 @@ Notes:
 * Python 2 or 3 ([Miniconda with Python 3.6](https://repo.continuum.io/miniconda/) is Preferred)
 * [**PipelineAI CLI**]()
 * [**Helm**](https://docs.helm.sh/using_helm/#installing-helm)
+* 4 CPU
+* 8GB RAM
+* (Optional) Nvidia GPU
 
 ### Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
