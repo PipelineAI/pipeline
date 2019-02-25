@@ -14,6 +14,8 @@ Notes:
 ## Install PipelineAI on Kubernetes
 ### Prerequisites
 * Running Kubernetes Cluster
+* Kubectl Installed
+* MacOS, Linux, or Powershell (Windows)
 * Python 2 or 3 ([Miniconda with Python 3.6](https://repo.continuum.io/miniconda/) is Preferred)
 * [**PipelineAI CLI**]()
 * [**Helm**](https://docs.helm.sh/using_helm/#installing-helm)
