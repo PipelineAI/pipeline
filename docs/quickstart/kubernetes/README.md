@@ -123,7 +123,7 @@ eksctl scale nodegroup --name <node-group> --cluster pipelineai --nodes <num-nod
 
 ### Uninstall and Cleanup
 ```
-pipeline cluster-kube-uninstall --tag 1.5.0
+pipeline cluster-kube-uninstall --tag=1.5.0 --chip=cpu
 ```
 Notes:
 * Use `--chip=gpu` for a GPU installation
