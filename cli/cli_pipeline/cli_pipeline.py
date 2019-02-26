@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.299"
+__version__ = "1.5.300"
 
 import base64 as _base64
 import glob as _glob
@@ -5341,9 +5341,14 @@ def cluster_kube_install(tag,
 kubectl create -f %s/cluster/yaml/rook/operator.yaml
 kubectl create -f %s/cluster/yaml/rook/cluster.yaml
 kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
+
+sleep 300 
+
 kubectl create -f %s/cluster/yaml/rook/toolbox.yaml
 
 sleep 120 
+
+#kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].status.containerStatuses[0].ready}'
 
 kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
 kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
