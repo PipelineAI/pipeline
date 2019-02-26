@@ -104,7 +104,7 @@ istio-ingressgateway   <NodePort/LoadBalancer>    10.100.12.101   <dns-name>
 ```
 Notes:
 * The LoadBalancer DNS may take some time to propagate.
-* For EKS, we've applied the `service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0` annotation to enforce internal  LoadBalancer vs. external LoadBalancer.
+* For EKS, you can modify the istio loadbalancer yaml to include the `service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0` annotation to enforce internal LoadBalancer (vs. public-facing, external)
 * To use SSL with your ELB, you will need to upload a certificate, add a listener to the ELB configured with SSL on load balancer port 443 targeting instance port 31380
 
 ### Whitelist the DNS Name with PipelineAI
