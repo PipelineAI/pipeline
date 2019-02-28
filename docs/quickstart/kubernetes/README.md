@@ -89,7 +89,7 @@ PipelineAI CLI Args
 * `--image-registry-password`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
 ```
-pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --chip=cpu --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional>
+pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --chip=cpu --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional>
 ```
 Notes:  
 * Use `--chip=gpu` to install the GPU version of PipelineAI
