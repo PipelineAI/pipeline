@@ -57,8 +57,10 @@ Notes:
 ### AWS IAM Roles (AWS-Only)
 Make sure the underlying EC2 instances for your EKS cluster contain the `AmazonEC2ContainerRegistryPowerUser` instance policy.   See [here](https://aws.amazon.com/blogs/security/easily-replace-or-attach-an-iam-role-to-an-existing-ec2-instance-by-using-the-ec2-console/) and [here](https://eksworkshop.com/logging/prereqs/) for more info.
 
-### Switch to `default` Namespace
+### Create and Switch to a Namespace (or just use `default`)
 ```
+kubectl create namespace default
+
 kubectl config set-context $(kubectl config current-context) --namespace=default
 ```
 
