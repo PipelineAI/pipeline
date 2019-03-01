@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.300"
+__version__ = "1.5.301"
 
 import base64 as _base64
 import glob as _glob
@@ -5193,10 +5193,17 @@ def _get_sage_endpoint(model_name,
 def cluster_kube_uninstall(tag,
                            ingress_type='nodeport',
                            chip=_default_model_chip,
-                           pipeline_templates_path=None):
+                           pipeline_templates_path=None,
+                           dry_run=False):
 
     if not pipeline_templates_path:
         pipeline_templates_path = _default_pipeline_templates_path
+
+    generated_path = '~/.pipelineai/cluster/yaml'
+    generated_path = _os.path.expandvars(generated_path)
+    generated_path = _os.path.expanduser(generated_path)
+    generated_path = _os.path.abspath(generated_path)
+    generated_path = _os.path.normpath(generated_path)
 
     cmd = """
 # Admin
@@ -5224,7 +5231,7 @@ kubectl delete deploy dashboard-turbine
 kubectl delete svc dashboard-turbine 
 
 # Istio
-kubectl delete -f %s/cluster/yaml/istio/istio-%s-1.0.5.yaml
+kubectl delete -f %s/.generated-istio-%s-1.0.5.yaml
 sleep 10
 
 kubectl delete -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
@@ -5233,31 +5240,30 @@ sleep 10
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
-kubectl delete -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
+#kubectl delete -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-notebook-%s.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl delete -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
 # Remove Airflow (Requires pipelineai-cluster-admin rolebinding)
-helm delete --purge airflow
+#helm delete --purge airflow
 
 # Turbine (Part 2)
 kubectl delete clusterrolebinding pipelineai-serviceaccounts-view 
 
 # Remove ability to create pods and istio assets
 # Can only delete this after removing Airflow
-kubectl delete clusterrolebinding pipelineai-cluster-admin
+#kubectl delete clusterrolebinding pipelineai-cluster-admin
 
 # Kafka
 #helm delete --purge kafka
 
 #kubectl delete -f %s/cluster/yaml/kafka/kafka-rest-svc.yaml
 #kubectl delete -f %s/cluster/yaml/kafka/kafka-svc.yaml
-
 """ % (
        chip,
        chip, 
-       pipeline_templates_path,
+       generated_path,
        ingress_type,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5272,9 +5278,12 @@ kubectl delete clusterrolebinding pipelineai-cluster-admin
        pipeline_templates_path,
     )
 
-    print(cmd)
-    response_bytes = _subprocess.check_output(cmd, shell=True)
-    return response_bytes.decode('utf-8')
+    if not dry_run:
+        print(cmd)
+        response_bytes = _subprocess.check_output(cmd, shell=True)
+        return response_bytes.decode('utf-8')
+    else:
+        return cmd
 
 
 def cluster_kube_install(tag,
@@ -5282,8 +5291,10 @@ def cluster_kube_install(tag,
                          image_registry_username='',
                          image_registry_password='',
                          ingress_type='nodeport',
+                         namespace='default',
                          chip=_default_model_chip,
-                         pipeline_templates_path=None):
+                         pipeline_templates_path=None,
+                         dry_run=False):
 
     # lowercase the ingress_type to match the file in the template
     ingress_type = ingress_type.lower()
@@ -5297,6 +5308,7 @@ def cluster_kube_install(tag,
     pipeline_templates_path = _os.path.normpath(pipeline_templates_path)
 
     context = {
+               'PIPELINE_NAMESPACE': namespace,
                'PIPELINE_IMAGE_REGISTRY_URL': image_registry_url,
                'PIPELINE_IMAGE_REGISTRY_USERNAME': image_registry_username,
                'PIPELINE_IMAGE_REGISTRY_PASSWORD': image_registry_password,
@@ -5336,15 +5348,87 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
+    filename = 'istio-loadbalancer-1.0.5.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-istio-loadbalancer-1.0.5.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
+    filename = 'istio-loadbalancer-metricsoff-1.0.5.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-istio-loadbalancer-metricsoff-1.0.5.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
+    filename = 'istio-nodeport-1.0.5.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-istio-nodeport-1.0.5.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
+    filename = 'istio-nodeport-metricsoff-1.0.5.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-istio-nodeport-metricsoff-1.0.5.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mlflow/'))
+    filename = 'mlflow-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-mlflow-deploy.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+    filename = 'notebook-cpu-deploy.yaml.template' 
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-notebook-cpu-deploy.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+    filename = 'notebook-gpu-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-notebook-gpu-deploy.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
+    filename = 'operator.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-operator.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
+    filename = 'toolbox.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-toolbox.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
     cmd = """
 # Rook
-kubectl create -f %s/cluster/yaml/rook/operator.yaml
+kubectl create -f %s/.generated-operator.yaml
 kubectl create -f %s/cluster/yaml/rook/cluster.yaml
 kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
 
 sleep 300 
 
-kubectl create -f %s/cluster/yaml/rook/toolbox.yaml
+kubectl create -f %s/.generated-toolbox.yaml
 
 sleep 120 
 
@@ -5363,11 +5447,11 @@ kubectl create -f %s/.generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
-kubectl create -f %s/cluster/yaml/notebook/notebook-%s-deploy.yaml
+kubectl create -f %s/.generated-notebook-%s-deploy.yaml
 kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
 # MLflow
-kubectl create -f %s/cluster/yaml/mlflow/mlflow-deploy.yaml
+kubectl create -f %s/.generated-mlflow-deploy.yaml
 kubectl create -f %s/cluster/yaml/mlflow/mlflow-svc.yaml
 
 # Hystrix
@@ -5379,13 +5463,13 @@ kubectl create -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
 kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
 
 # Istio
-kubectl create -f %s/cluster/yaml/istio/istio-%s-metricsoff-1.0.5.yaml
+kubectl create -f %s/.generated-istio-%s-metricsoff-1.0.5.yaml
 kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
 
 kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
-kubectl create -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
+#kubectl create -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook-%s.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
@@ -5398,30 +5482,30 @@ kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
 # Airflow
 
 # Allow creation of pods and routes (Airflow)
-kubectl create clusterrolebinding pipelineai-cluster-admin \
+#kubectl create clusterrolebinding pipelineai-cluster-admin \
   --clusterrole=cluster-admin \
   --group=system:serviceaccounts
 
-helm repo update
+#helm repo update
 
-helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
+#helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
 
 sleep 5
 
-kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
+#kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
 
 # Add /mnt/pipelineai/shared to Airflow
-kubectl delete -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
-kubectl delete -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
-kubectl delete -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
+#kubectl delete -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
+#kubectl delete -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
+#kubectl delete -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
 
 sleep 5
 
-kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
-kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
-kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
+#kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
+#kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
+#kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
 
-kubectl delete deploy airflow-flower 
+#kubectl delete deploy airflow-flower 
 
 # Kafka 
 #helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
@@ -5436,25 +5520,25 @@ kubectl delete deploy airflow-flower
 kubectl create -f %s/cluster/yaml/metrics/
 
 """ % (
+       generated_path,
        pipeline_templates_path,
+       pipeline_templates_path,
+       generated_path,
+       pipeline_templates_path,
+       pipeline_templates_path,
+       generated_path,
+       pipeline_templates_path, 
+       generated_path,
+       chip,
+       pipeline_templates_path,
+       chip,
+       generated_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        pipeline_templates_path,
        generated_path,
-       pipeline_templates_path, 
-       pipeline_templates_path,
-       chip,
-       pipeline_templates_path,
-       chip,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
        ingress_type,
        pipeline_templates_path,
        pipeline_templates_path,
@@ -5475,11 +5559,13 @@ kubectl create -f %s/cluster/yaml/metrics/
        pipeline_templates_path,
        pipeline_templates_path,
     )
-    print(cmd)
 
-    response_bytes = _subprocess.check_output(cmd, shell=True)
-
-    return response_bytes.decode('utf-8')
+    if not dry_run:
+        print(cmd)
+        response_bytes = _subprocess.check_output(cmd, shell=True)
+        return response_bytes.decode('utf-8')
+    else:
+        return cmd
 
 
 def _get_short_user_id(user_id):

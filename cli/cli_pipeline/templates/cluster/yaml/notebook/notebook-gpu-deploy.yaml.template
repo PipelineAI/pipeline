@@ -1,18 +1,18 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: notebook-cpu
+  name: notebook-gpu
   labels:
-    app: notebook-cpu
+    app: notebook-gpu
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: notebook-cpu
+      app: notebook-gpu
   template:
     metadata:
       labels:
-        app: notebook-cpu
+        app: notebook-gpu
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/admin/nb/hub/metrics"
@@ -20,21 +20,13 @@ spec:
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
-#      affinity:
-#        nodeAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            nodeSelectorTerms:
-#            - matchExpressions:
-#              - key: pipeline.ai/role
-#                operator: In
-#                values:
-#                - admin
       containers:
-      - name: notebook-cpu
-        image: docker.io/pipelineai/notebook-cpu:1.5.0
+      - name: notebook-gpu
+        image: docker.io/pipelineai/notebook-gpu:1.5.0
         resources:
           limits:
-            memory: 2Gi
+            nvidia.com/gpu: 1
+            memory: 2Gi 
             cpu: 2000m
           requests:
             memory: 2Gi
@@ -49,8 +41,6 @@ spec:
           mountPath: /mnt/pipelineai/users
         - name: notebooks-volume
           mountPath: /mnt/pipelineai/notebooks
-#        - name: shared-volume
-#          mountPath: /mnt/pipelineai/shared
         env:
         # Note:  When adding vars here, make sure you whitelist them in jupyterhub_config.py
         #        otherwise, jupyter notebooks won't be able to see them
@@ -86,17 +76,13 @@ spec:
       - name: rootfs-usr-lib
         hostPath:
           path: /usr/lib
-#      - name: users-volume
-#        hostPath:
-#          path: /mnt/pipelineai/users
-#          type: DirectoryOrCreate
       - name: users-volume
         flexVolume:
           driver: ceph.rook.io/rook
           fsType: ceph
           options:
             fsName: pipelineai-fs # name of the filesystem specified in the filesystem CRD.
-            clusterNamespace: default # namespace where the Rook cluster is deployed
+            clusterNamespace: {{ PIPELINE_NAMESPACE }} # namespace where the Rook cluster is deployed
             # by default the path is /, but you can override and mount a specific path of the filesystem by using the path attribute
             # the path must exist on the filesystem, otherwise mounting the filesystem at that path will fail
             path: users/
@@ -106,20 +92,7 @@ spec:
           fsType: ceph
           options:
             fsName: pipelineai-fs # name of the filesystem specified in the filesystem CRD.
-            clusterNamespace: default # namespace where the Rook cluster is deployed
+            clusterNamespace: {{ PIPELINE_NAMESPACE }} # namespace where the Rook cluster is deployed
             # by default the path is /, but you can override and mount a specific path of the filesystem by using the path attribute
             # the path must exist on the filesystem, otherwise mounting the filesystem at that path will fail
             path: notebooks/
-#      - name: notebooks-volume
-#        gitRepo:
-#          repository: https://github.com/PipelineAI/notebooks
-#      - name: shared-volume
-#        flexVolume:
-#          driver: ceph.rook.io/rook
-#          fsType: ceph
-#          options:
-#            fsName: pipelineai-fs # name of the filesystem specified in the filesystem CRD.
-#            clusterNamespace: default # namespace where the Rook cluster is deployed
-#            # by default the path is /, but you can override and mount a specific path of the filesystem by using the path attribute
-#            # the path must exist on the filesystem, otherwise mounting the filesystem at that path will fail
-#            #path: /

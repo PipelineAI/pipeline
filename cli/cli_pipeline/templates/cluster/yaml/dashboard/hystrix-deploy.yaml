@@ -16,26 +16,9 @@ spec:
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
-#      affinity:
-#        nodeAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            nodeSelectorTerms:
-#            - matchExpressions:
-#              - key: pipeline.ai/role
-#                operator: In
-#                values:
-#                - admin
       containers:
       - name: dashboard-hystrix
         image: docker.io/pipelineai/dashboard-hystrix:1.5.0
-#        image: pipelineai/dashboard-hystrix:1.5.0
-        resources:
-          limits:
-#            cpu: 2000m
-#            memory: 2000Mi
-#          requests:
-#            cpu: 200m
-#            memory: 2000Mi
         imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
         env:

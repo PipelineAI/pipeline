@@ -4,7 +4,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-galley-configuration
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-galley
     chart: galley-1.0.5
@@ -17,7 +17,7 @@ data:
     kind: ValidatingWebhookConfiguration
     metadata:
       name: istio-galley
-      namespace: default
+      namespace: {{ PIPELINE_NAMESPACE }}
       labels:
         app: istio-galley
         chart: galley-1.0.5
@@ -28,7 +28,7 @@ data:
         clientConfig:
           service:
             name: istio-galley
-            namespace: default
+            namespace: {{ PIPELINE_NAMESPACE }}
             path: "/admitpilot"
           caBundle: ""
         rules:
@@ -80,7 +80,7 @@ data:
         clientConfig:
           service:
             name: istio-galley
-            namespace: default
+            namespace: {{ PIPELINE_NAMESPACE }}
             path: "/admitmixer"
           caBundle: ""
         rules:
@@ -129,7 +129,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-statsd-prom-bridge
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-statsd-prom-bridge
     chart: mixer-1.0.5
@@ -145,7 +145,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-security-custom-resources
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-security
     chart: security-1.0.5
@@ -184,13 +184,13 @@ data:
     if [ "$?" -eq 0 ]; then
         echo "istio-galley validatingwebhookconfiguration found - waiting for istio-galley deployment to be ready"
         while true; do
-            /kubectl -n default get deployment istio-galley 2>/dev/null
+            /kubectl -n {{ PIPELINE_NAMESPACE }} get deployment istio-galley 2>/dev/null
             if [ "$?" -eq 0 ]; then
                 break
             fi
             sleep 1
         done
-        /kubectl -n default rollout status deployment istio-galley
+        /kubectl -n {{ PIPELINE_NAMESPACE }} rollout status deployment istio-galley
         if [ "$?" -ne 0 ]; then
             echo "istio-galley deployment rollout status check failed"
             exit 1
@@ -208,7 +208,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio
     chart: istio-1.0.5
@@ -227,8 +227,8 @@ data:
     accessLogFile: "/dev/stdout"
     #
     # Deprecated: mixer is using EDS
-    mixerCheckServer: istio-policy.default.svc.cluster.local:9091
-    mixerReportServer: istio-telemetry.default.svc.cluster.local:9091
+    mixerCheckServer: istio-policy.{{ PIPELINE_NAMESPACE }}.svc.cluster.local:9091
+    mixerReportServer: istio-telemetry.{{ PIPELINE_NAMESPACE }}.svc.cluster.local:9091
 
     # policyCheckFailOpen allows traffic in cases when the mixer policy service cannot be reached.
     # Default is false which means the traffic is denied when the client is unable to connect to Mixer.
@@ -286,13 +286,13 @@ data:
       concurrency: 0
       #
       # Zipkin trace collector
-      zipkinAddress: zipkin.default:9411
+      zipkinAddress: zipkin.{{ PIPELINE_NAMESPACE }}:9411
       #
       # Mutual TLS authentication between sidecars and istio control plane.
       controlPlaneAuthPolicy: NONE
       #
       # Address where istio Pilot service is running
-      discoveryAddress: istio-pilot.default:15007
+      discoveryAddress: istio-pilot.{{ PIPELINE_NAMESPACE }}:15007
 
 ---
 # Source: istio/templates/sidecar-injector-configmap.yaml
@@ -301,7 +301,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-sidecar-injector
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio
     chart: istio-1.0.5
@@ -470,7 +470,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-galley-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-galley
     chart: galley-1.0.5
@@ -484,7 +484,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-egressgateway-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: egressgateway
     chart: gateways-1.0.5
@@ -495,7 +495,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-ingressgateway-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: ingressgateway
     chart: gateways-1.0.5
@@ -509,7 +509,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-ingress-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: ingress
     chart: ingress-1.0.5
@@ -522,7 +522,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-mixer-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: mixer
     chart: mixer-1.0.5
@@ -535,7 +535,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-pilot-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-pilot
     chart: pilot-1.0.5
@@ -557,7 +557,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-cleanup-secrets-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -571,7 +571,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: istio-cleanup-secrets-default
+  name: istio-cleanup-secrets-{{ PIPELINE_NAMESPACE }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -589,7 +589,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-cleanup-secrets-default
+  name: istio-cleanup-secrets-{{ PIPELINE_NAMESPACE }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -602,17 +602,17 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-cleanup-secrets-default
+  name: istio-cleanup-secrets-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-cleanup-secrets-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: istio-cleanup-secrets
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -651,7 +651,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-security-post-install-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-security
     chart: security-1.0.5
@@ -661,7 +661,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: istio-security-post-install-default
+  name: istio-security-post-install-{{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-security
     chart: security-1.0.5
@@ -684,7 +684,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-security-post-install-role-binding-default
+  name: istio-security-post-install-role-binding-{{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-security
     chart: security-1.0.5
@@ -693,18 +693,18 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-security-post-install-default
+  name: istio-security-post-install-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-security-post-install-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 ---
 
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: istio-security-post-install
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -741,7 +741,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: istio-citadel-service-account
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: security
     chart: security-1.0.5
@@ -1872,7 +1872,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: istio-galley-default
+  name: istio-galley-{{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-galley
     chart: galley-1.0.5
@@ -1905,7 +1905,7 @@ metadata:
     chart: gateways-1.0.5
     heritage: Tiller
     release: istio
-  name: istio-egressgateway-default
+  name: istio-egressgateway-{{ PIPELINE_NAMESPACE }}
 rules:
 - apiGroups: ["extensions"]
   resources: ["thirdpartyresources", "virtualservices", "destinationrules", "gateways"]
@@ -1919,7 +1919,7 @@ metadata:
     chart: gateways-1.0.5
     heritage: Tiller
     release: istio
-  name: istio-ingressgateway-default
+  name: istio-ingressgateway-{{ PIPELINE_NAMESPACE }}
 rules:
 - apiGroups: ["extensions"]
   resources: ["thirdpartyresources", "virtualservices", "destinationrules", "gateways"]
@@ -1936,7 +1936,7 @@ metadata:
     chart: ingress-1.0.5
     heritage: Tiller
     release: istio
-  name: istio-ingress-default
+  name: istio-ingress-{{ PIPELINE_NAMESPACE }}
 rules:
 - apiGroups: ["extensions"]
   resources: ["thirdpartyresources", "ingresses"]
@@ -1950,7 +1950,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: istio-mixer-default
+  name: istio-mixer-{{ PIPELINE_NAMESPACE }}
   labels:
     app: mixer
     chart: mixer-1.0.5
@@ -1981,7 +1981,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: istio-pilot-default
+  name: istio-pilot-{{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-pilot
     chart: pilot-1.0.5
@@ -2021,7 +2021,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: istio-citadel-default
+  name: istio-citadel-{{ PIPELINE_NAMESPACE }}
   labels:
     app: security
     chart: security-1.0.5
@@ -2043,7 +2043,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-galley-admin-role-binding-default
+  name: istio-galley-admin-role-binding-{{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-galley
     chart: galley-1.0.5
@@ -2052,11 +2052,11 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-galley-default
+  name: istio-galley-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-galley-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 
 ---
 # Source: istio/charts/gateways/templates/clusterrolebindings.yaml
@@ -2064,28 +2064,28 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-egressgateway-default
+  name: istio-egressgateway-{{ PIPELINE_NAMESPACE }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-egressgateway-default
+  name: istio-egressgateway-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-egressgateway-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-ingressgateway-default
+  name: istio-ingressgateway-{{ PIPELINE_NAMESPACE }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-ingressgateway-default
+  name: istio-ingressgateway-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-ingressgateway-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 ---
 
 ---
@@ -2093,22 +2093,22 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-ingress-default
+  name: istio-ingress-{{ PIPELINE_NAMESPACE }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-pilot-default
+  name: istio-pilot-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-ingress-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 
 ---
 # Source: istio/charts/mixer/templates/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-mixer-admin-role-binding-default
+  name: istio-mixer-admin-role-binding-{{ PIPELINE_NAMESPACE }}
   labels:
     app: mixer
     chart: mixer-1.0.5
@@ -2117,18 +2117,18 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-mixer-default
+  name: istio-mixer-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-mixer-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 
 ---
 # Source: istio/charts/pilot/templates/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-pilot-default
+  name: istio-pilot-{{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-pilot
     chart: pilot-1.0.5
@@ -2137,18 +2137,18 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-pilot-default
+  name: istio-pilot-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-pilot-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 
 ---
 # Source: istio/charts/security/templates/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: istio-citadel-default
+  name: istio-citadel-{{ PIPELINE_NAMESPACE }}
   labels:
     app: security
     chart: security-1.0.5
@@ -2157,11 +2157,11 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istio-citadel-default
+  name: istio-citadel-{{ PIPELINE_NAMESPACE }}
 subjects:
   - kind: ServiceAccount
     name: istio-citadel-service-account
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 
 ---
 # Source: istio/charts/galley/templates/service.yaml
@@ -2169,7 +2169,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-galley
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     istio: galley
 spec:
@@ -2188,7 +2188,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-egressgateway
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   annotations:
   labels:
     chart: gateways-1.0.5
@@ -2213,9 +2213,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-ingressgateway
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   annotations:
-#    service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
   labels:
     chart: gateways-1.0.5
     release: istio
@@ -2223,7 +2222,7 @@ metadata:
     app: istio-ingressgateway
     istio: ingressgateway
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: istio-ingressgateway
     istio: ingressgateway
@@ -2269,7 +2268,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-ingress
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: ingress-1.0.5
     release: istio
@@ -2277,7 +2276,7 @@ metadata:
     istio: ingress
   annotations:
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     istio: ingress
   ports:
@@ -2297,7 +2296,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-policy
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: mixer-1.0.5
     release: istio
@@ -2318,7 +2317,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-telemetry
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: mixer-1.0.5
     release: istio
@@ -2344,7 +2343,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: istio-pilot
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-pilot
     chart: pilot-1.0.5
@@ -2371,7 +2370,7 @@ metadata:
   # we use the normal name here (e.g. 'prometheus')
   # as grafana is configured to use this as a data source
   name: istio-citadel
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: istio-citadel
 spec:
@@ -2391,7 +2390,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-galley
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: galley
     chart: galley-1.0.5
@@ -2423,7 +2422,7 @@ spec:
           command:
           - /usr/local/bin/galley
           - validator
-          - --deployment-namespace=default
+          - --deployment-namespace={{ PIPELINE_NAMESPACE }}
           - --caCertFile=/etc/istio/certs/root-cert.pem
           - --tlsCertFile=/etc/istio/certs/cert-chain.pem
           - --tlsKeyFile=/etc/istio/certs/key.pem
@@ -2508,7 +2507,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-egressgateway
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: gateways-1.0.5
     release: istio
@@ -2647,7 +2646,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-ingressgateway
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: gateways-1.0.5
     release: istio
@@ -2795,7 +2794,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-ingress
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: ingress
     chart: ingress-1.0.5
@@ -2920,7 +2919,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-policy
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: mixer-1.0.5
     release: istio
@@ -2989,7 +2988,7 @@ spec:
           - --address
           - unix:///sock/mixer.socket
           - --configStoreURL=k8s://
-          - --configDefaultNamespace=default
+          - --configDefaultNamespace={{ PIPELINE_NAMESPACE }}
           - --trace_zipkin_url=http://zipkin:9411/api/v1/spans
           - --numCheckCacheEntries=0
         env:
@@ -3060,7 +3059,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-telemetry
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     chart: mixer-1.0.5
     release: istio
@@ -3096,7 +3095,7 @@ spec:
           - --address
           - unix:///sock/mixer.socket
           - --configStoreURL=k8s://
-          - --configDefaultNamespace=default
+          - --configDefaultNamespace={{ PIPELINE_NAMESPACE }}
           - --trace_zipkin_url=http://zipkin:9411/api/v1/spans
         env:
         - name: GODEBUG
@@ -3169,7 +3168,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-pilot
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   # TODO: default template doesn't have this, which one is right ?
   labels:
     app: istio-pilot
@@ -3198,7 +3197,7 @@ spec:
           args:
           - "discovery"
           - "-a"
-          - "default"
+          - "{{ PIPELINE_NAMESPACE }}"
           ports:
           - containerPort: 8080
           - containerPort: 15010
@@ -3328,7 +3327,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: istio-citadel
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app: security
     chart: security-1.0.5
@@ -3354,8 +3353,8 @@ spec:
             - --append-dns-names=true
             - --grpc-port=8060
             - --grpc-hostname=citadel
-            - --citadel-storage-namespace=default
-            - --custom-dns-names=istio-pilot-service-account.default:istio-pilot.default,istio-ingressgateway-service-account.default:istio-ingressgateway.default
+            - --citadel-storage-namespace={{ PIPELINE_NAMESPACE }}
+            - --custom-dns-names=istio-pilot-service-account.{{ PIPELINE_NAMESPACE }}:istio-pilot.{{ PIPELINE_NAMESPACE }},istio-ingressgateway-service-account.{{ PIPELINE_NAMESPACE }}:istio-ingressgateway.{{ PIPELINE_NAMESPACE }}
             - --self-signed-ca=true
           resources:
             requests:
@@ -3401,7 +3400,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: istio-autogenerated-k8s-ingress
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   selector:
     istio: ingress
@@ -3422,7 +3421,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: istio-egressgateway
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 spec:
     maxReplicas: 5
     minReplicas: 1
@@ -3440,7 +3439,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: istio-ingressgateway
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 spec:
     maxReplicas: 5
     minReplicas: 1
@@ -3462,7 +3461,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: istio-ingress
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 spec:
     maxReplicas: 5
     minReplicas: 1
@@ -3484,7 +3483,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: istio-policy
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 spec:
     maxReplicas: 5
     minReplicas: 1
@@ -3502,7 +3501,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: istio-telemetry
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 spec:
     maxReplicas: 5
     minReplicas: 1
@@ -3524,7 +3523,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: istio-pilot
-    namespace: default
+    namespace: {{ PIPELINE_NAMESPACE }}
 spec:
     maxReplicas: 5
     minReplicas: 1
@@ -3575,7 +3574,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: attributemanifest
 metadata:
   name: istioproxy
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   attributes:
     origin.ip:
@@ -3689,7 +3688,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: attributemanifest
 metadata:
   name: kubernetes
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   attributes:
     source.ip:
@@ -3753,7 +3752,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: stdio
 metadata:
   name: handler
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   outputAsJson: true
 ---
@@ -3761,7 +3760,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
 metadata:
   name: accesslog
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   severity: '"Info"'
   timestamp: request.time
@@ -3808,7 +3807,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: logentry
 metadata:
   name: tcpaccesslog
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   severity: '"Info"'
   timestamp: context.time | timestamp("2017-01-01T00:00:00Z")
@@ -3844,7 +3843,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
   name: stdio
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   match: context.protocol == "http" || context.protocol == "grpc"
   actions:
@@ -3856,7 +3855,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
   name: stdiotcp
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   match: context.protocol == "tcp"
   actions:
@@ -3868,7 +3867,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: metric
 metadata:
   name: requestcount
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   value: "1"
   dimensions:
@@ -3895,7 +3894,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: metric
 metadata:
   name: requestduration
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   value: response.duration | "0ms"
   dimensions:
@@ -3922,7 +3921,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: metric
 metadata:
   name: requestsize
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   value: request.size | 0
   dimensions:
@@ -3949,7 +3948,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: metric
 metadata:
   name: responsesize
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   value: response.size | 0
   dimensions:
@@ -3976,7 +3975,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: metric
 metadata:
   name: tcpbytesent
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   value: connection.sent.bytes | 0
   dimensions:
@@ -4001,7 +4000,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: metric
 metadata:
   name: tcpbytereceived
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   value: connection.received.bytes | 0
   dimensions:
@@ -4026,11 +4025,11 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: prometheus
 metadata:
   name: handler
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   metrics:
   - name: requests_total
-    instance_name: requestcount.metric.default
+    instance_name: requestcount.metric.{{ PIPELINE_NAMESPACE }}
     kind: COUNTER
     label_names:
     - reporter
@@ -4051,7 +4050,7 @@ spec:
     - response_code
     - connection_security_policy
   - name: request_duration_seconds
-    instance_name: requestduration.metric.default
+    instance_name: requestduration.metric.{{ PIPELINE_NAMESPACE }}
     kind: DISTRIBUTION
     label_names:
     - reporter
@@ -4075,7 +4074,7 @@ spec:
       explicit_buckets:
         bounds: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
   - name: request_bytes
-    instance_name: requestsize.metric.default
+    instance_name: requestsize.metric.{{ PIPELINE_NAMESPACE }}
     kind: DISTRIBUTION
     label_names:
     - reporter
@@ -4101,7 +4100,7 @@ spec:
         scale: 1
         growthFactor: 10
   - name: response_bytes
-    instance_name: responsesize.metric.default
+    instance_name: responsesize.metric.{{ PIPELINE_NAMESPACE }}
     kind: DISTRIBUTION
     label_names:
     - reporter
@@ -4127,7 +4126,7 @@ spec:
         scale: 1
         growthFactor: 10
   - name: tcp_sent_bytes_total
-    instance_name: tcpbytesent.metric.default
+    instance_name: tcpbytesent.metric.{{ PIPELINE_NAMESPACE }}
     kind: COUNTER
     label_names:
     - reporter
@@ -4146,7 +4145,7 @@ spec:
     - destination_service_namespace
     - connection_security_policy
   - name: tcp_received_bytes_total
-    instance_name: tcpbytereceived.metric.default
+    instance_name: tcpbytereceived.metric.{{ PIPELINE_NAMESPACE }}
     kind: COUNTER
     label_names:
     - reporter
@@ -4169,7 +4168,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
   name: promhttp
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   match: context.protocol == "http" || context.protocol == "grpc"
   actions:
@@ -4184,7 +4183,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
   name: promtcp
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   match: context.protocol == "tcp"
   actions:
@@ -4198,7 +4197,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: kubernetesenv
 metadata:
   name: handler
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   # when running from mixer root, use the following config after adding a
   # symbolic link to a kubernetes config file via:
@@ -4212,7 +4211,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
   name: kubeattrgenrulerule
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   actions:
   - handler: handler.kubernetesenv
@@ -4223,7 +4222,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: rule
 metadata:
   name: tcpkubeattrgenrulerule
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   match: context.protocol == "tcp"
   actions:
@@ -4235,7 +4234,7 @@ apiVersion: "config.istio.io/v1alpha2"
 kind: kubernetes
 metadata:
   name: attributes
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
   # Pass the required attribute data to the adapter
   source_uid: source.uid | ""
@@ -4249,7 +4248,7 @@ spec:
     source.uid: $out.source_pod_uid | "unknown"
     source.labels: $out.source_labels | emptyStringMap()
     source.name: $out.source_pod_name | "unknown"
-    source.namespace: $out.source_namespace | "default"
+    source.namespace: $out.source_namespace | "{{ PIPELINE_NAMESPACE }}"
     source.owner: $out.source_owner | "unknown"
     source.serviceAccount: $out.source_service_account_name | "unknown"
     source.workload.uid: $out.source_workload_uid | "unknown"
@@ -4260,7 +4259,7 @@ spec:
     destination.labels: $out.destination_labels | emptyStringMap()
     destination.name: $out.destination_pod_name | "unknown"
     destination.container.name: $out.destination_container_name | "unknown"
-    destination.namespace: $out.destination_namespace | "default"
+    destination.namespace: $out.destination_namespace | "{{ PIPELINE_NAMESPACE }}"
     destination.owner: $out.destination_owner | "unknown"
     destination.serviceAccount: $out.destination_service_account_name | "unknown"
     destination.workload.uid: $out.destination_workload_uid | "unknown"
@@ -4275,9 +4274,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: istio-policy
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
-  host: istio-policy.default.svc.cluster.local
+  host: istio-policy.{{ PIPELINE_NAMESPACE }}.svc.cluster.local
   trafficPolicy:
     connectionPool:
       http:
@@ -4288,9 +4287,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: istio-telemetry
-  namespace: default
+  namespace: {{ PIPELINE_NAMESPACE }}
 spec:
-  host: istio-telemetry.default.svc.cluster.local
+  host: istio-telemetry.{{ PIPELINE_NAMESPACE }}.svc.cluster.local
   trafficPolicy:
     connectionPool:
       http:

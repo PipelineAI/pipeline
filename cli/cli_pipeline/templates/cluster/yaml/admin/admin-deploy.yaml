@@ -16,15 +16,6 @@ spec:
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
-#      affinity:
-#        nodeAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            nodeSelectorTerms:
-#            - matchExpressions:
-#              - key: pipeline.ai/role
-#                operator: In
-#                values:
-#                - admin
       containers:
       - name: admin
         image: docker.io/pipelineai/admin:1.5.0
@@ -33,10 +24,10 @@ spec:
         resources:
           limits:
             memory: 2Gi
-            cpu: 200m
+            cpu: 500m
           requests:
             memory: 2Gi
-            cpu: 200m
+            cpu: 500m
         ports:
         - containerPort: 31996
         volumeMounts:

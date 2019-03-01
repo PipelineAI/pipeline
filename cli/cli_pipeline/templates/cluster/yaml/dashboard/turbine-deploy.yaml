@@ -16,34 +16,16 @@ spec:
     spec:
       imagePullSecrets:
       - name: docker-registry-secret
-#      affinity:
-#        nodeAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            nodeSelectorTerms:
-#            - matchExpressions:
-#              - key: pipeline.ai/role
-#                operator: In
-#                values:
-#                - admin
       containers:
       - name: dashboard-turbine
         image: docker.io/pipelineai/dashboard-turbine:1.5.0
         imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
-        resources:
-          limits:
-#            cpu: 2000m
-#            memory: 2000Mi
-#          requests:
-#            cpu: 200m
-#            memory: 2000Mi
         env:
         - name: "KUBERNETES_NAMESPACE"
           valueFrom:
             fieldRef:
               fieldPath: "metadata.namespace"
-#        - name: TURBINE_AGGREGATOR_NAMESPACE_CONFIG
-#          value: ...
         ports:
         - containerPort: 8989
         - containerPort: 8990

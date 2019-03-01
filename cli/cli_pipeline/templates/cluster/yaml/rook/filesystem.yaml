@@ -2,7 +2,6 @@ apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
   name: pipelineai-fs
-  namespace: default 
 spec:
   # The metadata pool spec
   metadataPool:
