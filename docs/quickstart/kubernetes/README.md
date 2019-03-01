@@ -17,7 +17,7 @@ Notes:
 * Kubectl Installed
 * MacOS, Linux, or Powershell (Windows)
 * Python 2 or 3 ([Miniconda with Python 3.6](https://repo.continuum.io/miniconda/) is Preferred)
-* [**PipelineAI CLI**]()
+* [**PipelineAI CLI**](../README.md#install-pipelinecli)
 * [**Helm**](https://docs.helm.sh/using_helm/#installing-helm)
 * 4 CPU
 * 8GB RAM
