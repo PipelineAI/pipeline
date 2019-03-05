@@ -5,11 +5,11 @@ metadata:
   labels:
     app: admin
 spec:
-  type: NodePort
+#  type: NodePort
   ports:
   - name: http-admin-app
     port: 31996
     targetPort: 31996
-    nodePort: 31996
+#    nodePort: 31996
   selector:
     app: admin

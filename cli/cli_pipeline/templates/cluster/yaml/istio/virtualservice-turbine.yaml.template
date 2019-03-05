@@ -6,7 +6,7 @@ spec:
   hosts:
   - "*" 
   gateways:
-  - gateway
+  - {{ PIPELINE_API_GATEWAY }} 
   http:
   - match:
     - uri: 

@@ -5,15 +5,15 @@ metadata:
   labels:
     app: dashboard-turbine
 spec:
-  type: NodePort
+#  type: NodePort
   ports:
   - name: http
     port: 8989
     targetPort: 8989
-    nodePort: 32765
+#    nodePort: 32765
   - name: jmx
     port: 8990
     targetPort: 8990
-    nodePort: 32764
+#    nodePort: 32764
   selector:
     app: dashboard-turbine

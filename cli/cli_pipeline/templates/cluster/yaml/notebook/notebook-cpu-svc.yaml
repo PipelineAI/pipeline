@@ -5,19 +5,19 @@ metadata:
   labels:
     app: notebook-cpu
 spec:
-  type: NodePort 
+#  type: NodePort 
   ports:
   - name: jupyterhub
     port: 80 
     targetPort: 8754
-    nodePort: 30000
+#    nodePort: 30000
   - name: jupyterhub-api-proxy
     port: 81
     targetPort: 8755
-    nodePort: 30001
+#    nodePort: 30001
   - name: tensorboard
     port: 6006
     targetPort: 6006
-    nodePort: 30002
+#    nodePort: 30002
   selector:
     app: notebook-cpu

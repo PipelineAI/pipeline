@@ -4,32 +4,34 @@ metadata:
   name: api
   labels:
     app: api
+    app.kubernetes.io/name: api
+    app_type: web-app
 spec:
-  type: NodePort
+#  type: NodePort
   ports:
   - name: metrics
     port: 8080
     targetPort: 8080
-    nodePort: 32001
+#    nodePort: 32001
   - name: http
     port: 32000
     targetPort: 32000
-    nodePort: 32000
+#    nodePort: 32000
   - name: http-mlflow
     port: 5000
     targetPort: 5000
-    nodePort: 31980
-  - name: jupyterhub
-    port: 80
-    targetPort: 8754
-    nodePort: 30000
-  - name: jupyterhub-api-proxy
-    port: 81
-    targetPort: 8755
-    nodePort: 30001
-  - name: tensorboard
-    port: 6006
-    targetPort: 6006
-    nodePort: 30002
+#    nodePort: 31980
+#  - name: jupyterhub
+#    port: 80
+#    targetPort: 8754
+#    nodePort: 30000
+#  - name: jupyterhub-api-proxy
+#    port: 81
+#    targetPort: 8755
+#    nodePort: 30001
+#  - name: tensorboard
+#    port: 6006
+#    targetPort: 6006
+#    nodePort: 30002
   selector:
     app: api

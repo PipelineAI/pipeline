@@ -2,6 +2,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: api 
+  labels:
+    app.kubernetes.io/name: api
 spec:
   hosts:
   - "*" 
@@ -33,25 +35,25 @@ spec:
         port:
           number: 5000
       weight: 100
-  http:
-  - match:
-    - uri:
-        regex: /admin/nb/(.*)/(.*)/(api/kernels/[^/]+/(channels|iopub|shell|stdin)|terminals/websocket)/?
-    route:
-    - destination:
-        host: api
-        port:
-          number: 80
-      weight: 100
-    websocketUpgrade: true
-  http:
-  - match:
-    - uri:
-        prefix: /admin/nb
-    route:
-    - destination:
-        host: api
-        port:
-          number: 80
-      weight: 100
-    websocketUpgrade: true
+#  http:
+#  - match:
+#    - uri:
+#        regex: /admin/nb/(.*)/(.*)/(api/kernels/[^/]+/(channels|iopub|shell|stdin)|terminals/websocket)/?
+#    route:
+#    - destination:
+#        host: api
+#        port:
+#          number: 80
+#      weight: 100
+#    websocketUpgrade: true
+#  http:
+#  - match:
+#    - uri:
+#        prefix: /admin/nb
+#    route:
+#    - destination:
+#        host: api
+#        port:
+#          number: 80
+#      weight: 100
+#    websocketUpgrade: true

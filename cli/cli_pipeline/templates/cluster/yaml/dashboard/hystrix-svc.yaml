@@ -5,11 +5,11 @@ metadata:
   labels:
     app: dashboard-hystrix
 spec:
-  type: NodePort
+#  type: NodePort
   ports:
   - name: dashboard-hystrix
     port: 7979
     targetPort: 7979
-    nodePort: 32766
+#    nodePort: 32766
   selector:
     app: dashboard-hystrix
