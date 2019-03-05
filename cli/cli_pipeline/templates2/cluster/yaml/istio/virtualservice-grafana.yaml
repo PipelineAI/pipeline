@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: grafana 
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - gateway
+  http:
+  - match:
+    - uri:
+        prefix: /admin/grafana
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: grafana 
+        port:
+          number: 3000 
+      weight: 100
+  - match: 
+    - uri:
+        prefix: /public/build
+    - uri:
+        prefix: /public/img
+    - uri:
+        prefix: /public/fonts
+    route:
+    - destination:
+        host: grafana
+        port:
+          number: 3000
+      weight: 100

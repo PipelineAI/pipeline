@@ -1,3 +1,4 @@
 include README.rst
 
-include cli_pipeline/templates/docker/*.template cli_pipeline/templates/yaml/*.template cli_pipeline/templates/cluster/yaml/admin/* cli_pipeline/templates/cluster/yaml/airflow/* cli_pipeline/templates/cluster/yaml/api/* cli_pipeline/templates/cluster/yaml/dashboard/* cli_pipeline/templates/cluster/yaml/istio/* cli_pipeline/templates/cluster/yaml/mlflow/* cli_pipeline/templates/cluster/yaml/notebook/* cli_pipeline/templates/cluster/yaml/rook/*
+recursive-include cli_pipeline/templates/*
+recursive-include cli_pipeline/templates2/*

@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+# Note:  We don't really need this since we're using CloudFlare
+#        However, it would be ideal.
+
+#  - port:
+#      number: 443
+#      name: https
+#      protocol: HTTPS
+#    tls:
+#      mode: SIMPLE
+#      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+#      privateKey: /etc/istio/ingressgateway-certs/tls.key
+#    hosts:
+#    - "*"

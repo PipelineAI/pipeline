@@ -71,7 +71,9 @@ with warnings.catch_warnings():
             'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 2.7',
             'Programming Language :: Python :: 3',
+            'Programming Language :: Python :: 3.5',
             'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
         ],
         # long_description="%s\n\nRequirements:\n%s" % (long_description, requirements),
         author="PipelineAI",
@@ -83,6 +85,8 @@ with warnings.catch_warnings():
         python_requires='>=2',
         package_data={
             # IF YOU MAKE CHANGES BELOW, MAKE SURE YOU UPDATE `MANFIEST.in` WITH THE SAME CHANGES
-            'templates': ['templates/docker/*.template', 'templates/yaml/*.template', 'templates/cluster/yaml/admin/*', 'templates/cluster/yaml/airflow/*', 'templates/cluster/yaml/api/*', 'templates/cluster/yaml/dashboard/*', 'templates/cluster/yaml/istio/*', 'templates/cluster/yaml/mlflow/*', 'templates/cluster/yaml/notebook/*', 'templates/cluster/yaml/rook/*'],
+            'templates': ['templates/**/*.template', 'templates2/**/*.template'
+#, 'templates/cluster/yaml/admin/*', 'templates/cluster/yaml/airflow/*', 'templates/cluster/yaml/api/*', 'templates/cluster/yaml/dashboard/*', 'templates/cluster/yaml/istio/*', 'templates/cluster/yaml/mlflow/*', 'templates/cluster/yaml/notebook/*', 'templates/cluster/yaml/rook/*', 'templates/cluster/yaml/storage/*'],
+            ]
         },
     )

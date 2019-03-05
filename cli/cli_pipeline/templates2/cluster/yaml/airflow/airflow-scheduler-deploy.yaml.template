@@ -1,0 +1,86 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: airflow
+    chart: airflow-0.15.0
+    component: scheduler
+    heritage: Tiller
+    release: airflow
+  name: airflow-scheduler
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: airflow
+      component: scheduler
+      release: airflow
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/config: b607daf1e003a84b9b8d142faa21fc1938b33e10c9f2297c9d72a0c1d8fdafa6
+        configmap.fabric8.io/update-on-change: airflow-env
+      labels:
+        app: airflow
+        component: scheduler
+        release: airflow
+    spec:
+      containers:
+      - args:
+        - bash
+        - -c
+        - |
+          echo 'waiting 10s...' && sleep 10 && mkdir -p /usr/local/airflow/.local/bin && export PATH=/usr/local/airflow/.local/bin:$PATH && echo "executing initdb" && airflow initdb && echo "executing scheduler" && airflow scheduler -n -1
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              key: postgresUser
+              name: airflow
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgresPassword
+              name: airflow
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: airflow
+        envFrom:
+        - configMapRef:
+            name: airflow-env
+        image: stibbons31/docker-airflow-dev:2.0dev
+        imagePullPolicy: IfNotPresent
+        name: airflow-scheduler
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - name: dags-data 
+          mountPath: /mnt/pipelineai/users
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: airflow
+      serviceAccountName: airflow
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: dags-data
+        flexVolume:
+          driver: ceph.rook.io/rook
+          fsType: ceph
+          options:
+            fsName: pipelineai-fs # name of the filesystem specified in the filesystem CRD.
+            clusterNamespace: {{ PIPELINE_NAMESPACE }} # namespace where the Rook cluster is deployed
+            # by default the path is /, but you can override and mount a specific path of the filesystem by using the path attribute
+            # the path must exist on the filesystem, otherwise mounting the filesystem at that path will fail
+            path: users/

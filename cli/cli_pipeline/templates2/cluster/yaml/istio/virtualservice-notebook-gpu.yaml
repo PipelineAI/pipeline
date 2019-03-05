@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: notebook-cpu
+  name: notebook-gpu
 spec:
   hosts:
   - "*" 
@@ -13,7 +13,7 @@ spec:
         regex: /admin/nb/(.*)/(.*)/(api/kernels/[^/]+/(channels|iopub|shell|stdin)|terminals/websocket)/? 
     route:
     - destination:
-        host: api 
+        host: notebook-gpu
         port:
           number: 80
       weight: 100
@@ -24,7 +24,7 @@ spec:
         prefix: /admin/nb
     route:
     - destination:
-        host: api 
+        host: notebook-gpu
         port:
           number: 80
       weight: 100

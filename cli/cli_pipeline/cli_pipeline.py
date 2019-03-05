@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.301"
+__version__ = "1.5.302"
 
 import base64 as _base64
 import glob as _glob
@@ -5215,12 +5215,12 @@ kubectl delete deploy api
 kubectl delete svc api 
 
 # Notebook
-kubectl delete deploy notebook-%s 
-kubectl delete svc notebook-%s
+#kubectl delete deploy notebook-%s 
+#kubectl delete svc notebook-%s
 
 # MLflow
-kubectl delete deploy mlflow 
-kubectl delete svc mlflow
+#kubectl delete deploy mlflow 
+#kubectl delete svc mlflow
 
 # Hystrix
 kubectl delete deploy dashboard-hystrix 
@@ -5291,7 +5291,10 @@ def cluster_kube_install(tag,
                          image_registry_username='',
                          image_registry_password='',
                          ingress_type='nodeport',
+                         ui_gateway='gateway',
+                         api_gateway='gateway',
                          namespace='default',
+                         users_storage_gb='200',
                          chip=_default_model_chip,
                          pipeline_templates_path=None,
                          dry_run=False):
@@ -5309,6 +5312,9 @@ def cluster_kube_install(tag,
 
     context = {
                'PIPELINE_NAMESPACE': namespace,
+               'PIPELINE_UI_GATEWAY': ui_gateway,
+               'PIPELINE_API_GATEWAY': api_gateway,
+               'PIPELINE_USERS_STORAGE_GB': users_storage_gb,
                'PIPELINE_IMAGE_REGISTRY_URL': image_registry_url,
                'PIPELINE_IMAGE_REGISTRY_USERNAME': image_registry_username,
                'PIPELINE_IMAGE_REGISTRY_PASSWORD': image_registry_password,
@@ -5380,63 +5386,73 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mlflow/'))
-    filename = 'mlflow-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-mlflow-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mlflow/'))
+#    filename = 'mlflow-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-mlflow-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-cpu-deploy.yaml.template' 
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-notebook-cpu-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+#    filename = 'notebook-cpu-deploy.yaml.template' 
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-notebook-cpu-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-gpu-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-notebook-gpu-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+#    filename = 'notebook-gpu-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-notebook-gpu-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
-    filename = 'operator.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-operator.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
+#    filename = 'operator.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-operator.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
-    filename = 'toolbox.yaml.template'
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
+#    filename = 'toolbox.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-toolbox.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
+    filename = 'users-pvc.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-toolbox.yaml')
+    rendered_path = _os.path.join(generated_path, '.generated-users-pvc.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
     cmd = """
+kubectl create -f %s/.generated-users-pvc.yaml
+
 # Rook
-kubectl create -f %s/.generated-operator.yaml
-kubectl create -f %s/cluster/yaml/rook/cluster.yaml
-kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
+#kubectl create -f %s/.generated-operator.yaml
+#kubectl create -f %s/cluster/yaml/rook/cluster.yaml
+#kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
 
-sleep 300 
+#sleep 300 
 
-kubectl create -f %s/.generated-toolbox.yaml
+#kubectl create -f %s/.generated-toolbox.yaml
 
-sleep 120 
+#sleep 120 
 
 #kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].status.containerStatuses[0].ready}'
 
-kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
-kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
-kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
+#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
+#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
+#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
 
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
@@ -5447,12 +5463,12 @@ kubectl create -f %s/.generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
-kubectl create -f %s/.generated-notebook-%s-deploy.yaml
-kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
+#kubectl create -f %s/.generated-notebook-%s-deploy.yaml
+#kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
 # MLflow
-kubectl create -f %s/.generated-mlflow-deploy.yaml
-kubectl create -f %s/cluster/yaml/mlflow/mlflow-svc.yaml
+#kubectl create -f %s/.generated-mlflow-deploy.yaml
+#kubectl create -f %s/cluster/yaml/mlflow/mlflow-svc.yaml
 
 # Hystrix
 kubectl create -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
@@ -5468,9 +5484,9 @@ kubectl create -f %s/cluster/yaml/istio/pipelineai-gateway.yaml
 
 kubectl create -f %s/cluster/yaml/istio/virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-api.yaml
-kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
+#kubectl create -f %s/cluster/yaml/istio/virtualservice-mlflow.yaml
 #kubectl create -f %s/cluster/yaml/istio/virtualservice-airflow.yaml
-kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook-%s.yaml
+#kubectl create -f %s/cluster/yaml/istio/virtualservice-notebook-%s.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/istio/virtualservice-turbine.yaml
 
@@ -5520,6 +5536,7 @@ sleep 5
 kubectl create -f %s/cluster/yaml/metrics/
 
 """ % (
+       generated_path,
        generated_path,
        pipeline_templates_path,
        pipeline_templates_path,

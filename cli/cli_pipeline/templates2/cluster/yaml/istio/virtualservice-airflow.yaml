@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: mlflow 
+  name: airflow 
 spec:
   hosts:
   - "*" 
@@ -10,14 +10,12 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /admin/tracking
+        prefix: /admin/workflow/admin
     - uri:
-        prefix: /ajax-api
-    - uri:
-        prefix: /api
+        prefix: /admin/workflow/static
     route:
     - destination:
-        host: api 
+        host: airflow-web 
         port:
-          number: 5000 
+          number: 8080 
       weight: 100

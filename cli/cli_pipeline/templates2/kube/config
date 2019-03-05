@@ -1,0 +1,29 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: {{ PIPELINE_KUBE_CLUSTER_CERTIFICATE_AUTHORITY_DATA }} 
+    server: {{ PIPELINE_KUBE_API_SERVER }} 
+  name: pipelineai
+contexts:
+- context:
+    cluster: pipelineai
+    namespace: {{ PIPELINE_NAMESPACE }}
+    user: pipelineai 
+  name: pipelineai
+current-context: pipelineai
+kind: Config
+preferences: {}
+users:
+- name: pipelineai
+  user:
+{%- if PIPELINE_KUBE_USER_TOKEN != "" %}
+    token: {{ PIPELINE_KUBE_USER_TOKEN }}
+{%- endif %}
+
+{%- if PIPELINE_KUBE_USER_CLIENT_CERTIFICATE_DATA != "" %}
+    client-certificate-data: {{ PIPELINE_KUBE_USER_CLIENT_CERTIFICATE_DATA }}
+{%- endif %}
+
+{%- if PIPELINE_KUBE_USER_CLIENT_KEY_DATA != "" %}
+    client-key-data: {{ PIPELINE_KUBE_USER_CLIENT_KEY_DATA }}
+{%- endif %}

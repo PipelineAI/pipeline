@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-hystrix
+  labels:
+    app: dashboard-hystrix
+spec:
+  type: NodePort
+  ports:
+  - name: dashboard-hystrix
+    port: 7979
+    targetPort: 7979
+    nodePort: 32766
+  selector:
+    app: dashboard-hystrix
