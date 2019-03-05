@@ -94,6 +94,7 @@ PipelineAI CLI Args
 pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --chip=cpu --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional>
 ```
 Notes:  
+* Add `--dry-run=True` to generate and inspect the yaml generated in $HOME/.pipelineai
 * Use `--chip=gpu` to install the GPU version of PipelineAI
 * If you see logs of `Evicted` or `Pending` nodes, you may need to increase the instance size (memory and cpu) and/or increase the capacity of your EBS volumes.  Use `kubectl describe pod <Evicted-or-Pending-pod-name>` to identify the underlying issue.
 
