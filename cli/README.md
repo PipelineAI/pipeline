@@ -1,1 +1,1 @@
-# cli-local
+Install [here](https://quickstart.pipeline.ai).
