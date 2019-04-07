@@ -69,3 +69,6 @@ pipeline version
 #export PATH=/opt/conda/bin:$PATH
 #echo "export PATH=/opt/conda/bin:$PATH" >> /root/.bashrc
 #echo "export PATH=/opt/conda/bin:$PATH" >> /etc/environment
+
+pipeline cluster-kube-install --tag 1.5.0 --ingress-type=loadbalancer --chip=cpu --namespace=default --image-registry-url=docker.io --image-registry-username=username --image-registry-password=password --ui-gateway=app-gateway.default.svc.cluster.local --api-gateway=app-gateway.default.svc.cluster.local --users-storage-gb=100Gi --dry-run=True
+

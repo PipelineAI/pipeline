@@ -5,3 +5,4 @@ pyyaml>=3.13
 requests>=2.21.0
 kubernetes>=8.0.1
 urllib3>=1.24.1
+gitpython>=2.1.0
