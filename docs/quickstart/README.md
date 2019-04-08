@@ -1,7 +1,7 @@
 ![PipelineAI Logo](http://pipeline.ai/assets/img/logo/pipelineai-logo.png)
 
 ### Requirements
-* Python 2 or 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
+* Python 3 ([Conda](https://conda.io/docs/install/quick.html) is Preferred)
 * (Windows Only) Install [PowerShell](https://github.com/PowerShell/PowerShell/tree/master/docs/installation) 
 
 ### (Optional) Uninstall Any Existing PipelineAI CLI
