@@ -1,5 +1,3 @@
-Work In Progress - Not Yet Supported
-
 ## CLI - resource_optimize_and_train
 You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output.  The command is automatically injected with your parameter values.
  
