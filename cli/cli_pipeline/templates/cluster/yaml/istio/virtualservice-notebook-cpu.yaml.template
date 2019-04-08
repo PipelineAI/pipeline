@@ -13,7 +13,7 @@ spec:
         regex: /admin/nb/(.*)/(.*)/(api/kernels/[^/]+/(channels|iopub|shell|stdin)|terminals/websocket)/? 
     route:
     - destination:
-        host: api 
+        host: notebook-cpu 
         port:
           number: 80
       weight: 100
@@ -24,7 +24,7 @@ spec:
         prefix: /admin/nb
     route:
     - destination:
-        host: api 
+        host: notebook-cpu
         port:
           number: 80
       weight: 100
