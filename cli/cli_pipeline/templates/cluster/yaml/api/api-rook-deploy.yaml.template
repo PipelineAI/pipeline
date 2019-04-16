@@ -139,9 +139,9 @@ spec:
         - name: PIPELINE_API_SWAGGER_CONFIG_STATIC_URL_PATH
           value: "/spec"
         - name: PIPELINE_REQUIRES_AUTH
-          value: "true"
+          value: "True"
         - name: PIPELINE_ISTIO_MANUAL_INJECT
-          value: "true"
+          value: "True"
         - name: PIPELINE_IMAGE_REGISTRY_USERNAME
           value: "{{ PIPELINE_IMAGE_REGISTRY_USERNAME }}"
         - name: PIPELINE_IMAGE_REGISTRY_PASSWORD
