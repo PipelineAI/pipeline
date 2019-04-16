@@ -14,6 +14,7 @@ spec:
       labels:
         app: notebook-gpu
       annotations:
+        sidecar.istio.io/inject: "false"
         prometheus.io/scrape: "true"
         prometheus.io/path: "/admin/nb/hub/metrics"
         prometheus.io/port: "8754"
