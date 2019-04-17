@@ -69,22 +69,6 @@ Actions performed:
 * Initialize training resource
 
 # Optimize and Deploy the Model with CLI (Option 1)
-## CLI - resource_optimize_and_train
-You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output.  The command is automatically injected with your parameter values.
- 
-You will need to fill in the unique values for the following:
-* `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
-
-![user-id](https://pipeline.ai/assets/img/user-id-2.png)
-
-* `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
-* `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
-* `<YOUR_RESOURCE_ID>` - Id that uniquely identifies the uploaded model, resource-id is generated and returned by the `resource-upload` command
-```
-pipeline resource-optimize-and-train --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type train --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --resource-subtype tensorflow --runtime-list [python] --chip-list [cpu] --resource-id <YOUR_RESOURCE_ID>
-```
-
-## CLI - resource_optimize_and_deploy
 You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output.  The command is automatically injected with your parameter values.
  
 You will need to fill in the unique values for the following:
@@ -99,13 +83,34 @@ You will need to fill in the unique values for the following:
 pipeline resource-optimize-and-deploy --host community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --name <YOUR_MODEL_NAME> --tag <YOUR_TAG_NAME> --resource-subtype tensorflow --runtime-list [tfserving] --chip-list [cpu] --resource-id <YOUR_RESOURCE_ID>
 ```
 
+# Optimize and Deploy the Model with UI (Option 2)
+You can optimize (select one or more chips and/or one or more runtimes) and deploy your model using the CLI or the [UI](https://community.cloud.pipeline.ai) (Choose either the CLI or UI).
+
+## UI - Navigate to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
+```
+https://community.cloud.pipeline.ai
+```
+
+### Click `Models` in the Top Nav
+
+![Select Model](https://pipeline.ai/assets/img/select-model.png)
+
+### Click the `Deploy` Button on Your Model
+![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
+
+# Route Live Traffic to the Model
+Wait a sec for your model to show up in the `Route Traffic` panel below
+
+![Route Traffic](https://pipeline.ai/assets/img/route-traffic-2.png)
+
+Note: You can select `Traffic Shadow` or assign `Traffic Split %` 
+
 # Predict with CLI
 You will need to fill in the unique values for the following:
 * `<YOUR_USER_ID>`  - 8 character id that uniquely identifies the PipelineAI user.  You will see the UserId in the upper right hand corner of the Settings tab after you login to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)</br>
 ![user-id](https://pipeline.ai/assets/img/user-id.png)
 * `<YOUR_MODEL_NAME>` - User defined model name that uniquely identifies the model
 * `<YOUR_TAG_NAME>` - User defined tag that uniquely identifies the model version
-
 ```
 pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/<YOUR_MODEL_NAME>/invoke --test-request-path=./tensorflow/mnist-v3/model/pipeline_test_request.json --test-request-concurrency=1
 
@@ -135,38 +140,15 @@ Digit  Confidence
 pipeline predict-http-test --endpoint-url=https://community.cloud.pipeline.ai/predict/<YOUR_USER_ID>/mnist/invoke --test-request-path=./tensorflow/mnist-v1/model/pipeline_test_request.json --test-request-concurrency=100
 ```
 
-# Optimize and Deploy the Model with UI (Option 2)
-You can optimize (select one or more chips and/or one or more runtimes) and deploy your model using the CLI or the [UI](https://community.cloud.pipeline.ai) (Choose either the CLI or UI).
-
-## UI - Navigate to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
-```
-https://community.cloud.pipeline.ai
-```
-
-### Click `Models` in the Top Nav
-
-![Select Model](https://pipeline.ai/assets/img/select-model.png)
-
-### Click the `Deploy` Button on Your Model
-![Optimize and Deploy](https://pipeline.ai/assets/img/trained-models.png)
-
-# Route Live Traffic to the Model
-Wait a sec for your model to show up in the `Route Traffic` panel below
-
-![Route Traffic](https://pipeline.ai/assets/img/route-traffic-2.png)
-
-Note: You can select `Traffic Shadow` or assign `Traffic Split %` 
-
-# Predict with UI `Invoke` Button
+# Predict with UI (Option 2)
 ![Predict UI Invoke](https://pipeline.ai/assets/img/model-invoke.png)
 
 # Real-Time Prediction Dashboards
-
 ![Prediction Dashboard](http://pipeline.ai/assets/img/multi-cloud-prediction-dashboard.png)
 
 ![Prediction Dashboard](http://pipeline.ai/assets/img/request-metrics-breakdown.png)
 
-# Dive Deeper into PipelineAI
+# Deep-Dive into PipelineAI
 ## Sample `pipeline_invoke_<runtime>.py` Function
 _Note:  We support Datadog, AWS CloudWatch, Google Stackdriver, Azure Log Service, and Prometheus._
 ```
