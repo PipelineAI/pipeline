@@ -19,7 +19,7 @@ cd models/
 ## Review the Model Before We Optimize & Deploy
 ### TensorFlow Model
 ```
-ls -al models/tensorflow/mnist-v1/model/pipeline_tfserving/0
+ls -al ./tensorflow/mnist-v1/model/pipeline_tfserving/0
 
 ### EXPECTED OUTPUT ###
 
