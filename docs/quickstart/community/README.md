@@ -68,7 +68,10 @@ Actions performed:
   from client as a tar archive then uncompress and extract on the PipelineAI server.
 * Initialize training resource
 
-# Optimize and Deploy the Model
+# Optimize and Deploy the Model with CLI (Option 1)
+
+
+# Optimize and Deploy the Model with UI (Option 2)
 You can optimize (select one or more chips and/or one or more runtimes) and deploy your model using the CLI or the [UI](https://community.cloud.pipeline.ai) (Choose either the CLI or UI).
 
 ## UI - Navigate to [PipelineAI Community Edition](https://community.cloud.pipeline.ai)
