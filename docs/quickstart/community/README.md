@@ -35,10 +35,10 @@ cat ./tensorflow/mnist-v1/model/pipeline_conda_environment.yaml
 
 ### EXPECTED OUTPUT ###
 dependencies:
-  - python=3.6
+  - python=3.6.7
   - pip:
     - grpcio>=1.0
-    - tensorflow==1.12.0    
+    - tensorflow==1.13.1
     - pipeline-runtime==1.0.8
 ```
 
@@ -59,6 +59,23 @@ You will need to fill in the unique values for the following:
 * `<UNIQUE_TAG_NAME>` - User-defined tag that uniquely identifies the model tag/version within a model/project
 ```
 pipeline resource-upload --api-token <YOUR_API_TOKEN> --host https://community.cloud.pipeline.ai --user-id <YOUR_USER_ID> --resource-type model --resource-subtype tensorflow  --name <UNIQUE_MODEL_NAME> --tag <UNIQUE_TAG_NAME> --path ./tensorflow/mnist-v1/model
+
+### EXPECTED OUTPUT ###
+Packaging New Resource for PipelineAI...
+Preparing PipelineAI for the New Resource...
+Sending New Resource to PipelineAI...
+Initializing Resource...
+{ 
+  "comments": "Navigate to https://community.cloud.pipeline.ai to optimize, deploy, validate, and explain your models in live production.", 
+  "host": "https://community.cloud.pipeline.ai", 
+  "tag": "<UNIQUE_TAG_NAME>", 
+  "name": "<UNIQUE_MODEL_NAME>", 
+  "status_code": 201, 
+  "status": "Success", 
+  "resource_id": "...",    # <== Resource ID (Auto-generate)
+  "experiment_id": "...",  # <== Experiment ID (Auto-generated)
+  "experiment_name": "<YOUR_USER_ID><UNIQUE_MODEL_NAME>-<UNIQUE_TAG_NAME>"
+}
 ```
 
 Actions performed:
