@@ -35,10 +35,10 @@ cat ./tensorflow/mnist-v1/model/pipeline_conda_environment.yaml
 
 ### EXPECTED OUTPUT ###
 dependencies:
-  - python=3.6
+  - python=3.6.7
   - pip:
     - grpcio>=1.0
-    - tensorflow==1.12.0    
+    - tensorflow==1.13.1
     - pipeline-runtime==1.0.8
 ```
 
