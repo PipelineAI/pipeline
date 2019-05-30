@@ -73,9 +73,9 @@ spec:
         - containerPort: 8754
         - containerPort: 8755
       volumes:
-      - name: users-volume
-        persistentVolumeClaim:
-          claimName: users-pvc
+#      - name: users-volume
+#        persistentVolumeClaim:
+#          claimName: users-pvc
 #      - name: rootfs-usr-lib
 #        hostPath:
 #          path: /usr/lib
