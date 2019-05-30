@@ -1,4 +1,9 @@
 ## CLI - resource_optimize_and_train
+
+### Pre-requisites
+You have already called `resource-upload` on your model.
+
+### Usage
 You can copy the `resource_optimize_and_deploy` cli command from the Example section of the `resource-upload` command output.  The command is automatically injected with your parameter values.
  
 You will need to fill in the unique values for the following:
