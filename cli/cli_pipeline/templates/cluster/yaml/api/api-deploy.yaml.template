@@ -185,7 +185,6 @@ spec:
       - name: users-volume 
         persistentVolumeClaim: 
           claimName: users-pvc
-          
 #      - name: users-volume
 #        flexVolume:
 #          driver: ceph.rook.io/rook

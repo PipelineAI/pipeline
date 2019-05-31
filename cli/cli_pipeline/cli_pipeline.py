@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.316"
+__version__ = "1.5.317"
 
 import base64 as _base64
 import glob as _glob
@@ -5297,7 +5297,7 @@ sleep 10
 kubectl delete -f %s/.generated-virtualservice-admin.yaml
 kubectl delete -f %s/.generated-virtualservice-api.yaml
 #kubectl delete -f %s/.generated-virtualservice-airflow.yaml
-kubectl delete -f %s/.generated-virtualservice-notebook-rook-%s.yaml
+kubectl delete -f %s/.generated-virtualservice-notebook-%s.yaml
 kubectl delete -f %s/.generated-virtualservice-hystrix.yaml
 kubectl delete -f %s/.generated-virtualservice-turbine.yaml
 
@@ -5409,13 +5409,13 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
-    filename = 'api-rook-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-api-rook-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
+#    filename = 'api-rook-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-api-rook-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
     filename = 'istio-loadbalancer-1.0.5.yaml.template'
@@ -5529,37 +5529,37 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-cpu-rook-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-notebook-cpu-rook-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+#    filename = 'notebook-cpu-rook-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-notebook-cpu-rook-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-gpu-rook-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-notebook-gpu-rook-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
+#    filename = 'notebook-gpu-rook-deploy.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-notebook-gpu-rook-deploy.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
-    filename = 'operator.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-operator.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
+#    filename = 'operator.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-operator.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
-    filename = 'toolbox.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, '.generated-toolbox.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
+#    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/rook/'))
+#    filename = 'toolbox.yaml.template'
+#    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+#    rendered_path = _os.path.join(generated_path, '.generated-toolbox.yaml')
+#    with open(rendered_path, 'wt') as fh:
+#        fh.write(rendered)
+#        print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
     filename = 'users-pvc.yaml.template'
@@ -5569,36 +5569,45 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
+    filename = 'notebooks-pvc.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '.generated-notebooks-pvc.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
     cmd = """
 kubectl create -f %s/.generated-users-pvc.yaml
+kubectl create -f %s/.generated-notebooks-pvc.yaml
 
 # Rook
-kubectl create -f %s/.generated-operator.yaml
-kubectl create -f %s/cluster/yaml/rook/cluster.yaml
-kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
+#kubectl create -f %s/.generated-operator.yaml
+#kubectl create -f %s/cluster/yaml/rook/cluster.yaml
+#kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
 
-sleep 300 
+#sleep 300 
 
-kubectl create -f %s/.generated-toolbox.yaml
+#kubectl create -f %s/.generated-toolbox.yaml
 
-sleep 120 
+#sleep 120 
 
-kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].status.containerStatuses[0].ready}'
+#kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].status.containerStatuses[0].ready}'
 
-kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
-kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
-kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
+#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
+#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
+#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
 
 # Admin
 kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
 kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
 
 # Api / MLflow
-kubectl create -f %s/.generated-api-rook-deploy.yaml
+kubectl create -f %s/.generated-api-deploy.yaml
 kubectl create -f %s/cluster/yaml/api/api-svc.yaml
 
 # Notebook
-kubectl create -f %s/.generated-notebook-%s-rook-deploy.yaml
+kubectl create -f %s/.generated-notebook-%s-deploy.yaml
 kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
 
 # Hystrix
@@ -5630,14 +5639,14 @@ kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
 
 # Allow creation of pods and routes (Airflow)
 #kubectl create clusterrolebinding pipelineai-cluster-admin \
-  --clusterrole=cluster-admin \
-  --group=system:serviceaccounts
+#  --clusterrole=cluster-admin \
+#  --group=system:serviceaccounts
 
 #helm repo update
 
 #helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
 
-sleep 5
+#sleep 5
 
 #kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
 
@@ -5646,7 +5655,7 @@ sleep 5
 #kubectl delete -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
 #kubectl delete -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
 
-sleep 5
+#sleep 5
 
 #kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
 #kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
@@ -5664,9 +5673,10 @@ sleep 5
 #kubectl create -f %s/cluster/yaml/kafka/kafka-svc.yaml
 
 # Metrics
-kubectl create -f %s/cluster/yaml/metrics/
+#kubectl create -f %s/cluster/yaml/metrics/
 
 """ % (
+       generated_path,
        generated_path,
        generated_path,
        pipeline_templates_path,
