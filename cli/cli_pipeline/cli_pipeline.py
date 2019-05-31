@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.317"
+__version__ = "1.5.318"
 
 import base64 as _base64
 import glob as _glob
@@ -5349,7 +5349,7 @@ def cluster_kube_install(tag,
                          ui_gateway='gateway',
                          api_gateway='gateway',
                          namespace='default',
-                         users_storage_gb='100Gi',
+                         users_storage_gb='10Gi',
                          chip=_default_model_chip,
                          pipeline_templates_path=None,
                          dry_run=False):
@@ -5579,7 +5579,7 @@ def cluster_kube_install(tag,
 
     cmd = """
 kubectl create -f %s/.generated-users-pvc.yaml
-kubectl create -f %s/.generated-notebooks-pvc.yaml
+#kubectl create -f %s/.generated-notebooks-pvc.yaml
 
 # Rook
 #kubectl create -f %s/.generated-operator.yaml
