@@ -46,8 +46,8 @@ spec:
         #        otherwise, jupyter notebooks won't be able to see them
         - name: PIPELINE_USERS_HOME
           value: /mnt/pipelineai/users
-#        - name: PIPELINE_NOTEBOOKS_HOME
-#          value: /mnt/pipelineai/notebooks
+        - name: PIPELINE_NOTEBOOKS_HOME
+          value: /mnt/pipelineai/notebooks
         - name: GET_HOSTS_FROM
           value: env
         - name: SPARK_MASTER
