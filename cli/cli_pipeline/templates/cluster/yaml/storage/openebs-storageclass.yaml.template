@@ -9,7 +9,7 @@ metadata:
       - name: StorageType
         value: "hostpath"
       - name: BasePath
-        value: "/mnt/pipelineai/users"
+        value: "{{ PIPELINE_USERS_ROOT_PATH }}"
 provisioner: openebs.io/local
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
