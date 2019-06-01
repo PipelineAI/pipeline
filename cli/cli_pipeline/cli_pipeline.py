@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.319"
+__version__ = "1.5.320"
 
 import base64 as _base64
 import glob as _glob
@@ -5400,6 +5400,30 @@ def cluster_kube_install(tag,
             raise
         else:
             pass
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
+    filename = 'openebs-storageclass.yaml'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'openebs-storageclass.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'kube/'))
+    filename = '10-kubeadm.conf'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, '10-kubeadm.conf')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'kube/'))
+    filename = 'kubeadm-init.conf'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'kubeadm-init.conf')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
     filename = 'api-deploy.yaml.template'
