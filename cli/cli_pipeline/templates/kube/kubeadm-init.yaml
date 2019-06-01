@@ -1,0 +1,13 @@
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+#metadata:
+#  name: PipelineAI
+controllerManager:
+  extraArgs:
+    enable-hostpath-provisioner: "true"
+apiServer:
+  extraArgs:
+    allow-privileged: "true"
+    service-node-port-range: 80-32767
+networking:
+  podSubnet: 192.168.0.0/16
