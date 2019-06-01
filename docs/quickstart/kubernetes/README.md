@@ -1,7 +1,7 @@
 ## Create Kubernetes Cluster
 We recommend [**Jenkins-X**](https://jenkins-x.io/getting-started/install/) to install on AWS/EKS, Azure/AKS, Google Cloud/GKE, or On-Premise.
 
-_Note: When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The default of 20GB is not enough to store the Docker images on each node._
+_Note: When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The default of 20GB is not enough for the Docker images._
 
 Here is a sample command using [Jenkins-X](https://jenkins-x.io/commands/jx_create_cluster_eks/) with AWS EKS:
 ```
@@ -89,9 +89,10 @@ PipelineAI CLI Args
 * `--image-registry-url`: Your Docker Registry URL for images created by PipelineAI (ie. ECR, DockerHub, etc)
 * `--image-registry-username`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
 * `--image-registry-password`: (Optional) Leave blank if your Docker Registry is managed by IAM Policies/Roles (ie. ECR)
-* `--ingress-type`:  (Optional) "nodeport" or "loadbalancer" (Default `nodeport`)
+* `--users-storage-gb`: (Optional) Size of persistent volume (Default `10Gi`)
+* `--ingress-type`: (Optional) `nodeport` or `loadbalancer` (Default `nodeport`)
 ```
-pipeline cluster-kube-install --tag 1.5.0 --ingress-type=<nodeport or loadbalancer> --chip=cpu --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional>
+pipeline cluster-kube-install --tag 1.5.0 --chip=cpu --namespace=default --image-registry-url=<your-docker-registry-url> --image-registry-username=<optional> --image-registry-password=<optional> --users-storage-gb=10Gi --ingress-type=<nodeport or loadbalancer>
 ```
 Notes:  
 * Add `--dry-run=True` to generate and inspect the yaml generated in $HOME/.pipelineai
@@ -109,9 +110,6 @@ Notes:
 * The LoadBalancer DNS may take some time to propagate.
 * For EKS, you can modify the istio loadbalancer yaml to include the `service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0` annotation to enforce internal LoadBalancer (vs. public-facing, external)
 * To use SSL with your ELB, you will need to upload a certificate, add a listener to the ELB configured with SSL on load balancer port 443 targeting instance port 31380
-
-### Whitelist the DNS Name with PipelineAI
-Email [**contact@pipeline.ai**](mailto:contact@pipeline.ai) to whitelist your DNS name with PipelineAI.
 
 ### (Optional) Scale the Cluster/Node Group
 Get the Node Group name using `eksctl`
