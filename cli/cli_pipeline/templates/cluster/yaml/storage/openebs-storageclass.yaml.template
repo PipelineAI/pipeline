@@ -12,4 +12,3 @@ metadata:
         value: "{{ PIPELINE_USERS_ROOT_PATH }}"
 provisioner: openebs.io/local
 volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Retain
