@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-aws ecr get-login --no-include-email | bash
+#aws ecr get-login --no-include-email | bash
 
 #docker push 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/train-gpu:1.5.0
 #docker push 954636985443.dkr.ecr.us-west-2.amazonaws.com/pipelineai/train-cpu:1.5.0

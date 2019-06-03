@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.322"
+__version__ = "1.5.323"
 
 import base64 as _base64
 import glob as _glob
@@ -5296,7 +5296,7 @@ sleep 10
 
 kubectl delete -f %s/.generated-virtualservice-admin.yaml
 kubectl delete -f %s/.generated-virtualservice-api.yaml
-#kubectl delete -f %s/.generated-virtualservice-airflow.yaml
+kubectl delete -f %s/.generated-virtualservice-airflow.yaml
 kubectl delete -f %s/.generated-virtualservice-notebook-%s.yaml
 kubectl delete -f %s/.generated-virtualservice-hystrix.yaml
 kubectl delete -f %s/.generated-virtualservice-turbine.yaml
@@ -5613,7 +5613,7 @@ kubectl create -f %s/cluster/yaml/.generated-pipelineai-gateway.yaml
 
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-admin.yaml
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-api.yaml
-#kubectl create -f %s/cluster/yaml/.generated-virtualservice-airflow.yaml
+kubectl create -f %s/cluster/yaml/.generated-virtualservice-airflow.yaml
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-notebook-%s.yaml
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-hystrix.yaml
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-turbine.yaml
