@@ -2355,7 +2355,7 @@ def predict_server_build(model_name,
 
         print("")
         # TODO: Narrow the build_context_path (difference between model_path and current path?)
-        cmd = 'docker build %s %s %s %s -t %s/%s/%s-%s:%s -f %s %s' % (no_cache, squash, http_proxy_build_arg_snippet, https_proxy_build_arg_snippet, image_registry_url, image_registry_repo, image_registry_namespace, model_name, model_tag, generated_Dockerfile, model_path)
+        cmd = 'docker build --network=host %s %s %s %s -t %s/%s/%s-%s:%s -f %s %s' % (no_cache, squash, http_proxy_build_arg_snippet, https_proxy_build_arg_snippet, image_registry_url, image_registry_repo, image_registry_namespace, model_name, model_tag, generated_Dockerfile, model_path)
 
         print(cmd)
         print("")
@@ -4481,7 +4481,7 @@ def train_server_build(model_name,
         else:
             https_proxy_build_arg_snippet = ''
 
-        cmd = 'docker build %s %s -t %s/%s/%s-%s:%s -f %s %s' % (http_proxy_build_arg_snippet, https_proxy_build_arg_snippet, image_registry_url, image_registry_repo, image_registry_namespace, model_name, model_tag, generated_Dockerfile, model_path)
+        cmd = 'docker build --network=host %s %s -t %s/%s/%s-%s:%s -f %s %s' % (http_proxy_build_arg_snippet, https_proxy_build_arg_snippet, image_registry_url, image_registry_repo, image_registry_namespace, model_name, model_tag, generated_Dockerfile, model_path)
 
         print(cmd)
         print("")
