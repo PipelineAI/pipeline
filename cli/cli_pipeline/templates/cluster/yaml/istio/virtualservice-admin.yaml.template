@@ -17,10 +17,6 @@ spec:
         port:
           number:  31996 
       weight: 100
-#    websocketUpgrade: true
-#    appendHeaders:
-#      Upgrade: required
-#      Connection: upgrade
   - match:
     - uri:
         exact: /
@@ -32,7 +28,3 @@ spec:
         port:
           number: 31996
       weight: 100
-#    websocketUpgrade: true
-#    appendHeaders:
-#      Upgrade: required
-#      Connection: upgrade

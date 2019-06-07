@@ -11,9 +11,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /admin/workflow/admin
-    - uri:
-        prefix: /admin/workflow/static
+        prefix: /airflow
     route:
     - destination:
         host: airflow

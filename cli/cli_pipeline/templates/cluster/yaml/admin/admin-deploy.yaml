@@ -23,10 +23,10 @@ spec:
         terminationMessagePolicy: "FallbackToLogsOnError"
         resources:
           limits:
-            memory: 2Gi
+            memory: 1Gi
             cpu: 500m
           requests:
-            memory: 2Gi
+            memory: 1Gi
             cpu: 500m
         ports:
         - containerPort: 31996
