@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.323"
+__version__ = "1.5.326"
 
 import base64 as _base64
 import glob as _glob
@@ -5557,6 +5557,14 @@ def cluster_kube_install(tag,
         print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
+    filename = 'users-kubeflow-pvc.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-users-kubeflow-pvc.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
     filename = 'notebooks-pvc.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
     rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-notebooks-pvc.yaml')
@@ -5568,6 +5576,8 @@ def cluster_kube_install(tag,
 kubectl create -f %s/cluster/yaml/.generated-openebs-storageclass.yaml
 
 kubectl create -f %s/cluster/yaml/.generated-users-pvc.yaml
+kubectl create -f %s/cluster/yaml/.generated-users-kubeflow-pvc.yaml
+
 #kubectl create -f %s/cluster/yaml/.generated-notebooks-pvc.yaml
 
 # Rook
@@ -5665,6 +5675,7 @@ kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
 #kubectl create -f %s/cluster/yaml/metrics/
 
 """ % (
+       generated_path,
        generated_path,
        generated_path,
        generated_path,
