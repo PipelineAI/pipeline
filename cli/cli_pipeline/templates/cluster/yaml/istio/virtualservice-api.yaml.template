@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: api 
+  namespace: {{ PIPELINE_NAMESPACE }}
   labels:
     app.kubernetes.io/name: api
 spec:
