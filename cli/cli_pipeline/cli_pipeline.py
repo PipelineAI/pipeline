@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.327"
+__version__ = "1.5.328"
 
 import base64 as _base64
 import glob as _glob
@@ -5435,7 +5435,7 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
     filename = 'pipelineai-gateway.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
     rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-pipelineai-gateway.yaml')
