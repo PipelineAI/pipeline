@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = "1.5.328"
+__version__ = "1.5.329"
 
 import base64 as _base64
 import glob as _glob
@@ -5569,9 +5569,8 @@ kubectl create -f %s/cluster/yaml/.generated-openebs-storageclass.yaml
 sleep 3
 
 # PVC
-kubectl create -f %s/cluster/yaml/.generated-users-pvc.yaml
 kubectl create -f %s/cluster/yaml/.generated-users-kubeflow-pvc.yaml
-kubectl create -f %s/cluster/yaml/.generated-tvevent-volume-pvc.yaml
+kubectl create -f %s/cluster/yaml/.generated-tfevent-volume-pvc.yaml
 
 # MySql 
 kubectl create -f %s/cluster/yaml/.generated-mysql-master-svc.yaml
@@ -5597,7 +5596,6 @@ kubectl create -f %s/cluster/yaml/.generated-virtualservice-airflow.yaml
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-mlflow.yaml
 kubectl create -f %s/cluster/yaml/.generated-virtualservice-grafana.yaml
 """ % (
-       generated_path,
        generated_path,
        generated_path,
        generated_path,
