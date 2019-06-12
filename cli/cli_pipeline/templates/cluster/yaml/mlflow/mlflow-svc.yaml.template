@@ -4,12 +4,13 @@ metadata:
   name: mlflow 
   labels:
     app: mlflow
+    app.kubernetes.io/name: mlflow
+    app_type: web-app
 spec:
 #  type: NodePort
   ports:
   - name: http-mlflow
-    port: 5000 
+    port: 5000
     targetPort: 5000
-#    nodePort: 31980
   selector:
-    app: mlflow
+    app: mlflow 

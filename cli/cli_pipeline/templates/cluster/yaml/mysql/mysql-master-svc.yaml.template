@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-master
+  namespace: kubeflow
+  labels:
+    app: mysql-master
+spec:
+#  type: NodePort 
+  ports:
+    # the port that this service should serve on
+  - name: mysql-native 
+    port: 3306 
+    targetPort: 3306
+#    nodePort: 31009
+  selector:
+    app: mysql-master

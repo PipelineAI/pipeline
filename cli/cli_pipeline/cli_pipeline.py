@@ -1821,6 +1821,12 @@ def version():
     train_base_image_default = '%s/%s/%s-%s:%s' % (_default_image_registry_url, _default_image_registry_repo, _default_image_registry_train_namespace, _default_model_chip, _default_image_registry_base_tag)
     predict_base_image_default = '%s/%s/%s-%s:%s' % (_default_image_registry_url, _default_image_registry_repo, _default_image_registry_predict_namespace, _default_model_chip, _default_image_registry_base_tag)
 
+    generated_path = '~/.pipelineai/cluster/yaml'
+    generated_path = _os.path.expandvars(generated_path)
+    generated_path = _os.path.expanduser(generated_path)
+    generated_path = _os.path.abspath(generated_path)
+    generated_path = _os.path.normpath(generated_path)
+
     return_dict = {
         "cli_version": __version__,
         "api_version": _pipeline_api_version,
@@ -1830,6 +1836,7 @@ def version():
         "train_base_image_default": train_base_image_default,
         "predict_base_image_default": predict_base_image_default,
         "templates_path_default": _default_pipeline_templates_path,
+        "generated_templates_path": generated_path
     }
 
     if _http_mode:
@@ -5429,65 +5436,9 @@ def cluster_kube_install(tag,
         print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/api/'))
-    filename = 'api-deploy.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-api-deploy.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'istio-loadbalancer-1.0.5.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-istio-loadbalancer-1.0.5.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'istio-loadbalancer-metricsoff-1.0.5.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-istio-loadbalancer-metricsoff-1.0.5.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'istio-nodeport-1.0.5.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-istio-nodeport-1.0.5.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'istio-nodeport-metricsoff-1.0.5.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-istio-nodeport-metricsoff-1.0.5.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
     filename = 'pipelineai-gateway.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
     rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-pipelineai-gateway.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'virtualservice-admin.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-admin.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'virtualservice-api.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-api.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
@@ -5501,57 +5452,97 @@ def cluster_kube_install(tag,
         print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'virtualservice-notebook-cpu.yaml.template'
+    filename = 'virtualservice-mlflow.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-notebook-cpu.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-mlflow.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'virtualservice-notebook-gpu.yaml.template'
+    filename = 'virtualservice-grafana.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-notebook-gpu.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-grafana.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'virtualservice-hystrix.yaml.template'
+    filename = 'crds.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-hystrix.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-crds.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
     path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/istio/'))
-    filename = 'virtualservice-turbine.yaml.template'
+    filename = 'istio-noauth.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-virtualservice-turbine.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-istio-noauth.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-cpu-deploy.yaml.template' 
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/airflow/'))
+    filename = 'airflow-deploy.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-notebook-cpu-deploy.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-airflow-deploy.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/notebook/'))
-    filename = 'notebook-gpu-deploy.yaml.template'
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/airflow/'))
+    filename = 'airflow-svc.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-notebook-gpu-deploy.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-airflow-svc.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
-    filename = 'users-pvc.yaml.template'
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mlflow/'))
+    filename = 'mlflow-deploy.yaml.template'
     rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-users-pvc.yaml')
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-mlflow-deploy.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mlflow/'))
+    filename = 'mlflow-svc.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-mlflow-svc.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/redis/'))
+    filename = 'redis-master-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-redis-master-deploy.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/redis/'))
+    filename = 'redis-master-svc.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-redis-master-svc.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mysql/'))
+    filename = 'mysql-master-deploy.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-mysql-master-deploy.yaml')
+    with open(rendered_path, 'wt') as fh:
+        fh.write(rendered)
+        print("'%s' => '%s'." % (filename, rendered_path))
+
+    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/mysql/'))
+    filename = 'mysql-master-svc.yaml.template'
+    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
+    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-mysql-master-svc.yaml')
     with open(rendered_path, 'wt') as fh:
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
@@ -5572,158 +5563,59 @@ def cluster_kube_install(tag,
         fh.write(rendered)
         print("'%s' => '%s'." % (filename, rendered_path))
 
-    path = _os.path.normpath(_os.path.join(pipeline_templates_path, 'cluster/yaml/storage/'))
-    filename = 'notebooks-pvc.yaml.template'
-    rendered = _jinja2.Environment(loader=_jinja2.FileSystemLoader(path)).get_template(filename).render(context)
-    rendered_path = _os.path.join(generated_path, 'cluster/yaml/.generated-notebooks-pvc.yaml')
-    with open(rendered_path, 'wt') as fh:
-        fh.write(rendered)
-        print("'%s' => '%s'." % (filename, rendered_path))
-
     cmd = """
+# StorageClass
 kubectl create -f %s/cluster/yaml/.generated-openebs-storageclass.yaml
+sleep 3
 
+# PVC
 kubectl create -f %s/cluster/yaml/.generated-users-pvc.yaml
 kubectl create -f %s/cluster/yaml/.generated-users-kubeflow-pvc.yaml
 kubectl create -f %s/cluster/yaml/.generated-tvevent-volume-pvc.yaml
 
-#kubectl create -f %s/cluster/yaml/.generated-notebooks-pvc.yaml
+# MySql 
+kubectl create -f %s/cluster/yaml/.generated-mysql-master-svc.yaml
+kubectl create -f %s/cluster/yaml/.generated-mysql-master-deploy.yaml
 
-# Rook
-#kubectl create -f %s/cluster/yaml/.generated-operator.yaml
-#kubectl create -f %s/cluster/yaml/rook/cluster.yaml
-#kubectl create -f %s/cluster/yaml/rook/filesystem.yaml
-
-#sleep 300 
-
-#kubectl create -f %s/cluster/yaml/.generated-toolbox.yaml
-
-#sleep 120 
-
-#kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].status.containerStatuses[0].ready}'
-
-#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/users 
-#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') mkdir /mnt/pipelineai/notebooks
-#kubectl exec -it $(kubectl get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') ls /mnt/pipelineai
-
-# Admin
-kubectl create -f %s/cluster/yaml/admin/admin-deploy.yaml
-kubectl create -f %s/cluster/yaml/admin/admin-svc.yaml
-
-# Api / MLflow
-kubectl create -f %s/cluster/yaml/.generated-api-deploy.yaml
-kubectl create -f %s/cluster/yaml/api/api-svc.yaml
-
-# Notebook
-kubectl create -f %s/cluster/yaml/.generated-notebook-%s-deploy.yaml
-kubectl create -f %s/cluster/yaml/notebook/notebook-%s-svc.yaml
-
-# Hystrix
-kubectl create -f %s/cluster/yaml/dashboard/hystrix-deploy.yaml
-kubectl create -f %s/cluster/yaml/dashboard/hystrix-svc.yaml
-
-# Turbine (Part 1)
-kubectl create -f %s/cluster/yaml/dashboard/turbine-deploy.yaml
-kubectl create -f %s/cluster/yaml/dashboard/turbine-svc.yaml
-
-# Istio
-kubectl create -f %s/cluster/yaml/.generated-istio-%s-metricsoff-1.0.5.yaml
-kubectl create -f %s/cluster/yaml/.generated-pipelineai-gateway.yaml
-
-kubectl create -f %s/cluster/yaml/.generated-virtualservice-admin.yaml
-kubectl create -f %s/cluster/yaml/.generated-virtualservice-api.yaml
-kubectl create -f %s/cluster/yaml/.generated-virtualservice-airflow.yaml
-kubectl create -f %s/cluster/yaml/.generated-virtualservice-notebook-%s.yaml
-kubectl create -f %s/cluster/yaml/.generated-virtualservice-hystrix.yaml
-kubectl create -f %s/cluster/yaml/.generated-virtualservice-turbine.yaml
-
-# Turbine (Part 2)
-# TODO:  Narrow this scope
-kubectl create clusterrolebinding pipelineai-serviceaccounts-view \
-  --clusterrole=view \
-  --group=system:serviceaccounts
+# Redis
+kubectl create -f %s/cluster/yaml/.generated-redis-master-svc.yaml
+kubectl create -f %s/cluster/yaml/.generated-redis-master-deploy.yaml
 
 # Airflow
+kubectl create -f %s/cluster/yaml/.generated-airflow-svc.yaml
+kubectl create -f %s/cluster/yaml/.generated-airflow-deploy.yaml
 
-# Allow creation of pods and routes (Airflow)
-#kubectl create clusterrolebinding pipelineai-cluster-admin \
-#  --clusterrole=cluster-admin \
-#  --group=system:serviceaccounts
+# MLflow
+kubectl create -f %s/cluster/yaml/.generated-mlflow-svc.yaml
+kubectl create -f %s/cluster/yaml/.generated-mlflow-deploy.yaml
 
-#helm repo update
-
-#helm install --name airflow stable/airflow --set airflow.service.type=NodePort --set postgresql.persistence.enabled=false --set airflow.image.repository=stibbons31/docker-airflow-dev --set airflow.image.tag=2.0dev --set airflow.config.AIRFLOW__CORE__LOAD_EXAMPLES=True --set airflow.config.AIRFLOW__WEBSERVER__BASE_URL=http://hostname:port/admin/workflow --set airflow.config.AIRFLOW__CELERY__FLOWER_URL_PREFIX=/admin/workflow/flower
-
-#sleep 5
-
-#kubectl patch deployment airflow-web --type json -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/livenessProbe"}]'
-
-# Add /mnt/pipelineai/shared to Airflow
-#kubectl delete -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
-#kubectl delete -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
-#kubectl delete -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
-
-#sleep 5
-
-#kubectl create -f %s/cluster/yaml/airflow/airflow-scheduler-deploy.yaml
-#kubectl create -f %s/cluster/yaml/airflow/airflow-web-deploy.yaml
-#kubectl create -f %s/cluster/yaml/airflow/airflow-worker-statefulset.yaml
-
-#kubectl delete deploy airflow-flower 
-
-# Kafka 
-#helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
-#helm repo update
-
-#helm install confluentinc/cp-helm-charts --name kafka --set cp-zookeeper.enabled=true,cp-zookeeper.persistence.enabled=false,cp-kafka.enabled=true,cp-kafka.persistence.enabled=false,cp-schema-registry.enabled=false,cp-kafka-rest.enabled=true,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false
-
-#kubectl create -f %s/cluster/yaml/kafka/kafka-rest-svc.yaml
-#kubectl create -f %s/cluster/yaml/kafka/kafka-svc.yaml
-
-# Metrics
-#kubectl create -f %s/cluster/yaml/metrics/
-
+# Istio
+kubectl create -f %s/cluster/yaml/.generated-crds.yaml
+kubectl create -f %s/cluster/yaml/.generated-istio-noauth.yaml
+kubectl create -f %s/cluster/yaml/.generated-pipelineai-gateway.yaml
+kubectl create -f %s/cluster/yaml/.generated-virtualservice-airflow.yaml
+kubectl create -f %s/cluster/yaml/.generated-virtualservice-mlflow.yaml
+kubectl create -f %s/cluster/yaml/.generated-virtualservice-grafana.yaml
 """ % (
        generated_path,
        generated_path,
        generated_path,
        generated_path,
        generated_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       generated_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       generated_path,
-       pipeline_templates_path, 
-       generated_path,
-       chip,
-       pipeline_templates_path,
-       chip,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       generated_path,
-       ingress_type,
        generated_path,
        generated_path,
        generated_path,
        generated_path,
        generated_path,
-       chip,
        generated_path,
        generated_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-       pipeline_templates_path,
-    )
+       generated_path,
+       generated_path,
+       generated_path,       
+       generated_path,
+       generated_path,
+       generated_path,
+)
 
     if not dry_run:
         print(cmd)

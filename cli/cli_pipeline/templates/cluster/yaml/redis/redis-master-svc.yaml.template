@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master 
+  namespace: kubeflow
+  labels:
+    app: redis-master
+#    dns: route53
+#  annotations:
+#    domainName: "redis.your.domain.com"
+spec:
+#  type: LoadBalancer
+  type: NodePort
+  ports:
+  - name: redis-native 
+    port: 6379
+    targetPort: 6379
+    nodePort: 31014
+  - name: webdis-native
+    port: 7379
+    targetPort: 7379
+    nodePort: 31015
+  selector:
+    app: redis-master
+

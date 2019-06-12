@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-master
+  namespace: kubeflow
+  labels:
+    app: mysql-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-master
+  template:
+    metadata:
+      labels:
+        app: mysql-master
+    spec:
+      containers:
+      - name: mysql-master
+        image: pipelineai/mysql-master:1.5.0
+#        resources:
+#          limits:
+#            cpu: 1000m
+#            memory: 1000Mi
+#          requests:
+#            cpu: 100m
+#            memory: 100Mi
+        imagePullPolicy: "IfNotPresent"
+        terminationMessagePolicy: "FallbackToLogsOnError"
+        ports:
+        - containerPort: 3306

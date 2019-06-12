@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mlflow 
+  labels:
+    app.kubernetes.io/name: mlflow
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - gateway 
+  http:
+  - match:
+    - uri:
+        prefix: /mlflow
+    - uri:
+        prefix: /ajax-api
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: mlflow 
+        port:
+          number: 5000
+      weight: 100
