@@ -35,4 +35,15 @@
   
 ```
 
+```
+# Kafka
+#helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+#helm repo update
+
+#helm install confluentinc/cp-helm-charts --name kafka --set cp-zookeeper.enabled=true,cp-zookeeper.persistence.enabled=false,cp-kafka.enabled=true,cp-kafka.persistence.enabled=false,cp-schema-registry.enabled=false,cp-kafka-rest.enabled=true,cp-kafka-connect.enabled=false,cp-ksql-server.enabled=false
+
+#kubectl create -f %s/cluster/yaml/kafka/kafka-rest-svc.yaml
+#kubectl create -f %s/cluster/yaml/kafka/kafka-svc.yaml
+```
+
 https://docs.confluent.io/current/kafka-rest/docs/intro.html#produce-and-consume-json-messages
