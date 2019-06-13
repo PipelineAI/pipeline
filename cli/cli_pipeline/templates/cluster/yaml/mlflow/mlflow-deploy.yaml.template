@@ -23,13 +23,13 @@ spec:
         image: docker.io/pipelineai/mlflow:1.5.0
         imagePullPolicy: "Always"
         terminationMessagePolicy: "FallbackToLogsOnError"
-#        resources:
-#          limits:
-#            memory: 4Gi
-#            cpu: 1000m
-#          requests:
-#            memory: 4Gi
-#            cpu: 2000m
+        resources:
+          limits:
+            memory: 4Gi
+            cpu: 1000m
+          requests:
+            memory: 4Gi
+            cpu: 1000m
         ports:
         - containerPort: 5000
         volumeMounts:
