@@ -178,7 +178,7 @@ git clone https://github.com/PipelineAI/pipeline
 export KFAPP=install-kubeflow
 echo "export KFAPP=$KFAPP" >> /root/.bashrc
 echo "export KFAPP=$KFAPP" >> /etc/environment
-cd /root/pipeline
+cd /root/pipeline/kubeflow/
 kfctl init --namespace=default --use_istio=true ${KFAPP}
 cd /root/pipeline/kubeflow/install-kubeflow/
 kfctl generate all -V

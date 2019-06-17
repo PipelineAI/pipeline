@@ -1,3 +1,4 @@
+.cache/
 community/
 saved_models/
 __pycache__/
