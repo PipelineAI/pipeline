@@ -252,6 +252,8 @@ helm init --service-account tiller --upgrade
 # Seldon
 helm install seldon-core-operator --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 
+helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
+
 # Patch Spark RBAC per https://apache-spark-on-k8s.github.io/userdocs/running-on-kubernetes.html#configuring-kubernetes-roles-and-service-accounts
 # --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark # DO WE NEED NAMESPACE, TOO
 kubectl create serviceaccount --namespace kubeflow spark
