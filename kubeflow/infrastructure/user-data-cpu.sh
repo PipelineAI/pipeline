@@ -235,6 +235,29 @@ kubectl delete -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 sleep 5
 kubectl create -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 
+# Helm
+cd /root
+wget https://get.helm.sh/helm-v2.14.1-linux-amd64.tar.gz
+tar -xvzf helm-v2.14.1-linux-amd64.tar.gz
+chmod a+x linux-amd64/helm
+mv linux-amd64/helm /usr/bin/
+helm init
+
+# Patch Tiller RBAC per https://github.com/kubeflow/tf-operator/issues/106
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+helm init --service-account tiller --upgrade
+
+# Seldon
+helm install seldon-core-operator --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
+
+# Patch Spark RBAC per https://apache-spark-on-k8s.github.io/userdocs/running-on-kubernetes.html#configuring-kubernetes-roles-and-service-accounts
+# --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark # DO WE NEED NAMESPACE, TOO
+kubectl create serviceaccount --namespace kubeflow spark
+kubectl create clusterrolebinding spark-role --clusterrole=edit --serviceaccount=kubeflow:spark --namespace=kubeflow
+
+kubectl get serviceaccount
 kubectl get namespace
 kubectl get storageclass
 kubectl get pods --all-namespaces
