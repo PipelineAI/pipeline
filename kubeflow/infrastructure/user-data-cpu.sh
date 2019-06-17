@@ -172,18 +172,18 @@ pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kub
 
 # Create kubeflow assets
 cd /root 
-git clone https://github.com/PipelineAI/kubeflow-tfx-workshop
+git clone https://github.com/PipelineAI/pipeline
 
 # Kfctl
 export KFAPP=install-kubeflow
 echo "export KFAPP=$KFAPP" >> /root/.bashrc
 echo "export KFAPP=$KFAPP" >> /etc/environment
-cd /root/kubeflow-tfx-workshop
+cd /root/pipeline
 kfctl init --namespace=default --use_istio=true ${KFAPP}
-cd /root/kubeflow-tfx-workshop/install-kubeflow/
+cd /root/pipeline/kubeflow/install-kubeflow/
 kfctl generate all -V
-git checkout /root/kubeflow-tfx-workshop/install-kubeflow/ks_app/components/
-git checkout /root/kubeflow-tfx-workshop/install-kubeflow/ks_app/vendor/
+git checkout /root/pipeline/kubeflow/install-kubeflow/ks_app/components/
+git checkout /root/pipeline/kubeflow/install-kubeflow/ks_app/vendor/
 
 sleep 30
 kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
@@ -218,7 +218,7 @@ kubectl create secret generic docker-registry-secret --from-file=.dockerconfigjs
 apt-get install -y nginx
 rm /etc/nginx/sites-available/default
 rm /etc/nginx/sites-enabled/default
-cd /etc/nginx/sites-available/ && ln -s /root/kubeflow-tfx-workshop/infrastructure/config/nginx/pipelineai-nginx.conf
+cd /etc/nginx/sites-available/ && ln -s /root/pipeline/kubeflow/infrastructure/config/nginx/pipelineai-nginx.conf
 cd /etc/nginx/sites-enabled/ && ln -s /etc/nginx/sites-available/pipelineai-nginx.conf
 cd /root
 # Restart for Good Measure
@@ -231,9 +231,9 @@ sleep 30
 kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
 
 # Install update TFJob CRD (tfjobs.kubeflow.org)
-kubectl delete -f /root/kubeflow-tfx-workshop/infrastructure/crd/tfjob-crd-v1.yaml
+kubectl delete -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 sleep 5
-kubectl create -f /root/kubeflow-tfx-workshop/infrastructure/crd/tfjob-crd-v1.yaml
+kubectl create -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 
 kubectl get namespace
 kubectl get storageclass
@@ -254,7 +254,7 @@ kubectl get crd --all-namespaces
 #users_pvc_dir=/mnt/pipelineai/users/${users_pvc_dir}
 #echo ${users_pvc_dir}
 #ls -al ${users_pvc_dir}
-#cp -R /root/kubeflow-tfx-workshop/airflow-dags ${users_pvc_dir}
+#cp -R /root/pipeline/kubeflow/airflow-dags ${users_pvc_dir}
 #ls -al ${users_pvc_dir}
 
 # Create.orig
@@ -268,7 +268,7 @@ kubectl get crd --all-namespaces
 #kfctl apply all -V
 
 # Delete
-#cd /root/kubeflow-tfx-workshop/install-kubeflow/ks_app
+#cd /root/pipeline/kubeflow/install-kubeflow/ks_app
 #ks delete default
 
 # THIS MIGHT CAUSE THE kubeflow NAMESPACE TO HANG DURING TERMINATION
