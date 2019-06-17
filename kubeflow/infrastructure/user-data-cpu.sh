@@ -212,6 +212,7 @@ cd /root
 wget https://s3.amazonaws.com/fluxcapacitor.com/kubeflow-workshop/user-gcp-sa-secret-key.json
 kubectl create secret generic --namespace=kubeflow user-gcp-sa --from-file=user-gcp-sa.json=/root/user-gcp-sa-secret-key.json
 
+# TODO:  Figre out if this is still needed
 kubectl create secret generic docker-registry-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
 # Nginx
@@ -267,6 +268,8 @@ pachctl create-repo raw_data
 pachctl list-repo
 pachctl put-file raw_data master github_issues_medium.csv -f https://nyc3.digitaloceanspaces.com/workshop-data/github_issues_medium.csv
 pachctl list-repo
+
+kubectl create secret generic dockersecret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
 # Spark
 # Patch Spark RBAC per https://apache-spark-on-k8s.github.io/userdocs/running-on-kubernetes.html#configuring-kubernetes-roles-and-service-accounts
