@@ -250,10 +250,23 @@ kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"templat
 helm init --service-account tiller --upgrade
 
 # Seldon
+# kubectl create clusterrolebinding seldon-admin --clusterrole=cluster-admin --serviceaccount=${NAMESPACE}:default
+
 helm install seldon-core-operator --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 
 helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
+# Pach
+# https://github.com/dwhitena/oreilly-ai-k8s-tutorial/blob/master/README.md
+curl -o /tmp/pachctl.deb -L https://github.com/pachyderm/pachyderm/releases/download/v1.9.0/pachctl_1.9.0_amd64.deb && sudo dpkg -i /tmp/pachctl.deb
+
+pachctl deploy local --namespace kubeflow
+pachctl create-repo raw_data
+pachctl list-repo
+pachctl put-file raw_data master github_issues_medium.csv -f https://nyc3.digitaloceanspaces.com/workshop-data/github_issues_medium.csv
+pachctl list-repo
+
+# Spark
 # Patch Spark RBAC per https://apache-spark-on-k8s.github.io/userdocs/running-on-kubernetes.html#configuring-kubernetes-roles-and-service-accounts
 # --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark # DO WE NEED NAMESPACE, TOO
 kubectl create serviceaccount --namespace kubeflow spark

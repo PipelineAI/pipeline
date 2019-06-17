@@ -44,6 +44,10 @@ libraries:
     name: mpi-job
     registry: kubeflow
     version: ""
+  kubeflow/pachyderm:
+    name: pachyderm
+    registry: kubeflow
+    version: ""
   kubeflow/pipeline:
     name: pipeline
     registry: kubeflow

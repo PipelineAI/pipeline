@@ -34,6 +34,7 @@ spec:
   - metacontroller
   - modeldb
   - mpi-job
+  - pachyderm
   - pipeline
   - pytorch-job
   - seldon
