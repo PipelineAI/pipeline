@@ -257,7 +257,9 @@ helm install seldon-core-operator --namespace kubeflow --repo https://storage.go
 helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
 # Pach
+# http://<server-ip>:30080
 # https://github.com/dwhitena/oreilly-ai-k8s-tutorial/blob/master/README.md
+# https://pachyderm.readthedocs.io/en/latest/getting_started/beginner_tutorial.html
 curl -o /tmp/pachctl.deb -L https://github.com/pachyderm/pachyderm/releases/download/v1.9.0/pachctl_1.9.0_amd64.deb && sudo dpkg -i /tmp/pachctl.deb
 
 pachctl deploy local --namespace kubeflow
