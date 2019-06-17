@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd /root/kubeflow-tfx-workshop/install-kubeflow/
+cd /root/pipeline/kubeflow/install-kubeflow/
 kfctl apply all -V
