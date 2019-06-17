@@ -5,7 +5,7 @@ metadata:
   name: install-kubeflow
   namespace: kubeflow
 spec:
-  appdir: /root/kubeflow-tfx-workshop/install-kubeflow
+  appdir: /root/pipeline/kubeflow/install-kubeflow
   componentParams:
     ambassador:
     - name: ambassadorServiceType
@@ -40,7 +40,7 @@ spec:
   - tensorboard
   - tf-serving
   - tf-training
-  repo: /root/kubeflow-tfx-workshop/install-kubeflow/.cache/v0.5.1/kubeflow
+  repo: /root/pipeline/kubeflow/install-kubeflow/.cache/v0.5.1/kubeflow
   useBasicAuth: false
   useIstio: true
   version: v0.5.1

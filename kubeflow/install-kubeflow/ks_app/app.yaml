@@ -4,73 +4,8 @@ environments:
     destination:
       namespace: kubeflow
       server: https://10.128.0.4:6443
-    k8sVersion: v1.14.2
+    k8sVersion: v1.14.3
     path: default
 kind: ksonnet.io/app
-libraries:
-  kubeflow/argo:
-    name: argo
-    registry: kubeflow
-    version: ""
-  kubeflow/common:
-    name: common
-    registry: kubeflow
-    version: ""
-  kubeflow/examples:
-    name: examples
-    registry: kubeflow
-    version: ""
-  kubeflow/gcp:
-    name: gcp
-    registry: kubeflow
-    version: ""
-  kubeflow/jupyter:
-    name: jupyter
-    registry: kubeflow
-    version: ""
-  kubeflow/katib:
-    name: katib
-    registry: kubeflow
-    version: ""
-  kubeflow/metacontroller:
-    name: metacontroller
-    registry: kubeflow
-    version: ""
-  kubeflow/modeldb:
-    name: modeldb
-    registry: kubeflow
-    version: ""
-  kubeflow/mpi-job:
-    name: mpi-job
-    registry: kubeflow
-    version: ""
-  kubeflow/pipeline:
-    name: pipeline
-    registry: kubeflow
-    version: ""
-  kubeflow/pytorch-job:
-    name: pytorch-job
-    registry: kubeflow
-    version: ""
-  kubeflow/seldon:
-    name: seldon
-    registry: kubeflow
-    version: ""
-  kubeflow/tensorboard:
-    name: tensorboard
-    registry: kubeflow
-    version: ""
-  kubeflow/tf-serving:
-    name: tf-serving
-    registry: kubeflow
-    version: ""
-  kubeflow/tf-training:
-    name: tf-training
-    registry: kubeflow
-    version: ""
 name: ks_app
-registries:
-  kubeflow:
-    protocol: fs
-    uri: /root/kubeflow-tfx-workshop/install-kubeflow/.cache/v0.5.1/kubeflow
 version: 0.0.1
