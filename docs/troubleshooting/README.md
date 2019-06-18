@@ -3,10 +3,7 @@
 
 ### PipelineAI Quick Start (CPU + GPU)
 Train and Deploy your ML and AI Models in the Following Environments:
-* [Hosted Community Edition](/docs/quickstart/community)
-* [Docker](/docs/quickstart/docker)
 * [Kubernetes](/docs/quickstart/kubernetes)
-* [AWS SageMaker](/docs/quickstart/sagemaker)
 
 # Having Issues?  Contact Us Anytime... We're Always Awake.
 * Slack:  https://joinslack.pipeline.ai
