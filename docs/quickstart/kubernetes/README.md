@@ -1,7 +1,7 @@
 ## Create Kubernetes Cluster
 We recommend [**Jenkins-X**](https://jenkins-x.io/getting-started/install/) to install on AWS/EKS, Azure/AKS, Google Cloud/GKE, or On-Premise.
 
-_Note: When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The default of 20GB is not enough for the Docker images._
+_Note: When using AWS EKS, make sure you allocate 100GB to the root volume ephemeral storage - or you will see lots of `Evicted` pods.  The defaults of 10GB or 20GB is not enough for the Docker images._
 
 Here is a sample command using [Jenkins-X](https://jenkins-x.io/commands/jx_create_cluster_eks/) with AWS EKS:
 ```
@@ -11,10 +11,17 @@ Notes:
 * Use `--ssh-public-key=/path/to/public/key.pub` to enable ssh'ing to the worker.  
 * You may also need to open port 22 on the worker node security group.
 
+## (AWS-Only) Update Kubernetes Config (`~/.kube/config`)
+### Update Config
+```
+aws eks update-kubeconfig --region us-west-2 --name pipelineai
+```
+### Update 
+
 ## Install PipelineAI on Kubernetes
 ### Prerequisites
-* Running Kubernetes Cluster
-* Kubectl Installed
+* Running Kubernetes Cluster (Above)
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) Installed
 * MacOS, Linux, or Powershell (Windows)
 * Python 2 or 3 ([Miniconda with Python 3.6](https://repo.continuum.io/miniconda/) is Preferred)
 * [**PipelineAI CLI**](../README.md#install-pipelinecli)
@@ -22,6 +29,9 @@ Notes:
 * 4 CPU
 * 8GB RAM
 * (Optional) Nvidia GPU
+
+### Install [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* Click [**HERE**](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install the PipelineAI CLI
 
 ### Install [PipelineAI CLI](../README.md#install-pipelinecli)
 * Click [**HERE**](../README.md#install-pipelinecli) to install the PipelineAI CLI
