@@ -69,7 +69,7 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt-get update
 apt-get remove -y --allow-change-held-packages kubelet kubeadm kubectl
-apt-get install -y kubelet=1.14.2-00 kubeadm=1.14.2-00 kubectl=1.14.2-00
+apt-get install -y kubelet=1.15.0-00 kubeadm=1.15.0-00 kubectl=1.15.0-00
 #apt-mark hold kubelet kubeadm kubectl
 apt autoremove
 
@@ -91,7 +91,7 @@ echo "export PIPELINE_VERSION=$PIPELINE_VERSION" >> /root/.bashrc
 echo "export PIPELINE_VERSION=$PIPELINE_VERSION" >> /etc/environment
 
 # Note:  we need to do a dry-run to generate the /root/.pipelineai/cluster/yaml/ and /root/.pipelineai/kube/
-pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=50Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users --dry-run
+pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=200Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users --dry-run
 
 #cp /root/.pipelineai/kube/10-kubeadm.conf /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 sed -i '0,/\[Service\]/a Environment="KUBELET_EXTRA_ARGS=--root-dir=/mnt/pipelineai/kubelet --feature-gates=DevicePlugins=true,BlockVolume=true"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
@@ -168,7 +168,7 @@ kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass
 sleep 30
 kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
 
-pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=50Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users
+pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=200Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users
 
 # Create kubeflow assets
 cd /root 
@@ -190,6 +190,7 @@ kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass
 sleep 30
 kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
 
+cd /root/pipeline/kubeflow/install-kubeflow/
 kfctl apply all -V
 
 # Cloud-specific stuff
