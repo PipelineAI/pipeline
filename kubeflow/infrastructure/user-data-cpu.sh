@@ -69,7 +69,8 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt-get update
 apt-get remove -y --allow-change-held-packages kubelet kubeadm kubectl
-apt-get install -y kubelet=1.15.0-00 kubeadm=1.15.0-00 kubectl=1.15.0-00
+# Ksonnet doesn't seem to handle kube 1.15 very well
+apt-get install -y kubelet=1.14.3-00 kubeadm=1.14.3-00 kubectl=1.14.3-00
 #apt-mark hold kubelet kubeadm kubectl
 apt autoremove
 
@@ -179,7 +180,7 @@ export KFAPP=install-kubeflow
 echo "export KFAPP=$KFAPP" >> /root/.bashrc
 echo "export KFAPP=$KFAPP" >> /etc/environment
 cd /root/pipeline/kubeflow/
-kfctl init --namespace=default --use_istio=true ${KFAPP}
+kfctl init --namespace=namespace --use_istio=true ${KFAPP}
 cd /root/pipeline/kubeflow/install-kubeflow/
 kfctl generate all -V
 git checkout /root/pipeline/kubeflow/install-kubeflow/ks_app/components/
@@ -214,7 +215,7 @@ wget https://s3.amazonaws.com/fluxcapacitor.com/kubeflow-workshop/user-gcp-sa-se
 kubectl create secret generic --namespace=kubeflow user-gcp-sa --from-file=user-gcp-sa.json=/root/user-gcp-sa-secret-key.json
 
 # TODO:  Figre out if this is still needed
-kubectl create secret generic docker-registry-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
+#kubectl create secret generic docker-registry-secret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
 # Nginx
 apt-get install -y nginx
@@ -306,7 +307,7 @@ kubectl get crd --all-namespaces
 #echo "export KFAPP=$KFAPP" >> /root/.bashrc
 #echo "export KFAPP=$KFAPP" >> /etc/environment
 # Default uses IAP.
-#kfctl init --namespace=default --use_istio=true ${KFAPP}
+#kfctl init --namespace=kubeflow --use_istio=true ${KFAPP}
 #cd ${KFAPP}
 #kfctl generate all -V
 #kfctl apply all -V
