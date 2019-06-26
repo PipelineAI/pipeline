@@ -55,7 +55,7 @@ spawnerFormDefaults:
 #    readOnly: true
   memory:
     # Memory for user's Notebook
-    value: 2.0Gi
+    value: 1.0Gi
 #    readOnly: true
   workspaceVolume:
     # Workspace Volume to be attached to user's Notebook
@@ -73,7 +73,7 @@ spawnerFormDefaults:
         value: {username}-workspace
       size:
         # The Size of the Workspace Volume (in Gi)
-        value: '100'
+        value: '10'
         readOnly: true
       mountPath:
         # The Path that the Workspace Volume will be mounted

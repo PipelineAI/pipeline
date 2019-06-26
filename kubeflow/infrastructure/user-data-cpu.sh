@@ -180,7 +180,7 @@ export KFAPP=install-kubeflow
 echo "export KFAPP=$KFAPP" >> /root/.bashrc
 echo "export KFAPP=$KFAPP" >> /etc/environment
 cd /root/pipeline/kubeflow/
-kfctl init --namespace=namespace --use_istio=true ${KFAPP}
+kfctl init --namespace=kubeflow --use_istio=true ${KFAPP}
 cd /root/pipeline/kubeflow/install-kubeflow/
 kfctl generate all -V
 git checkout /root/pipeline/kubeflow/install-kubeflow/ks_app/components/
@@ -256,7 +256,6 @@ helm init --service-account tiller --upgrade
 # kubectl create clusterrolebinding seldon-admin --clusterrole=cluster-admin --serviceaccount=${NAMESPACE}:default
 
 helm install seldon-core-operator --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
-
 helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
 # Pach
