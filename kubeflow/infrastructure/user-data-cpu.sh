@@ -16,6 +16,8 @@ apt-get update && apt-get install -y --allow-downgrades docker-ce=$(apt-cache ma
 # Note:  If we use this, we need to modify `docker.service`
 #        or create `/etc/systemd/docker.service.d/docker.root.conf`
 #        See https://github.com/IronicBadger/til/blob/master/docker/change-docker-root.md for more details
+# Note:  We may need to use the deprecated overlay storage-driver because of the following issue that we see with certain linux kernels: https://github.com/moby/moby/issues/28391
+# Be sure to pin your version of OS/kernel - especially when using cloud images that are constantly being patched/updated
 cat > /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
