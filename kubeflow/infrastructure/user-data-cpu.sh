@@ -260,6 +260,9 @@ helm init --service-account tiller --upgrade
 helm install seldon-core-operator --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
+# Alternate way to setup Seldon
+#helm install helm-charts/seldon-core-operator --name seldon-core --set istio.enabled=true --set usageMetrics.enabled=true 
+
 # Pach
 # http://<server-ip>:30080
 # https://github.com/dwhitena/oreilly-ai-k8s-tutorial/blob/master/README.md
