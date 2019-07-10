@@ -1,9 +1,5 @@
 # TODO
 
-#Install
-helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true
-
 #FluentD
 kubectl apply -f logging-stack.yaml
 kubectl apply -f samples/bookinfo/telemetry/fluentd-istio.yaml
