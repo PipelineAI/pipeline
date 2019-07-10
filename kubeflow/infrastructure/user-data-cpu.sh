@@ -257,8 +257,8 @@ helm init --service-account tiller --upgrade
 # Seldon
 # kubectl create clusterrolebinding seldon-admin --clusterrole=cluster-admin --serviceaccount=${NAMESPACE}:default
 
-helm install seldon-core-operator --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
-helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
+helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
+#helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
 # Alternate way to setup Seldon
 #helm install helm-charts/seldon-core-operator --name seldon-core --set istio.enabled=true --set usageMetrics.enabled=true 
