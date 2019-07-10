@@ -276,6 +276,16 @@
       rules: [
         {
           apiGroups: [
+            "machinelearning.seldon.io",
+          ],
+          resources: [
+            "seldondeploymentss",
+          ],
+          verbs: [
+            "*",
+          ],
+          },
+          apiGroups: [
             "",
           ],
           resources: [
