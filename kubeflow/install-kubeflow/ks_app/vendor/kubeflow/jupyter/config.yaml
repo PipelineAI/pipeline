@@ -21,39 +21,42 @@ spawnerFormDefaults:
   image:
     # The container Image for the user's Jupyter Notebook
     # If readonly, this value must be a member of the list below
-    value: gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-cpu:v0.5.0
+#    value: gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-cpu:v0.5.0 
+    value: pipelineai/kubeflow-notebook-cpu-1.13.1:2.0.0
     # The list of available standard container Images
     options:
-      - gcr.io/kubeflow-images-public/tensorflow-1.5.1-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.5.1-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.6.0-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.6.0-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.7.0-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.7.0-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.9.0-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.9.0-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.10.1-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.10.1-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.11.0-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.11.0-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-gpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-2.0.0a-notebook-cpu:v0.5.0
-      - gcr.io/kubeflow-images-public/tensorflow-2.0.0a-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.5.1-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.5.1-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.6.0-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.6.0-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.7.0-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.7.0-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.9.0-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.9.0-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.10.1-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.10.1-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.11.0-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.11.0-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-1.13.1-notebook-gpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-2.0.0a-notebook-cpu:v0.5.0
+#      - gcr.io/kubeflow-images-public/tensorflow-2.0.0a-notebook-gpu:v0.5.0
+      - pipelineai/kubeflow-notebook-cpu-1.13.1:2.0.0
     # By default, custom container Images are allowed
     # Uncomment the following line to only enable standard container Images
-    readOnly: false
+#    readOnly: true 
   cpu:
     # CPU for user's Notebook
     value: '0.5'
-    # readOnly: true
+#    readOnly: true
   memory:
     # Memory for user's Notebook
     value: 1.0Gi
+#    readOnly: true
   workspaceVolume:
     # Workspace Volume to be attached to user's Notebook
     # Each Workspace Volume is declared with the following attributes:
@@ -62,7 +65,7 @@ spawnerFormDefaults:
       type:
         # The Type of the Workspace Volume
         # Supported values: 'New', 'Existing'
-        value: New
+        value: New 
       name:
         # The Name of the Workspace Volume
         # Note that this is a templated value
@@ -71,33 +74,40 @@ spawnerFormDefaults:
       size:
         # The Size of the Workspace Volume (in Gi)
         value: '10'
+        readOnly: true
       mountPath:
         # The Path that the Workspace Volume will be mounted
-        readOnly: true
         value: /home/jovyan
+        readOnly: true
       accessModes:
         # The Access Mode of the Workspace Volume
         # Supported values: 'ReadWriteOnce', 'ReadWriteMany', 'ReadOnlyMany'
         value: ReadWriteOnce
+        readOnly: true
   dataVolumes:
     # List of additional Data Volumes to be attached to the user's Notebook
-    value: []
+    #value: []
     # Each Data Volume is declared with the following attributes:
     # Type, Name, Size, MountPath and Access Mode
     #
     # For example, a list with 2 Data Volumes:
-    #value:
-    #  - value:
-    #      type:
-    #        value: New
-    #      name:
-    #        value: {username}-vol-1
+    value:
+      - value:
+          type:
+           value: Existing
+           readOnly: true
+          name:
+            value: users-pvc
+            readOnly: true
     #      size:
     #        value: '10'
-    #      mountPath:
-    #        value: /home/jovyan/{username}-vol-1
-    #      accessModes:
-    #        value: ReadWriteOnce
+    #        readOnly: true
+          mountPath:
+            value: /mnt/pipelineai/users
+            readOnly: true
+          accessModes:
+            value: ReadWriteOnce
+            readOnly: true
     #  - value:
     #      type:
     #        value: New
@@ -111,8 +121,9 @@ spawnerFormDefaults:
     #        value: ReadWriteOnce
     #
     # Uncomment the following line to make the Data Volumes list readonly
-    #readOnly: true
+    readOnly: true
   extraResources:
     # Extra Resource Limits for user's Notebook
     # Note that braces are escaped
     value: "{{}}"
+    readOnly: true
