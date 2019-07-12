@@ -298,13 +298,14 @@ kubectl get virtualservice --all-namespaces
 kubectl get crd --all-namespaces
 
 # Copy data to airflow
-#apt-get install -y jq
-#users_pvc_dir=$(kubectl get pvc users-pvc -o json | jq .spec.volumeName | sed -e 's/^"//' -e 's/"$//')
-#users_pvc_dir=/mnt/pipelineai/users/${users_pvc_dir}
-#echo ${users_pvc_dir}
-#ls -al ${users_pvc_dir}
-#cp -R /root/pipeline/kubeflow/airflow-dags ${users_pvc_dir}
-#ls -al ${users_pvc_dir}
+apt-get install -y jq
+users_pvc_dir=$(kubectl get pvc users-pvc -o json | jq .spec.volumeName | sed -e 's/^"//' -e 's/"$//')
+users_pvc_dir=/mnt/pipelineai/users/${users_pvc_dir}
+echo ${users_pvc_dir}
+ls -al ${users_pvc_dir}
+cp -R /root/pipeline/kubeflow/airflow-dags ${users_pvc_dir}
+cp -R /root/pipeline/kubeflow/kubeflow-pipelines ${users_pvc_dir}
+ls -al ${users_pvc_dir}
 
 # Create.orig
 #export KFAPP=install-kubeflow
