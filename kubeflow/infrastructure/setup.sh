@@ -10,10 +10,10 @@ helm install install/kubernetes/helm/istio --name istio --namespace istio-system
 
 #Deploy
 kubectl label namespace kubeflow istio-injection=enabled
-kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+#kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 
 #Gateway
-kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+#kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 #find INGRESS_HOST IP by plugging in INSTANCE_NAME (dev) 
 #gcloud compute instances describe [INSTANCE_NAME] --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
