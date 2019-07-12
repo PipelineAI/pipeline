@@ -263,6 +263,9 @@ helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=
 # Alternate way to setup Seldon
 #helm install helm-charts/seldon-core-operator --name seldon-core --set istio.enabled=true --set usageMetrics.enabled=true 
 
+
+kubectl apply -f $HOME/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
+
 # Pach
 # http://<server-ip>:30080
 # https://github.com/dwhitena/oreilly-ai-k8s-tutorial/blob/master/README.md

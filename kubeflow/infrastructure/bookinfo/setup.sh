@@ -4,7 +4,7 @@ cd istio-1.2.2
 export PATH=$PWD/bin:$PATH
 
 helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true
 
 #Deploy
 kubectl label namespace kubeflow istio-injection=enabled
