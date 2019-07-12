@@ -1,0 +1,32 @@
+apiVersion: "kubeflow.org/v1beta2"
+kind: "PyTorchJob"
+metadata:
+  name: "pytorch-distributed-mnist"
+spec:
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: pipelineai/pytorch-distributed-mnist:2.0.0
+              args: ["--backend", "gloo"]
+              # Comment out the below resources to use the CPU.
+              #resources: 
+              #  limits:
+              #    nvidia.com/gpu: 1
+    Worker:
+      replicas: 2
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers: 
+            - name: pytorch
+              image: pipelineai/pytorch-distributed-mnist:2.0.0
+              args: ["--backend", "gloo"]
+              # Comment out the below resources to use the CPU.
+              #resources: 
+              #  limits:
+              #    nvidia.com/gpu: 1

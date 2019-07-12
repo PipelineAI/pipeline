@@ -1,0 +1,169 @@
+apiVersion: machinelearning.seldon.io/v1alpha3
+kind: SeldonDeployment
+metadata:
+  generation: 1
+  labels:
+    app: seldon
+  name: abtest-model
+  namespace: kubeflow
+spec:
+  name: abtest-model
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - env:
+          - name: PREDICTIVE_UNIT_SERVICE_PORT
+            value: "9000"
+          - name: PREDICTIVE_UNIT_ID
+            value: classifier-1
+          - name: PREDICTOR_ID
+            value: abtest
+          - name: SELDON_DEPLOYMENT_ID
+            value: abtest-model
+          image: seldonio/mock_classifier:1.0
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - /bin/sleep 10
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: http
+            timeoutSeconds: 1
+          name: classifier-1
+          ports:
+          - containerPort: 9000
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: http
+            timeoutSeconds: 1
+          resources:
+            requests:
+              memory: 1Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/podinfo
+            name: podinfo
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 20
+        volumes:
+        - downwardAPI:
+            defaultMode: 420
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.annotations
+              path: annotations
+          name: podinfo
+    - metadata:
+        labels:
+          version: v2
+      spec:
+        containers:
+        - env:
+          - name: PREDICTIVE_UNIT_SERVICE_PORT
+            value: "9001"
+          - name: PREDICTIVE_UNIT_ID
+            value: classifier-2
+          - name: PREDICTOR_ID
+            value: abtest
+          - name: SELDON_DEPLOYMENT_ID
+            value: abtest-model
+          image: seldonio/mock_classifier:1.0
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - /bin/sleep 10
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: http
+            timeoutSeconds: 1
+          name: classifier-2
+          ports:
+          - containerPort: 9001
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            tcpSocket:
+              port: http
+            timeoutSeconds: 1
+          resources:
+            requests:
+              memory: 1Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/podinfo
+            name: podinfo
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 20
+        volumes:
+        - downwardAPI:
+            defaultMode: 420
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.annotations
+              path: annotations
+          name: podinfo
+    graph:
+      children:
+      - children: []
+        endpoint:
+          service_host: localhost
+          service_port: 9000
+          type: REST
+        implementation: UNKNOWN_IMPLEMENTATION
+        name: classifier-1
+        type: MODEL
+      - children: []
+        endpoint:
+          service_host: abtest-model-abtest-classifier-2-seldonio-mock-classifier-1-0.kubeflow.svc.cluster.local.
+          service_port: 9001
+          type: REST
+        implementation: UNKNOWN_IMPLEMENTATION
+        name: classifier-2
+        type: MODEL
+      endpoint: {}
+      implementation: RANDOM_ABTEST
+      name: abtest-model
+      parameters:
+      - name: ratioA
+        type: FLOAT
+        value: "0.5"
+      type: UNKNOWN_TYPE
+    name: abtest
+    replicas: 1
