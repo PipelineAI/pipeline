@@ -5,8 +5,10 @@ kubectl apply -f conf/kiali-secret.yaml
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.2.2 sh -
 cd istio-1.2.2
 export PATH=$PWD/bin:$PATH
+
 helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
 helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true
+
 cd ..
 
 #Deploy

@@ -247,11 +247,13 @@ tar -xvzf helm-v2.14.1-linux-amd64.tar.gz
 chmod a+x linux-amd64/helm
 mv linux-amd64/helm /usr/bin/
 helm init
+sleep 30
 
 # Patch Tiller RBAC per https://github.com/kubeflow/tf-operator/issues/106
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+sleep 30
 helm init --service-account tiller --upgrade
 
 # Seldon
@@ -261,11 +263,8 @@ sleep 30
 helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
 #helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
-# Alternate way to setup Seldon
-#helm install helm-charts/seldon-core-operator --name seldon-core --set istio.enabled=true --set usageMetrics.enabled=true 
-
 sleep 30
-kubectl apply -f $HOME/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
 
 # Pach
 # http://<server-ip>:30080
