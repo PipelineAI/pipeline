@@ -21,7 +21,8 @@ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
 #find INGRESS_HOST IP by plugging in INSTANCE_NAME (dev) 
 #gcloud compute instances describe [INSTANCE_NAME] --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
-export INGRESS_HOST=104.197.47.49
+export INGRESS_HOST=$(dig +short myip.opendns.com @resolver1.opendns.com)
+#104.197.47.49
 
 gcloud compute firewall-rules create allow-gateway-http --allow tcp:$INGRESS_PORT
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
