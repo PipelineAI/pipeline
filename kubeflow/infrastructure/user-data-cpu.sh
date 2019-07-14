@@ -96,6 +96,7 @@ echo "export PIPELINE_VERSION=$PIPELINE_VERSION" >> /etc/environment
 # Note:  we need to do a dry-run to generate the /root/.pipelineai/cluster/yaml/ and /root/.pipelineai/kube/
 pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=200Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users --dry-run
 
+# Change root-dir to /mnt/pipelineai/kubelet
 #cp /root/.pipelineai/kube/10-kubeadm.conf /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 sed -i '0,/\[Service\]/a Environment="KUBELET_EXTRA_ARGS=--root-dir=/mnt/pipelineai/kubelet --feature-gates=DevicePlugins=true,BlockVolume=true"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 
@@ -138,6 +139,24 @@ sleep 30
 kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
 sleep 30
 kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
+
+#Install Istio
+
+# HACK:  Remove istio so that it doesn't get installed later
+rm /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
+
+helm del --purge istio
+helm del --purge istio-init
+export ISTIO_VERSION=1.2.2
+echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /root/.bashrc
+echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
+curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
+cd istio-${ISTIO_VERSION}
+
+kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
+helm init --service-account tiller
+helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+helm install install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
 
 # Istio - Label the namespace
 kubectl label namespace kubeflow istio-injection=enabled
