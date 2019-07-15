@@ -5,7 +5,6 @@ metadata:
   labels:
     app: seldon
   name: simple-model
-  namespace: kubeflow
 spec:
   annotations:
     seldon.io/engine-log-message-type: seldon.message.pair

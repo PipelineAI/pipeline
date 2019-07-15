@@ -5,7 +5,6 @@ metadata:
   labels:
     app: seldon
   name: abtest-model
-  namespace: kubeflow
 spec:
   name: abtest-model
   predictors:

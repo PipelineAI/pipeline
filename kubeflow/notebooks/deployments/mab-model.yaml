@@ -5,7 +5,6 @@ metadata:
   labels:
     app: seldon
   name: mab-model
-  namespace: kubeflow
 spec:
   name: mab-model
   predictors:
