@@ -140,38 +140,6 @@ kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass
 sleep 30
 kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
 
-#Install Istio
-
-# HACK:  Remove istio so that it doesn't get installed later
-rm /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
-
-export ISTIO_VERSION=1.2.2
-echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /root/.bashrc
-echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
-curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
-#cd istio-${ISTIO_VERSION}
-
-helm del --purge istio
-helm del --purge istio-init
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
-helm init --service-account tiller
-helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
-
-# Istio - Label the namespace
-kubectl label namespace kubeflow istio-injection=enabled
-kubectl label namespace istio-system istio-injection=enabled
-
-# Prometheus
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/prometheus-gateway.yaml
-#Grafana
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/grafana-gateway.yaml
-#Kiali
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-secret.yaml
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gateway.yaml
-
-kubectl describe svc istio-ingressgateway -n istio-system 
-
 # Tab Completion
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 source ~/.bashrc
@@ -202,6 +170,38 @@ sleep 30
 kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass.yaml
 
 pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=200Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users
+
+sleep 30
+kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
+
+sleep 30
+export ISTIO_VERSION=1.2.2
+echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /root/.bashrc
+echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
+curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
+#cd istio-${ISTIO_VERSION}
+
+helm del --purge istio
+helm del --purge istio-init
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
+helm init --service-account tiller
+helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
+
+# Istio - Label the namespace
+kubectl label namespace kubeflow istio-injection=enabled
+kubectl label namespace istio-system istio-injection=enabled
+
+# Prometheus
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/prometheus-gateway.yaml
+#Grafana
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/grafana-gateway.yaml
+#Kiali
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-secret.yaml
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gateway.yaml
+
+kubectl describe svc istio-ingressgateway -n istio-system
+
 
 # Create kubeflow assets
 cd /root 
