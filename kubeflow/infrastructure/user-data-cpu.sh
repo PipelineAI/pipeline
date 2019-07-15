@@ -290,7 +290,11 @@ helm init --service-account tiller --upgrade
 # kubectl create clusterrolebinding seldon-admin --clusterrole=cluster-admin --serviceaccount=${NAMESPACE}:default
 
 sleep 30
-helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
+# Ambassador (Deprecated)
+#helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
+# Istio (Migrating to this)
+helm install seldon-core-operator --namespace kubeflow --set istio.enabled=true --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
+kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
 #helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
 
 sleep 30
