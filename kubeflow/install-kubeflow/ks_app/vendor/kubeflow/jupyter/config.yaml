@@ -51,11 +51,11 @@ spawnerFormDefaults:
 #    readOnly: true 
   cpu:
     # CPU for user's Notebook
-    value: '2.0'
+    value: '0.5'
 #    readOnly: true
   memory:
     # Memory for user's Notebook
-    value: 8.0Gi
+    value: 1.0Gi
 #    readOnly: true
   workspaceVolume:
     # Workspace Volume to be attached to user's Notebook
