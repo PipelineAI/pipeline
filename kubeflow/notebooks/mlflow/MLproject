@@ -1,0 +1,8 @@
+name: mlflow-boston
+#conda_env: conda.yaml
+docker_env:
+  image: docker.io/tensorflow/tensorflow:1.13.1-py3
+
+entry_points:
+  main:
+    command: "python train_and_predict_mlflow_boston.py"
