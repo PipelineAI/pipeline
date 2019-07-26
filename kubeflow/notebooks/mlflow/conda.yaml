@@ -1,4 +1,4 @@
-name: tensorflow-example
+name: mlflow-boston 
 channels:
   - defaults
   - anaconda
