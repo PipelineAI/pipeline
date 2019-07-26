@@ -1,5 +1,5 @@
 {
   "kube-context": "kubernetes-admin@kubernetes",
-  "repository-uri": "mlflow-boston",
+  "repository-uri": "pipelineai/mlflow-boston",
   "kube-job-template-path": "kubernetes_job_template.yaml"
 }

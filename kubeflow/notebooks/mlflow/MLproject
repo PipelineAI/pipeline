@@ -1,6 +1,7 @@
-name: mlflow-boston
+name: pipelineai-mlflow-boston
 #conda_env: conda.yaml
 docker_env:
+# TODO:  Add mlflow to a new base image - and use that docker image instead
   image: docker.io/tensorflow/tensorflow:1.13.1-py3
 
 entry_points:
