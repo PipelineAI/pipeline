@@ -20,8 +20,8 @@ spec:
       - name: "mlruns-volume"
         hostPath:
           path: "/root/pipeline/kubeflow/notebooks/mlflow/boston/mlruns"
-#      resources:
-#        limits:
-#          memory: 512Mi
-#        requests:
-#          memory: 256Mi          
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 256Mi          
