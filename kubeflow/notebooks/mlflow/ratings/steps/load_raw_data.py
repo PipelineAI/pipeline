@@ -16,11 +16,11 @@ import click
 
 @click.command(help="Downloads the MovieLens dataset and saves it as an mlflow artifact "
                     " called 'ratings-csv-dir'.")
-@click.option("--url", default="http://files.grouplens.org/datasets/movielens/ml-1m.zip")
-def load_raw_data(url):
+#@click.option("--url", default="http://files.grouplens.org/datasets/movielens/ml-1m.zip")
+def load_raw_data():#url):
     with mlflow.start_run() as mlrun:
 #        local_dir = tempfile.mkdtemp()
-        local_dir = '.'
+#        local_dir = '.'
 #        local_filename = os.path.join(local_dir, "ml-1m.zip")
 #        print("Downloading %s to %s" % (url, local_filename))
 #        r = requests.get(url, stream=True)
@@ -29,12 +29,13 @@ def load_raw_data(url):
 #                if chunk:  # filter out keep-alive new chunks
 #                    f.write(chunk)
 
-        extracted_dir = os.path.join(local_dir, 'ml-1m')
+#        extracted_dir = os.path.join(local_dir, 'ml-1m')
 #        print("Extracting %s into %s" % (local_filename, extracted_dir))
 #        with zipfile.ZipFile(local_filename, 'r') as zip_ref:
 #            zip_ref.extractall(local_dir)
 
-        ratings_file = os.path.join(extracted_dir, 'ratings.csv')
+#        ratings_file = os.path.join(extracted_dir, 'ratings.csv')
+        ratings_file = 'ratings.csv'
 
         print("Uploading ratings: %s" % ratings_file)
         mlflow.log_artifact(ratings_file, "ratings-csv-dir")

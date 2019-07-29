@@ -1,7 +1,7 @@
 tensorflow==1.13.1
 keras==2.2.4
 pyspark
-requests
+#requests
 click
-kubernetes==10.0.0
+#kubernetes==10.0.0
 mlflow==1.1.0
