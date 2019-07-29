@@ -30,14 +30,14 @@ RUN \
 RUN \
   apt-get install -y docker.io
 
-ADD MLproject
-ADD als.py
-ADD etl_data.py
-ADD load_raw_data.py
-ADD main.py
-ADD ml-1m/ ml-1m/
-ADD spark-defaults.conf
-ADD train_keras.py
+#ADD MLproject MLproject
+#ADD als.py als.py
+#ADD etl_data.py etl_data.py
+#ADD load_raw_data.py load_raw_data.py
+#ADD main.py main.py
+#ADD ml-1m/ ml-1m/
+#ADD spark-defaults.conf spark-defaults.conf
+#ADD train_keras.py train_keras.py
 
   
 ###################
