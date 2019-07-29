@@ -21,7 +21,7 @@ def load_raw_data(url):
     with mlflow.start_run() as mlrun:
 #        local_dir = tempfile.mkdtemp()
         local_dir = '.'
-        local_filename = os.path.join(local_dir, "ml-1m.zip")
+#        local_filename = os.path.join(local_dir, "ml-1m.zip")
 #        print("Downloading %s to %s" % (url, local_filename))
 #        r = requests.get(url, stream=True)
 #        with open(local_filename, 'wb') as f:
@@ -30,11 +30,11 @@ def load_raw_data(url):
 #                    f.write(chunk)
 
         extracted_dir = os.path.join(local_dir, 'ml-1m')
-        print("Extracting %s into %s" % (local_filename, extracted_dir))
-        with zipfile.ZipFile(local_filename, 'r') as zip_ref:
-            zip_ref.extractall(local_dir)
+#        print("Extracting %s into %s" % (local_filename, extracted_dir))
+#        with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+#            zip_ref.extractall(local_dir)
 
-        ratings_file = os.path.join(extracted_dir, 'ratings.dat')
+        ratings_file = os.path.join(extracted_dir, 'ratings.csv')
 
         print("Uploading ratings: %s" % ratings_file)
         mlflow.log_artifact(ratings_file, "ratings-csv-dir")
