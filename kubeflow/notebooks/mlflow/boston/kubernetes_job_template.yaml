@@ -8,13 +8,20 @@ spec:
   backoffLimit: 0
   template:
     spec:
+      restartPolicy: Never
       containers:
       - name: "{replaced with MLflow Project name}"
         image: "{replaced with URI of Docker image created during Project execution}"
         command: ["{replaced with MLflow Project entry point command}"]
-      resources:
-        limits:
-          memory: 512Mi
-        requests:
-          memory: 256Mi
-      restartPolicy: Never
+        volumeMounts:
+        - name: "mlruns-volume"
+          mountPath: /root/pipeline/kubeflow/notebooks/mlflow/boston/mlruns
+      volumes:
+      - name: "mlruns-volume"
+        hostPath:
+          path: "/root/pipeline/kubeflow/notebooks/mlflow/boston/mlruns"
+#      resources:
+#        limits:
+#          memory: 512Mi
+#        requests:
+#          memory: 256Mi          
