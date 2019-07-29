@@ -91,11 +91,11 @@ def train_keras(ratings_data, als_model_uri, hidden_units):
               batch_size=128, shuffle=False, callbacks=[early_stopping])
 
     train_mse = model.evaluate(x_train, pandas_df["rating"], verbose=2)
-#    test_mse = model.evaluate(x_test, pandas_test_df["rating"], verbose=2)
-#    mlflow.log_metric("test_mse", test_mse)
+    test_mse = model.evaluate(x_test, pandas_test_df["rating"], verbose=2)
+    mlflow.log_metric("test_mse", test_mse)
     mlflow.log_metric("train_mse", train_mse)
 
-#    print('The model had a MSE on the test set of {0}'.format(test_mse))
+    print('The model had a MSE on the test set of {0}'.format(test_mse))
     mlflow.keras.log_model(model, "keras-model")
 
 
