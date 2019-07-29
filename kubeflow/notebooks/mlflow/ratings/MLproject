@@ -1,9 +1,9 @@
 name: mlflow-ratings
 
-conda_env: conda.yaml
+#conda_env: conda.yaml
 
-#docker_env:
-#  image: docker.io/pipelineai/mlflow-ratings-base:2.0.0
+docker_env:
+  image: docker.io/pipelineai/mlflow-ratings-base:2.0.0
 
 entry_points:
   load_raw_data:
