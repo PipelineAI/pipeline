@@ -1,0 +1,9 @@
+name: mlflow-boston
+#conda_env: conda.yaml
+docker_env:
+# TODO:  Add mlflow to a new base image - and use that docker image instead
+  image: docker.io/pipelineai/mlflow-boston-base:2.0.0
+
+entry_points:
+  main:
+    command: "python train_and_predict_mlflow_boston.py"

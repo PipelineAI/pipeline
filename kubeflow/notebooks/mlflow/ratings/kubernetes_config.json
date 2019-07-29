@@ -1,0 +1,5 @@
+{
+  "kube-context": "kubernetes-admin@kubernetes",
+  "repository-uri": "pipelineai/mlflow-ratings",
+  "kube-job-template-path": "kubernetes_job_template.yaml"
+}
