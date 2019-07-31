@@ -8,6 +8,9 @@ kubectl delete studyjob --all
 kubectl delete seldondeployment --all
 # TODO:  Delete tensorboard images.  Currently, these are hard to distinguish from the tensorboard controller pod.
 
+# Note:  This will force a restart
+kubectl delete pod community-0
+
 echo ""
 echo "Ignore 'No resources found.' above.  This is OK!"
 echo ""
