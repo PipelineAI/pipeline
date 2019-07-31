@@ -39,6 +39,7 @@ default predict base image: docker.io/pipelineai/predict-cpu:1.5.0
 ### PipelineAI Quick Start (CPU, GPU, and TPU)
 Train and Deploy your ML and AI Models in the Following Environments:
 * [Kubernetes](/docs/quickstart/kubernetes)
+* [SageMaker](/docs/quickstart/sagemaker)
 
 ### PipelineAI CLI Overview
 ```
