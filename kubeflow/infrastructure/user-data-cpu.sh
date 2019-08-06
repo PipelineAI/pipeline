@@ -189,7 +189,6 @@ helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernet
 helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
 
 # Istio - Label the namespace
-kubectl label namespace kubeflow istio-injection=enabled
 kubectl label namespace istio-system istio-injection=enabled
 
 # Prometheus
@@ -201,7 +200,6 @@ kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-sec
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gateway.yaml
 
 kubectl describe svc istio-ingressgateway -n istio-system
-
 
 # Create kubeflow assets
 cd /root 
