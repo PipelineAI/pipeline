@@ -342,18 +342,23 @@ cp -R /root/pipeline/kubeflow/airflow-dags ${users_pvc_dir}
 cp -R /root/pipeline/kubeflow/kubeflow-pipelines ${users_pvc_dir}
 ls -al ${users_pvc_dir}
 
-# Create community notebook
-curl -d "nm=community&ns=kubeflow&imageType=standard&standardImages=pipelineai%2Fkubeflow-notebook-cpu-1.13.1%3A2.0.0&customImage=&cpu=2.0&memory=12.0Gi&ws_type=Existing&ws_name=community&ws_mount_path=%2Fhome%2Fjovyan&vol_type1=Existing&vol_name1=users-pvc&vol_mount_path1=%2Fmnt%2Fpipelineai%2Fusers&extraResources=%7B%7D" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost/jupyter/api/namespaces/kubeflow/notebooks
+kubectl create -f /root/pipeline/kubeflow/infrastructure/pvc/community-pvc.yaml
+sleep 10
 
-sleep 30
-
-# Copy notebooks to community pvc
 community_pvc_dir=$(kubectl get pvc community -o json | jq .spec.volumeName | sed -e 's/^"//' -e 's/"$//')
 community_pvc_dir=/mnt/pipelineai/users/${community_pvc_dir}
 echo ${community_pvc_dir}
 ls -al ${community_pvc_dir}
 cp -R /root/pipeline/kubeflow/notebooks ${community_pvc_dir}
 ls -al ${community_pvc_dir}
+
+# Create community notebook server (and New `community` PVC)  
+curl -d "nm=community&ns=kubeflow&imageType=standard&standardImages=pipelineai%2Fkubeflow-notebook-cpu-1.13.1%3A2.0.0&customImage=&cpu=2.0&memory=12.0Gi&ws_type=Existing&ws_name=community&ws_mount_path=%2Fhome%2Fjovyan&vol_type1=Existing&vol_name1=users-pvc&vol_mount_path1=%2Fmnt%2Fpipelineai%2Fusers&extraResources=%7B%7D" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost/jupyter/api/namespaces/kubeflow/notebooks
+
+sleep 30
+
+echo "Curling notebook server"
+curl http://localhost/notebook/kubeflow/community/tree
 
 # Create.orig
 #export KFAPP=install-kubeflow
