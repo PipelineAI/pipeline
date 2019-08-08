@@ -4,7 +4,7 @@ metadata:
   generation: 1
   labels:
     app: seldon
-  name: simple-model
+  name: mean-classifier
 spec:
   annotations:
     seldon.io/engine-log-message-type: seldon.message.pair
@@ -12,7 +12,7 @@ spec:
     seldon.io/engine-log-requests: "false"
     seldon.io/engine-log-responses: "false"
     seldon.io/headless-svc: "false"
-  name: simple-model
+  name: mean-classifier
   predictors:
   - componentSpecs:
     - spec:
@@ -25,10 +25,10 @@ spec:
           - name: PREDICTIVE_UNIT_ID
             value: classifier
           - name: PREDICTOR_ID
-            value: simple-model
+            value: mean-classifier
           - name: SELDON_DEPLOYMENT_ID
-            value: simple-model
-          image: seldonio/mock_classifier:1.0
+            value: mean-classifier
+          image: pipelineai/predict-meanclassifier:2.0.0
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -92,7 +92,7 @@ spec:
     labels:
       fluentd: "true"
       version: v1
-    name: simple-model
+    name: mean-classifier
     replicas: 1
     svcOrchSpec:
       env: []
