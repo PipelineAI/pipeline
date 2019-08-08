@@ -174,7 +174,7 @@ pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kub
 sleep 30
 kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
 
-sleep 30
+cd /root
 export ISTIO_VERSION=1.2.2
 echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /root/.bashrc
 echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
@@ -183,10 +183,13 @@ curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 
 helm del --purge istio
 helm del --purge istio-init
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
+
+kubectl apply -f /root/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
 helm init --service-account tiller
-helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-helm install /root/pipeline/kubeflow/infrastructure/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
+
+helm install /root/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+
+helm install /root/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
 
 # Istio - Label the namespace
 kubectl label namespace istio-system istio-injection=enabled
