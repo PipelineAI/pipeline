@@ -363,6 +363,9 @@ sleep 30
 echo "Curling notebook server"
 curl http://localhost/notebook/kubeflow/community/tree
 
+# Override the auto-generated NodePorts to a fixed set of NodePorts
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
+
 # Create.orig
 #export KFAPP=install-kubeflow
 #echo "export KFAPP=$KFAPP" >> /root/.bashrc
