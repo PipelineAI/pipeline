@@ -296,7 +296,8 @@ sleep 30
 # Istio (Migrating to this)
 helm install seldon-core-operator --name seldon-core-operator --namespace kubeflow --set istio.enabled=true --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
 
-helm install seldon-core-analytics --name seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
+# This installs a separate prometheus/grafana
+#helm install seldon-core-analytics --name seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 
 kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
 sleep 30
