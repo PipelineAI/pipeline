@@ -294,10 +294,11 @@ sleep 30
 # Ambassador (Deprecated)
 #helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
 # Istio (Migrating to this)
-helm install seldon-core-operator --namespace kubeflow --set istio.enabled=true --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
-kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
-#helm install seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts 
+helm install seldon-core-operator --name seldon-core-operator --namespace kubeflow --set istio.enabled=true --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
 
+helm install seldon-core-analytics --name seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
+
+kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
 sleep 30
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
 
@@ -305,13 +306,13 @@ kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-ro
 # http://<server-ip>:30080
 # https://github.com/dwhitena/oreilly-ai-k8s-tutorial/blob/master/README.md
 # https://pachyderm.readthedocs.io/en/latest/getting_started/beginner_tutorial.html
-curl -o /tmp/pachctl.deb -L https://github.com/pachyderm/pachyderm/releases/download/v1.9.0/pachctl_1.9.0_amd64.deb && sudo dpkg -i /tmp/pachctl.deb
+curl -o /tmp/pachctl.deb -L https://github.com/pachyderm/pachyderm/releases/download/v1.9.3/pachctl_1.9.3_amd64.deb && sudo dpkg -i /tmp/pachctl.deb
 
 pachctl deploy local --namespace kubeflow
-pachctl create-repo raw_data
-pachctl list-repo
-pachctl put-file raw_data master github_issues_medium.csv -f https://nyc3.digitaloceanspaces.com/workshop-data/github_issues_medium.csv
-pachctl list-repo
+pachctl create repo raw_data
+pachctl list repo
+pachctl put file raw_data@master:/github_issues_medium.csv -f https://nyc3.digitaloceanspaces.com/workshop-data/github_issues_medium.csv
+pachctl list repo
 
 kubectl create secret generic dockersecret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
