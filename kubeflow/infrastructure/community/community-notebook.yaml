@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: kubeflow.org/v1alpha1
+  kind: Notebook
+  metadata:
+    labels:
+      app: notebook
+    name: community
+    namespace: kubeflow
+  spec:
+    template:
+      spec:
+        containers:
+        - env: []
+          image: pipelineai/kubeflow-notebook-cpu-1.13.1:2.0.0
+          name: community
+          resources:
+            limits: {}
+            requests:
+              cpu: "2.0"
+              memory: 12.0Gi
+          volumeMounts:
+          - mountPath: /root/.kube/config
+            name: kubeconfig
+          - mountPath: /var/run/docker.sock
+            name: dockersocket
+          - mountPath: /home/jovyan
+            name: community
+          - mountPath: /mnt/pipelineai/users
+            name: users-pvc
+        serviceAccountName: jupyter-notebook
+        ttlSecondsAfterFinished: 300
+        volumes:
+        - name: kubeconfig
+          hostPath:
+            path: /root/.kube/config                
+        - name: dockersocket
+          hostPath:
+            path: /var/run/docker.sock                
+        - name: community
+          persistentVolumeClaim:
+            claimName: community
+        - name: users-pvc
+          persistentVolumeClaim:
+            claimName: users-pvc
