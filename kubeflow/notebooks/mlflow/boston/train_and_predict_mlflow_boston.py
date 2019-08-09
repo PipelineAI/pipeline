@@ -15,8 +15,8 @@ import mlflow.tensorflow
 #tracking_uri='file:///mnt/pipelineai/users/experiments'
 #mlflow.set_tracking_uri(tracking_uri)
 
-#experiment_name = 'boston'
-#mlflow.set_experiment(experiment_name)  
+experiment_name = 'boston'
+mlflow.set_experiment(experiment_name)  
 
 # Enable auto-logging to MLflow to capture TensorBoard metrics.
 mlflow.tensorflow.autolog()
