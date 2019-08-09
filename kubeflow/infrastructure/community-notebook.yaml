@@ -21,6 +21,8 @@ items:
               cpu: "2.0"
               memory: 12.0Gi
           volumeMounts:
+          - mountPath: /root/.kube/config
+            name: kubeconfig
           - mountPath: /var/run/docker.sock
             name: dockersocket
           - mountPath: /home/jovyan
@@ -30,6 +32,9 @@ items:
         serviceAccountName: jupyter-notebook
         ttlSecondsAfterFinished: 300
         volumes:
+        - name: kubeconfig
+          hostPath:
+            path: /root/.kube/config                
         - name: dockersocket
           hostPath:
             path: /var/run/docker.sock                
