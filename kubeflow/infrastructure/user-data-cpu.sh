@@ -376,10 +376,10 @@ ls -al ${community_pvc_dir_2}
 echo "Curling notebook server"
 curl http://localhost/notebook/kubeflow/community/tree
 
-sleep 30
+#sleep 30
 
 # Override the auto-generated NodePorts to a fixed set of NodePorts
-kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
+#kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
 
 # Trigger dag
 #curl --insecure -X POST http://localhost/airflow/admin/airflow/paused?is_paused=true&dag_id=taxi
