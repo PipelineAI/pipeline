@@ -120,7 +120,7 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 # Allow the master to host pods
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
-sleep 5
+sleep 30 
 
 kubectl create namespace kubeflow
 
@@ -268,7 +268,7 @@ kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass
 
 # Install update TFJob CRD (tfjobs.kubeflow.org)
 kubectl delete -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
-sleep 5
+sleep 30 
 kubectl create -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 
 # Helm
@@ -348,7 +348,7 @@ cp -R /root/pipeline/kubeflow/kubeflow-pipelines ${users_pvc_dir}
 ls -al ${users_pvc_dir}
 
 kubectl create -f /root/pipeline/kubeflow/infrastructure/pvc/community-pvc.yaml
-sleep 10
+sleep 30
 
 community_pvc_dir=$(kubectl get pvc community -o json | jq .spec.volumeName | sed -e 's/^"//' -e 's/"$//')
 community_pvc_dir=/mnt/pipelineai/users/${community_pvc_dir}
