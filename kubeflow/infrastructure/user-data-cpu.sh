@@ -173,6 +173,7 @@ pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kub
 
 sleep 30
 kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
+sleep 300
 
 cd /root
 export ISTIO_VERSION=1.2.2
