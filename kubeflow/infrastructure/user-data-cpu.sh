@@ -369,6 +369,10 @@ curl http://localhost/notebook/kubeflow/community/tree
 # Override the auto-generated NodePorts to a fixed set of NodePorts
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
 
+# Trigger dag
+#curl --insecure -X POST http://localhost/airflow/admin/airflow/paused?is_paused=true&dag_id=taxi
+
+
 # Create.orig
 #export KFAPP=install-kubeflow
 #echo "export KFAPP=$KFAPP" >> /root/.bashrc
