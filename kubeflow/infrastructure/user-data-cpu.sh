@@ -182,18 +182,19 @@ echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 #cd istio-${ISTIO_VERSION}
 
-helm del --purge istio
-helm del --purge istio-init
+#helm del --purge istio
+#helm del --purge istio-init
 
 kubectl apply -f /root/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
+sleep 10
 helm init --service-account tiller
 sleep 30
 
 helm install /root/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-sleep 60
+sleep 120
 
 helm install /root/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
-sleep 30
+sleep 60
 
 # Istio - Label the namespace
 kubectl label namespace istio-system istio-injection=enabled
