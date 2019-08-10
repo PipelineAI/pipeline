@@ -171,9 +171,9 @@ kubectl create -f /root/.pipelineai/cluster/yaml/.generated-openebs-storageclass
 
 pipeline cluster-kube-install --tag $PIPELINE_VERSION --chip=cpu --namespace=kubeflow --image-registry-url=gcr.io/pipelineai2 --users-storage-gb=200Gi --ingress-type=nodeport --users-root-path=/mnt/pipelineai/users
 
-sleep 30
-kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
 sleep 60
+kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
+sleep 120
 
 cd /root
 export ISTIO_VERSION=1.2.2
@@ -182,23 +182,44 @@ echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 #cd istio-${ISTIO_VERSION}
 
+# Helm
+cd /root
+wget https://get.helm.sh/helm-v2.14.1-linux-amd64.tar.gz
+tar -xvzf helm-v2.14.1-linux-amd64.tar.gz
+chmod a+x linux-amd64/helm
+mv linux-amd64/helm /usr/bin/
+#helm init
+#sleep 30
+
+# Patch Tiller RBAC per https://github.com/kubeflow/tf-operator/issues/106
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+sleep 30
+#helm init --service-account tiller --upgrade
+
 #helm del --purge istio
 #helm del --purge istio-init
 
 kubectl apply -f /root/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
 sleep 10
-helm init --service-account tiller
-sleep 30
+helm init --service-account tiller --upgrade
+sleep 10
 
 helm install /root/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-sleep 120
+sleep 10
 
 helm install /root/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
-sleep 60
+sleep 30
 
 # Istio - Label the namespace
 kubectl label namespace istio-system istio-injection=enabled
 sleep 30
+
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-pipelineai-gateway.yaml
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-airflow.yaml
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-mlflow.yaml
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-grafana.yaml
 
 # Prometheus
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/prometheus-gateway.yaml
@@ -207,6 +228,8 @@ kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/grafana-g
 #Kiali
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-secret.yaml
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gateway.yaml
+
+# TODO:  Tracing / Jaeger
 
 kubectl describe svc istio-ingressgateway -n istio-system
 
@@ -277,26 +300,10 @@ kubectl delete -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 sleep 30 
 kubectl create -f /root/pipeline/kubeflow/infrastructure/crd/tfjob-crd-v1.yaml
 
-# Helm
-cd /root
-wget https://get.helm.sh/helm-v2.14.1-linux-amd64.tar.gz
-tar -xvzf helm-v2.14.1-linux-amd64.tar.gz
-chmod a+x linux-amd64/helm
-mv linux-amd64/helm /usr/bin/
-helm init
-sleep 30
-
-# Patch Tiller RBAC per https://github.com/kubeflow/tf-operator/issues/106
-kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-sleep 30
-helm init --service-account tiller --upgrade
-
 # Seldon
 # kubectl create clusterrolebinding seldon-admin --clusterrole=cluster-admin --serviceaccount=${NAMESPACE}:default
 
-sleep 30
+#sleep 30
 # Ambassador (Deprecated)
 #helm install seldon-core-operator --namespace kubeflow --set ambassador.enabled=true --repo https://storage.googleapis.com/seldon-charts
 # Istio (Migrating to this)
@@ -306,7 +313,7 @@ helm install seldon-core-operator --name seldon-core-operator --namespace kubefl
 #helm install seldon-core-analytics --name seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 
 kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
-sleep 30
+sleep 10
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
 
 # Pach
