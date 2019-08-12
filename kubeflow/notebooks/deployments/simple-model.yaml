@@ -1,6 +1,7 @@
 apiVersion: machinelearning.seldon.io/v1alpha3
 kind: SeldonDeployment
 metadata:
+  namespace: deployment
   generation: 1
   labels:
     app: seldon

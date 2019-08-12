@@ -5,6 +5,7 @@ metadata:
   labels:
     app: seldon
   name: abtest-model
+  namespace: deployment
 spec:
   name: abtest-model
   predictors:

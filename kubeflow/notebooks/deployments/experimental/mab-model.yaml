@@ -5,6 +5,7 @@ metadata:
   labels:
     app: seldon
   name: mab-model
+  namespace: deployment
 spec:
   name: mab-model
   predictors:
