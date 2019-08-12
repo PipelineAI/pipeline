@@ -1,3 +1,9 @@
+# NOTE:  THIS IS AN ATTEMPT TO ADD THE FOLLOWING TO ALLOW TRACING OF kubeflow NAMESPACE
+#        WE ACTUALLY DON'T NEED THIS BECAUSE WE'RE NOW DEPLOYING MODELS TO THE deployment NAMESPACE 
+#       env:
+#         - name: “API_NAMESPACES_EXCLUDE"
+#           value: "kube-.*"
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
