@@ -182,6 +182,10 @@ echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 #cd istio-${ISTIO_VERSION}
 
+export PATH=/root/istio-${ISTIO_VERSION}/bin:$PATH
+echo "export PATH=$PATH" >> /root/.bashrc
+echo "export PATH=$PATH" >> /etc/environment
+
 # Helm
 cd /root
 wget https://get.helm.sh/helm-v2.14.1-linux-amd64.tar.gz
@@ -312,6 +316,7 @@ helm install seldon-core-operator --name seldon-core-operator --namespace kubefl
 # This installs a separate prometheus/grafana
 #helm install seldon-core-analytics --name seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 
+kubectl create namespace deployment
 kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
 sleep 10
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
@@ -407,6 +412,8 @@ sleep 30
 
 # Istio - Label the namespace
 kubectl label namespace istio-system istio-injection=enabled
+
+kubectl label namespace deployment istio-injection=enabled
 sleep 30
 
 #kubectl create -f /root/.pipelineai/cluster/yaml/.generated-pipelineai-gateway.yaml

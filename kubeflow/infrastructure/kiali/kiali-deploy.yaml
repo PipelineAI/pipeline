@@ -1,0 +1,141 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2019-08-12T18:09:49Z"
+  generation: 1
+  labels:
+    app: kiali
+    chart: kiali
+    heritage: Tiller
+    release: istio
+  name: kiali
+  namespace: istio-system
+  resourceVersion: "9041154"
+  selfLink: /apis/extensions/v1beta1/namespaces/istio-system/deployments/kiali
+  uid: 5fcf31fe-bd2c-11e9-bea2-42010a800004
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: kiali
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "9090"
+        prometheus.io/scrape: "true"
+        scheduler.alpha.kubernetes.io/critical-pod: ""
+        sidecar.istio.io/inject: "false"
+      creationTimestamp: null
+      labels:
+        app: kiali
+        chart: kiali
+        heritage: Tiller
+        release: istio
+      name: kiali
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+            weight: 2
+          - preference:
+              matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - ppc64le
+            weight: 2
+          - preference:
+              matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - s390x
+            weight: 2
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+                - ppc64le
+                - s390x
+      containers:
+      - command:
+        - /opt/kiali/kiali
+        - -config
+        - /kiali-configuration/config.yaml
+        - -v
+        - "4"
+        env:
+        - name: API_NAMESPACES_EXCLUDE
+          value: kube-.*
+        - name: ACTIVE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        image: quay.io/kiali/kiali:v0.20
+        imagePullPolicy: IfNotPresent
+        name: kiali
+        resources:
+          requests:
+            cpu: 10m
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /kiali-configuration
+          name: kiali-configuration
+        - mountPath: /kiali-secret
+          name: kiali-secret
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: kiali-service-account
+      serviceAccountName: kiali-service-account
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: kiali
+        name: kiali-configuration
+      - name: kiali-secret
+        secret:
+          defaultMode: 420
+          optional: true
+          secretName: kiali
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-08-12T18:09:52Z"
+    lastUpdateTime: "2019-08-12T18:09:52Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-08-12T18:09:49Z"
+    lastUpdateTime: "2019-08-12T18:09:52Z"
+    message: ReplicaSet "kiali-8ff685bff" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
