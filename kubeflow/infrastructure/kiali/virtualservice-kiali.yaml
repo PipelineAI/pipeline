@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali
+  namespace: istio-system
+  labels:
+    app.kubernetes.io/name: kiali 
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - kiali-gateway 
+  http:
+  - match:
+    - uri:
+        prefix: /kiali
+    route:
+    - destination:
+        host: kiali 
+        port:
+          number: 20001 
+      weight: 100
