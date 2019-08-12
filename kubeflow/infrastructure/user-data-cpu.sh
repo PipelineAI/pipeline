@@ -380,6 +380,51 @@ curl http://localhost/notebook/kubeflow/community/tree
 
 #sleep 30
 
+#################
+# HACK TO ENSURE ISTIO IS CREATED PROPERLY
+# * Sometimes it's not created due to race conditions upon startup
+
+# Patch Tiller RBAC per https://github.com/kubeflow/tf-operator/issues/106
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+sleep 30
+#helm init --service-account tiller --upgrade
+
+#helm del --purge istio
+#helm del --purge istio-init
+
+kubectl apply -f /root/istio-1.2.2/install/kubernetes/helm/helm-service-account.yaml
+sleep 10
+helm init --service-account tiller --upgrade
+sleep 10
+
+helm install /root/istio-1.2.2/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
+sleep 10
+
+helm install /root/istio-1.2.2/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
+sleep 30
+
+# Istio - Label the namespace
+kubectl label namespace istio-system istio-injection=enabled
+sleep 30
+
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-pipelineai-gateway.yaml
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-airflow.yaml
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-mlflow.yaml
+#kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-grafana.yaml
+
+# Prometheus
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/prometheus-gateway.yaml
+#Grafana
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/grafana-gateway.yaml
+#Kiali
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-secret.yaml
+kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gateway.yaml
+#################
+
+
+
 # Override the auto-generated NodePorts to a fixed set of NodePorts
 #kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
 
