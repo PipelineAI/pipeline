@@ -325,13 +325,13 @@ kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-ro
 # http://<server-ip>:30080
 # https://github.com/dwhitena/oreilly-ai-k8s-tutorial/blob/master/README.md
 # https://pachyderm.readthedocs.io/en/latest/getting_started/beginner_tutorial.html
-curl -o /tmp/pachctl.deb -L https://github.com/pachyderm/pachyderm/releases/download/v1.9.3/pachctl_1.9.3_amd64.deb && sudo dpkg -i /tmp/pachctl.deb
+#curl -o /tmp/pachctl.deb -L https://github.com/pachyderm/pachyderm/releases/download/v1.9.3/pachctl_1.9.3_amd64.deb && sudo dpkg -i /tmp/pachctl.deb
 
-pachctl deploy local --namespace kubeflow
-pachctl create repo raw_data
-pachctl list repo
-pachctl put file raw_data@master:/github_issues_medium.csv -f https://nyc3.digitaloceanspaces.com/workshop-data/github_issues_medium.csv
-pachctl list repo
+#pachctl deploy local --namespace kubeflow
+#pachctl create repo raw_data
+#pachctl list repo
+#pachctl put file raw_data@master:/github_issues_medium.csv -f https://nyc3.digitaloceanspaces.com/workshop-data/github_issues_medium.csv
+#pachctl list repo
 
 kubectl create secret generic dockersecret --from-file=.dockerconfigjson=/root/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
