@@ -6,4 +6,4 @@ dependencies:
   - python==3.6
   - tensorflow==1.13.1
   - pip:
-    - mlflow
+    - mlflow==1.2.0
