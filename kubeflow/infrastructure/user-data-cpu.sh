@@ -320,6 +320,8 @@ kubectl create namespace deployment
 kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
 sleep 10
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
+kubectl create -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-clusterrole.yaml
+kubectl create -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-clusterrole-binding.yaml
 
 # Pach
 # http://<server-ip>:30080
