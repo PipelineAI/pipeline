@@ -434,7 +434,9 @@ kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-sec
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gateway.yaml
 #################
 
-
+kubectl delete -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
+sleep 10
+kubectl create -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
 
 # Override the auto-generated NodePorts to a fixed set of NodePorts
 #kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
