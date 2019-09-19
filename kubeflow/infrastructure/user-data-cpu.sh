@@ -439,7 +439,11 @@ sleep 10
 kubectl create -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
 
 # Superset
-helm install --name superset --set service.type=NodePort,service.port=31983,persistence.enabled=true stable/superset
+#helm install --name superset --set service.type=NodePort,persistence.enabled=true stable/superset
+#sleep 10
+#kubectl delete -f /root/pipeline/kubeflow/infrastructure/superset/superset-svc.yaml
+#sleep 10
+#kubectl create -f /root/pipeline/kubeflow/infrastructure/superset/superset-svc.yaml
 
 # Trigger dag
 #curl --insecure -X POST http://localhost/airflow/admin/airflow/paused?is_paused=true&dag_id=taxi

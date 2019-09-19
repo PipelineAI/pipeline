@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset
+  labels:
+    app: superset
+spec:
+  ports:
+  - name: http
+    nodePort: 31983
+    port: 9000
+    targetPort: 8088
+  selector:
+    app: superset
+    release: superset
+  sessionAffinity: None
+  type: NodePort
