@@ -438,8 +438,8 @@ kubectl delete -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-sv
 sleep 10
 kubectl create -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
 
-# Override the auto-generated NodePorts to a fixed set of NodePorts
-#kubectl apply -f /root/pipeline/kubeflow/infrastructure/istio/ingressgateway-svc.yaml
+# Superset
+helm install --name superset --set service.type=NodePort,service.port=31983,persistence.enabled=true stable/superset
 
 # Trigger dag
 #curl --insecure -X POST http://localhost/airflow/admin/airflow/paused?is_paused=true&dag_id=taxi
