@@ -176,7 +176,7 @@ kubectl delete -f /root/.pipelineai/cluster/yaml/.generated-istio-noauth.yaml
 sleep 120
 
 cd /root
-export ISTIO_VERSION=1.3.0
+export ISTIO_VERSION=1.3.1
 echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /root/.bashrc
 echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /etc/environment
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
@@ -213,7 +213,7 @@ sleep 10
 helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
 sleep 10
 
-helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
+helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set kiali.security.enabled=false --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000" --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686"
 sleep 30
 
 # Istio - Label the namespace
@@ -411,7 +411,7 @@ sleep 10
 helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
 sleep 10
 
-helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
+helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set kiali.security.enabled=false --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
 sleep 30
 
 # Istio - Label the namespace
