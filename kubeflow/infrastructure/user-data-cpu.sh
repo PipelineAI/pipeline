@@ -411,7 +411,8 @@ sleep 10
 helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
 sleep 10
 
-helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set kiali.security.enabled=false --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000"
+helm install /root/istio-${ISTIO_VERSION}/install/kubernetes/helm/istio --name istio --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set grafana.enabled=true --set kiali.enabled=true --set kiali.security.enabled=false --set prometheus.enabled=true --set tracing.enabled=true --set "kiali.dashboard.grafanaURL=http://grafana:3000" --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686"
+
 sleep 30
 
 # Istio - Label the namespace
