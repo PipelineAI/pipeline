@@ -22,7 +22,7 @@ spec:
           - name: SELDON_DEPLOYMENT_ID
             value: abtest-model
           image: pipelineai/predict-meanclassifier:2.0.0 
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always 
           lifecycle:
             preStop:
               exec:
@@ -88,7 +88,7 @@ spec:
           - name: SELDON_DEPLOYMENT_ID
             value: abtest-model
           image: pipelineai/predict-meanclassifier:2.0.0 
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always 
           lifecycle:
             preStop:
               exec:
