@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- cluster-role-binding.yaml
+- cluster-role.yaml
+- config-map.yaml
+- deployment.yaml
+- pod-security-policy.yaml
+- service-account.yaml
+- service.yaml
+namespace: tekton-pipelines
+configMapGenerator:
+- name: tektoncd-parameters
+  env: params.env
+vars:
+- name: namespace
+  objref:
+    kind: ConfigMap
+    name: tektoncd-parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.namespace
+- name: clusterDomain
+  objref:
+    kind: ConfigMap
+    name: tektoncd-parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.clusterDomain

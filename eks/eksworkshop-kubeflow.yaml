@@ -1,0 +1,26 @@
+##################################################
+# EKSCTL Config for EKSworkshop.com - For Kubeflow
+##################################################
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c", "us-west-2d"]
+metadata:
+  name: demo 
+  region: "us-west-2"
+  version: "1.13"
+nodeGroups:
+  - name: cpu-nodegroup
+    instanceType: m5.2xlarge
+    desiredCapacity: 2
+    minSize: 2 
+    maxSize: 3 
+    volumeSize: 200
+    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c", "us-west-2d"]
+#  - name: gpu-nodegroup
+#    instanceType: p3.2xlarge
+#    desiredCapacity: 1
+#    minSize: 1
+#    maxSize: 2
+#    volumeSize: 200
+#    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c", "us-west-2d"]

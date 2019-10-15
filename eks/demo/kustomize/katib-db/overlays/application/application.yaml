@@ -1,0 +1,58 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: katib-db
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: katib-db
+      app.kubernetes.io/instance: katib-db 
+      app.kubernetes.io/managed-by: kfctl
+      app.kubernetes.io/component: katib
+      app.kubernetes.io/part-of: kubeflow
+      app.kubernetes.io/version: v0.6
+  componentKinds:
+  - group: core
+    kind: Service
+  - group: apps
+    kind: Deployment
+  - group: core
+    kind: Secret
+  - group: core
+    kind: PersistentVolumeClaim
+  descriptor:
+    type: "katib-db"
+    version: "v1alpha2"
+    description: "Katib db provides the storage service to the katib manager."
+    maintainers:
+    - name: Zhongxuan Wu
+      email: wuzhongxuan@caicloud.io
+    - name: Ce Gao
+      email: gaoce@caicloud.io
+    - name: Johnu George
+      email: johnugeo@cisco.com
+    - name: Hougang Liu
+      email: liuhougang6@126.com
+    - name: Richard Liu
+      email: ricliu@google.com
+    - name: YujiOshima
+      email: yuji.oshima0x3fd@gmail.com
+    owners:
+    - name: Ce Gao
+      email: gaoce@caicloud.io
+    - name: Johnu George
+      email: johnugeo@cisco.com
+    - name: Hougang Liu
+      email: liuhougang6@126.com
+    - name: Richard Liu
+      email: ricliu@google.com
+    - name: YujiOshima
+      email: yuji.oshima0x3fd@gmail.com
+    keywords:
+    - katib
+    - katib-db
+    - hyperparameter tuning
+    links:
+    - description: About
+      url: "https://github.com/kubeflow/katib"
+  addOwnerRef: true

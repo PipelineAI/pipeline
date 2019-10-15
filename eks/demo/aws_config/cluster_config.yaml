@@ -1,0 +1,13 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: demo
+  region: us-west-2
+  version: "1.13"
+nodeGroups:
+- desiredCapacity: 2
+  instanceType: m5.xlarge
+  maxSize: 3
+  minSize: 0
+  name: cpu-nodegroup
+  volumeSize: 30

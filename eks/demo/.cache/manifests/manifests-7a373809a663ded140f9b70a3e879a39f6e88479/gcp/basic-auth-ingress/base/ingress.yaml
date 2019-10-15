@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    certmanager.k8s.io/issuer: $(issuer)
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.global-static-ip-name: $(ipName)
+    kubernetes.io/tls-acme: "true"
+    networking.gke.io/managed-certificates: gke-certificate
+  name: $(ingressName)
+spec:
+  rules:
+  - host: $(hostname)
+    http:
+      paths:
+      - backend:
+          serviceName: ambassador
+          servicePort: 80
+        path: /*

@@ -1,0 +1,23 @@
+bases:
+- ../../base
+resources:
+- vpc.yaml
+configMapGenerator:
+- name: alb-ingress-controller-parameters
+  behavior: merge
+  env: params.env
+vars:
+- name: VPC_ID
+  objref:
+    kind: ConfigMap
+    name: alb-ingress-controller-parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.vpcId
+- name: REGION
+  objref:
+    kind: ConfigMap
+    name: alb-ingress-controller-parameters
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.region

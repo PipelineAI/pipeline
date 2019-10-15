@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: knative-serving
+resources:
+- namespace.yaml
+- gateway.yaml
+- cluster-role.yaml
+- cluster-role-binding.yaml
+- service-role.yaml
+- service-role-binding.yaml
+- role-binding.yaml
+- config-map.yaml
+- deployment.yaml
+- service-account.yaml
+- service.yaml
+- apiservice.yaml
+- image.yaml
+- hpa.yaml
+commonLabels:
+  kustomize.component: knative

@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kubeflow-routes
+  namespace: kubeflow
+spec:
+  gateways:
+    - kubeflow-gateway
+  hosts:
+    - '*'
+  http:
+    - match:
+      - uri:
+        prefix: /
+      route:
+      - destination:
+          host: ambassador
+          port:
+            number: 80

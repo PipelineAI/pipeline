@@ -1,0 +1,12 @@
+control_plane_logging: false
+control_plane_logging_components:
+- api
+- audit
+- authenticator
+- controllerManager
+- scheduler
+endpoint_private_access: false
+endpoint_public_access: true
+managed_cluster: false
+private_access: false
+worker_node_group_logging: false

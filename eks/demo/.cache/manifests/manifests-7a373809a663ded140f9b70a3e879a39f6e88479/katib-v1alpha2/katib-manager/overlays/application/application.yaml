@@ -1,0 +1,54 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: katib-manager 
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: katib-manager 
+      app.kubernetes.io/instance: katib-manager 
+      app.kubernetes.io/managed-by: kfctl
+      app.kubernetes.io/component: katib
+      app.kubernetes.io/part-of: kubeflow
+      app.kubernetes.io/version: v0.6
+  componentKinds:
+  - group: core
+    kind: Service
+  - group: apps
+    kind: Deployment
+  descriptor:
+    type: "katib-manager"
+    version: "v1alpha2"
+    description: "Katib manager is a storage API layer which proxy the requests between katib's components."
+    maintainers:
+    - name: Zhongxuan Wu
+      email: wuzhongxuan@caicloud.io
+    - name: Ce Gao
+      email: gaoce@caicloud.io
+    - name: Johnu George
+      email: johnugeo@cisco.com
+    - name: Hougang Liu
+      email: liuhougang6@126.com
+    - name: Richard Liu
+      email: ricliu@google.com
+    - name: YujiOshima
+      email: yuji.oshima0x3fd@gmail.com
+    owners:
+    - name: Ce Gao
+      email: gaoce@caicloud.io
+    - name: Johnu George
+      email: johnugeo@cisco.com
+    - name: Hougang Liu
+      email: liuhougang6@126.com
+    - name: Richard Liu
+      email: ricliu@google.com
+    - name: YujiOshima
+      email: yuji.oshima0x3fd@gmail.com
+    keywords:
+    - katib
+    - katib-manager
+    - hyperparameter tuning
+    links:
+    - description: About
+      url: "https://github.com/kubeflow/katib"
+  addOwnerRef: true
