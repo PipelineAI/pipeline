@@ -1,0 +1,514 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: tfx-taxi-cab-classification-pipeline-example-
+spec:
+  arguments:
+    parameters:
+    - name: output
+      value: /mnt
+    - name: project
+      value: taxi-cab-classification-pipeline
+    - name: column-names
+      value: /mnt/kubeflow-pipelines/taxi/column-names.json
+    - name: key-columns
+      value: trip_start_timestamp
+    - name: train
+      value: /mnt/kubeflow-pipelines/taxi/train.csv
+    - name: evaluation
+      value: /mnt/kubeflow-pipelines/taxi/eval.csv
+    - name: mode
+      value: local
+    - name: preprocess-module
+      value: /mnt/kubeflow-pipelines/taxi/preprocessing.py
+    - name: learning-rate
+      value: '0.1'
+    - name: hidden-layer-size
+      value: '1500'
+    - name: steps
+      value: '3000'
+    - name: analyze-slice-column
+      value: trip_start_hour
+  entrypoint: tfx-taxi-cab-classification-pipeline-example
+  serviceAccountName: pipeline-runner
+  templates:
+  - container:
+      args:
+      - --predictions
+      - '{{inputs.parameters.predict-using-tf-on-dataflow-predictions-dir}}'
+      - --target_lambda
+      - 'lambda x: (x[''target''] > x[''fare''] * 0.2)'
+      - --output
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - /ml/confusion_matrix.py
+      image: gcr.io/ml-pipeline/ml-pipeline-local-confusion-matrix:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: output
+      - name: predict-using-tf-on-dataflow-predictions-dir
+    name: confusion-matrix
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+  - container:
+      args:
+      - --model-export-path
+      - '{{inputs.parameters.train-fc-dnn-using-tf-training-output-dir}}/export/export'
+      - --cluster-name
+      - '{{inputs.parameters.project}}'
+      - --namespace
+      - kubeflow
+      - --server-name
+      - taxi-cab-classification-model-{{workflow.uid}}
+      - --pvc-name
+      - users-pvc
+      - --service-type
+      - NodePort
+      command:
+      - /bin/deploy.sh
+      image: gcr.io/ml-pipeline/ml-pipeline-kubeflow-deployer:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: output
+      - name: project
+      - name: train-fc-dnn-using-tf-training-output-dir
+    name: kubeflow-serve-tf-model
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+  - container:
+      args:
+      - --data
+      - '{{inputs.parameters.evaluation}}'
+      - --schema
+      - '{{inputs.parameters.tfx-data-validation-schema}}'
+      - --target
+      - tips
+      - --model
+      - '{{inputs.parameters.train-fc-dnn-using-tf-training-output-dir}}'
+      - --mode
+      - '{{inputs.parameters.mode}}'
+      - --project
+      - '{{inputs.parameters.project}}'
+      - --batchsize
+      - '32'
+      - --output
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - /ml/predict.py
+      image: gcr.io/ml-pipeline/ml-pipeline-dataflow-tf-predict:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: evaluation
+      - name: mode
+      - name: output
+      - name: project
+      - name: tfx-data-validation-schema
+      - name: train-fc-dnn-using-tf-training-output-dir
+    name: predict-using-tf-on-dataflow
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+      parameters:
+      - name: predict-using-tf-on-dataflow-predictions-dir
+        valueFrom:
+          path: /output.txt
+  - container:
+      args:
+      - --predictions
+      - '{{inputs.parameters.predict-using-tf-on-dataflow-predictions-dir}}'
+      - --trueclass
+      - 'true'
+      - --true_score_column
+      - 'true'
+      - --target_lambda
+      - 'lambda x: 1 if (x[''target''] > x[''fare''] * 0.2) else 0'
+      - --output
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - /ml/roc.py
+      image: gcr.io/ml-pipeline/ml-pipeline-local-confusion-matrix:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: output
+      - name: predict-using-tf-on-dataflow-predictions-dir
+    name: roc-curve
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+  - container:
+      args:
+      - --model
+      - '{{inputs.parameters.train-fc-dnn-using-tf-training-output-dir}}'
+      - --eval
+      - '{{inputs.parameters.evaluation}}'
+      - --schema
+      - '{{inputs.parameters.tfx-data-validation-schema}}'
+      - --mode
+      - '{{inputs.parameters.mode}}'
+      - --project
+      - '{{inputs.parameters.project}}'
+      - --slice-columns
+      - '{{inputs.parameters.analyze-slice-column}}'
+      - --output
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - /ml/model_analysis.py
+      image: gcr.io/ml-pipeline/ml-pipeline-dataflow-tfma:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: analyze-slice-column
+      - name: evaluation
+      - name: mode
+      - name: output
+      - name: project
+      - name: tfx-data-validation-schema
+      - name: train-fc-dnn-using-tf-training-output-dir
+    name: tfx-analyze-model
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+      parameters:
+      - name: tfx-analyze-model-analysis-results-dir
+        valueFrom:
+          path: /output.txt
+  - container:
+      args:
+      - --csv-data-for-inference
+      - '{{inputs.parameters.train}}'
+      - --csv-data-to-validate
+      - '{{inputs.parameters.evaluation}}'
+      - --column-names
+      - '{{inputs.parameters.column-names}}'
+      - --key-columns
+      - '{{inputs.parameters.key-columns}}'
+      - --project
+      - '{{inputs.parameters.project}}'
+      - --mode
+      - '{{inputs.parameters.mode}}'
+      - --output
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - /ml/validate.py
+      image: gcr.io/ml-pipeline/ml-pipeline-dataflow-tfdv:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: column-names
+      - name: evaluation
+      - name: key-columns
+      - name: mode
+      - name: output
+      - name: project
+      - name: train
+    name: tfx-data-validation
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+      parameters:
+      - name: tfx-data-validation-schema
+        valueFrom:
+          path: /schema.txt
+      - name: tfx-data-validation-validation-result
+        valueFrom:
+          path: /output_validation_result.txt
+  - dag:
+      tasks:
+      - arguments:
+          parameters:
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: predict-using-tf-on-dataflow-predictions-dir
+            value: '{{tasks.predict-using-tf-on-dataflow.outputs.parameters.predict-using-tf-on-dataflow-predictions-dir}}'
+        dependencies:
+        - predict-using-tf-on-dataflow
+        name: confusion-matrix
+        template: confusion-matrix
+      - arguments:
+          parameters:
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: project
+            value: '{{inputs.parameters.project}}'
+          - name: train-fc-dnn-using-tf-training-output-dir
+            value: '{{tasks.train-fc-dnn-using-tf.outputs.parameters.train-fc-dnn-using-tf-training-output-dir}}'
+        dependencies:
+        - train-fc-dnn-using-tf
+        name: kubeflow-serve-tf-model
+        template: kubeflow-serve-tf-model
+      - arguments:
+          parameters:
+          - name: evaluation
+            value: '{{inputs.parameters.evaluation}}'
+          - name: mode
+            value: '{{inputs.parameters.mode}}'
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: project
+            value: '{{inputs.parameters.project}}'
+          - name: tfx-data-validation-schema
+            value: '{{tasks.tfx-data-validation.outputs.parameters.tfx-data-validation-schema}}'
+          - name: train-fc-dnn-using-tf-training-output-dir
+            value: '{{tasks.train-fc-dnn-using-tf.outputs.parameters.train-fc-dnn-using-tf-training-output-dir}}'
+        dependencies:
+        - tfx-data-validation
+        - train-fc-dnn-using-tf
+        name: predict-using-tf-on-dataflow
+        template: predict-using-tf-on-dataflow
+      - arguments:
+          parameters:
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: predict-using-tf-on-dataflow-predictions-dir
+            value: '{{tasks.predict-using-tf-on-dataflow.outputs.parameters.predict-using-tf-on-dataflow-predictions-dir}}'
+        dependencies:
+        - predict-using-tf-on-dataflow
+        name: roc-curve
+        template: roc-curve
+      - arguments:
+          parameters:
+          - name: analyze-slice-column
+            value: '{{inputs.parameters.analyze-slice-column}}'
+          - name: evaluation
+            value: '{{inputs.parameters.evaluation}}'
+          - name: mode
+            value: '{{inputs.parameters.mode}}'
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: project
+            value: '{{inputs.parameters.project}}'
+          - name: tfx-data-validation-schema
+            value: '{{tasks.tfx-data-validation.outputs.parameters.tfx-data-validation-schema}}'
+          - name: train-fc-dnn-using-tf-training-output-dir
+            value: '{{tasks.train-fc-dnn-using-tf.outputs.parameters.train-fc-dnn-using-tf-training-output-dir}}'
+        dependencies:
+        - tfx-data-validation
+        - train-fc-dnn-using-tf
+        name: tfx-analyze-model
+        template: tfx-analyze-model
+      - arguments:
+          parameters:
+          - name: column-names
+            value: '{{inputs.parameters.column-names}}'
+          - name: evaluation
+            value: '{{inputs.parameters.evaluation}}'
+          - name: key-columns
+            value: '{{inputs.parameters.key-columns}}'
+          - name: mode
+            value: '{{inputs.parameters.mode}}'
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: project
+            value: '{{inputs.parameters.project}}'
+          - name: train
+            value: '{{inputs.parameters.train}}'
+        name: tfx-data-validation
+        template: tfx-data-validation
+      - arguments:
+          parameters:
+          - name: hidden-layer-size
+            value: '{{inputs.parameters.hidden-layer-size}}'
+          - name: learning-rate
+            value: '{{inputs.parameters.learning-rate}}'
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: preprocess-module
+            value: '{{inputs.parameters.preprocess-module}}'
+          - name: steps
+            value: '{{inputs.parameters.steps}}'
+          - name: tfx-data-validation-schema
+            value: '{{tasks.tfx-data-validation.outputs.parameters.tfx-data-validation-schema}}'
+          - name: transform-using-tf-on-dataflow-transformed-data-dir
+            value: '{{tasks.transform-using-tf-on-dataflow.outputs.parameters.transform-using-tf-on-dataflow-transformed-data-dir}}'
+        dependencies:
+        - tfx-data-validation
+        - transform-using-tf-on-dataflow
+        name: train-fc-dnn-using-tf
+        template: train-fc-dnn-using-tf
+      - arguments:
+          parameters:
+          - name: evaluation
+            value: '{{inputs.parameters.evaluation}}'
+          - name: mode
+            value: '{{inputs.parameters.mode}}'
+          - name: output
+            value: '{{inputs.parameters.output}}'
+          - name: preprocess-module
+            value: '{{inputs.parameters.preprocess-module}}'
+          - name: project
+            value: '{{inputs.parameters.project}}'
+          - name: tfx-data-validation-schema
+            value: '{{tasks.tfx-data-validation.outputs.parameters.tfx-data-validation-schema}}'
+          - name: train
+            value: '{{inputs.parameters.train}}'
+        dependencies:
+        - tfx-data-validation
+        name: transform-using-tf-on-dataflow
+        template: transform-using-tf-on-dataflow
+    inputs:
+      parameters:
+      - name: analyze-slice-column
+      - name: column-names
+      - name: evaluation
+      - name: hidden-layer-size
+      - name: key-columns
+      - name: learning-rate
+      - name: mode
+      - name: output
+      - name: preprocess-module
+      - name: project
+      - name: steps
+      - name: train
+    name: tfx-taxi-cab-classification-pipeline-example
+  - container:
+      args:
+      - --transformed-data-dir
+      - '{{inputs.parameters.transform-using-tf-on-dataflow-transformed-data-dir}}'
+      - --schema
+      - '{{inputs.parameters.tfx-data-validation-schema}}'
+      - --learning-rate
+      - '{{inputs.parameters.learning-rate}}'
+      - --optimizer
+      - Adagrad
+      - --hidden-layer-size
+      - '{{inputs.parameters.hidden-layer-size}}'
+      - --steps
+      - '{{inputs.parameters.steps}}'
+      - --target
+      - tips
+      - --preprocessing-module
+      - '{{inputs.parameters.preprocess-module}}'
+      - --job-dir
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - -m
+      - trainer.task
+      image: gcr.io/ml-pipeline/ml-pipeline-kubeflow-tf-trainer:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: hidden-layer-size
+      - name: learning-rate
+      - name: output
+      - name: preprocess-module
+      - name: steps
+      - name: tfx-data-validation-schema
+      - name: transform-using-tf-on-dataflow-transformed-data-dir
+    name: train-fc-dnn-using-tf
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+      parameters:
+      - name: train-fc-dnn-using-tf-training-output-dir
+        valueFrom:
+          path: /output.txt
+  - container:
+      args:
+      - --train
+      - '{{inputs.parameters.train}}'
+      - --eval
+      - '{{inputs.parameters.evaluation}}'
+      - --schema
+      - '{{inputs.parameters.tfx-data-validation-schema}}'
+      - --project
+      - '{{inputs.parameters.project}}'
+      - --mode
+      - '{{inputs.parameters.mode}}'
+      - --preprocessing-module
+      - '{{inputs.parameters.preprocess-module}}'
+      - --output
+      - gs://pipelineai-kubeflow/taxi/{{workflow.uid}}/{{pod.name}}/data
+      command:
+      - python2
+      - /ml/transform.py
+      image: gcr.io/ml-pipeline/ml-pipeline-dataflow-tft:6554e133dd453c62aea05ebb57a04f897c11d070
+      volumeMounts:
+      - mountPath: '{{inputs.parameters.output}}'
+        name: local-storage
+    inputs:
+      parameters:
+      - name: evaluation
+      - name: mode
+      - name: output
+      - name: preprocess-module
+      - name: project
+      - name: tfx-data-validation-schema
+      - name: train
+    name: transform-using-tf-on-dataflow
+    outputs:
+      artifacts:
+      - name: mlpipeline-ui-metadata
+        optional: true
+        path: /mlpipeline-ui-metadata.json
+      - name: mlpipeline-metrics
+        optional: true
+        path: /mlpipeline-metrics.json
+      parameters:
+      - name: transform-using-tf-on-dataflow-transformed-data-dir
+        valueFrom:
+          path: /output.txt
+  volumes:
+  - name: local-storage
+    persistentVolumeClaim:
+      claimName: users-pvc
