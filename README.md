@@ -5,7 +5,7 @@ https://www.eventbrite.com/e/full-day-workshop-kubeflow-kerastensorflow-20-tf-ex
 
 ## Community Events
 * [PipelineAI Monthly Webinar (TensorFlow + Spark + GPUs + TPUs)](https://www.eventbrite.com/e/webinar-pipelineai-kubeflow-tensorflow-extended-tfx-airflow-gpu-tpu-spark-ml-tensorflow-ai-tickets-45852865154)
-* [Advanced Spark and TensorFlow Meetup (Global)](https://www.meetup.com/Advanced-KubeFlow/)
+* [Advanced Kubeflow AI Meetup (Global)](https://www.meetup.com/Advanced-KubeFlow/)
 
 ## Support
 * Email:  [help@pipeline.ai](mailto:help@pipeline.ai)
