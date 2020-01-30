@@ -218,14 +218,16 @@ sleep 30
 
 # Istio - Label the namespace
 kubectl label namespace istio-system istio-injection=enabled
-
-kubectl label namespace deployment istio-injection=enabled
 sleep 30
 
 #kubectl create -f /root/.pipelineai/cluster/yaml/.generated-pipelineai-gateway.yaml
 #kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-airflow.yaml
 #kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-mlflow.yaml
 #kubectl create -f /root/.pipelineai/cluster/yaml/.generated-virtualservice-grafana.yaml
+
+# Create kubeflow assets
+cd /root 
+git clone https://github.com/PipelineAI/pipeline
 
 # Prometheus
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/prometheus-gateway.yaml
@@ -239,11 +241,8 @@ kubectl apply -f /root/pipeline/kubeflow/infrastructure/telemetry/conf/kiali-gat
 
 kubectl describe svc istio-ingressgateway -n istio-system
 
-# Create kubeflow assets
-cd /root 
-git clone https://github.com/PipelineAI/pipeline
-
 # Kfctl
+cd /root
 export KFAPP=install-kubeflow
 echo "export KFAPP=$KFAPP" >> /root/.bashrc
 echo "export KFAPP=$KFAPP" >> /etc/environment
@@ -319,8 +318,10 @@ helm install seldon-core-operator --name seldon-core-operator --namespace kubefl
 #helm install seldon-core-analytics --name seldon-core-analytics --namespace kubeflow --repo https://storage.googleapis.com/seldon-charts
 
 kubectl create namespace deployment
+kubectl label namespace deployment istio-injection=enabled
 kubectl create -f /root/pipeline/kubeflow/notebooks/deployments/deployment-gateway.yaml
 sleep 10
+
 kubectl apply -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-role.yaml
 kubectl create -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-clusterrole.yaml
 kubectl create -f /root/pipeline/kubeflow/infrastructure/rbac/jupyter-notebook-clusterrole-binding.yaml
