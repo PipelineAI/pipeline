@@ -1,0 +1,174 @@
+# This example aims to show all the possible operations
+# is not very likely to get good result due to the extensive search space
+
+# In practice, setting up a limited search space with more common operations is more likely to get better performance.
+# For example, Efficient Neural Architecture Search via Parameter Sharing (https://arxiv.org/abs/1802.03268)
+# uses only 6 operations, 3x3/5x5 convolution, 3x3/5x5 separable_convolution and 3x3 max_pooling/avg_pooling
+
+apiVersion: "kubeflow.org/v1alpha3"
+kind: Experiment
+metadata:
+  name: nas-rl-example
+spec:
+  parallelTrialCount: 3
+  maxTrialCount: 12
+  maxFailedTrialCount: 3
+  objective:
+    type: maximize
+    goal: 0.99
+    objectiveMetricName: Validation-Accuracy
+  algorithm:
+    algorithmName: nasrl
+    algorithmSettings:
+      - name: "lstm_num_cells"
+        value: "64"
+      - name: "lstm_num_layers"
+        value: "1"
+      - name: "lstm_keep_prob"
+        value: "1.0"
+      - name: "optimizer"
+        value: "adam"
+      - name: "init_learning_rate"
+        value: "1e-3"
+      - name: "lr_decay_start"
+        value: "0"
+      - name: "lr_decay_every"
+        value: "1000"
+      - name: "lr_decay_rate"
+        value: "0.9"
+      - name: "skip-target"
+        value: "0.4"
+      - name: "skip-weight"
+        value: "0.8"
+      - name: "l2_reg"
+        value: "0"
+      - name: "entropy_weight"
+        value: "1e-4"
+      - name: "baseline_decay"
+        value: "0.9999"
+  trialTemplate:
+    goTemplate:
+        rawTemplate: |-
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: {{.Trial}}
+            namespace: {{.NameSpace}}
+          spec:
+            template:
+              spec:
+                containers:
+                - name: {{.Trial}}
+                  image: gcr.io/kubeflow-images-public/katib/v1alpha3/training-container-nasrl-cifar10
+                  command:
+                  - "python3.5"
+                  - "-u"
+                  - "RunTrial.py"
+                  {{- with .HyperParameters}}
+                  {{- range .}}
+                  - "--{{.Name}}={{.Value}}"
+                  {{- end}}
+                  {{- end}}
+                  resources:
+                    limits:
+                      nvidia.com/gpu: 1
+                restartPolicy: Never
+  nasConfig:
+    graphConfig:
+      numLayers: 8
+      inputSizes:
+        - 32
+        - 32
+        - 3
+      outputSizes:
+        - 10
+    operations:
+      - operationType: convolution
+        parameters:
+          - name: filter_size
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "3"
+              - "5"
+              - "7"
+          - name: num_filter
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "32"
+              - "48"
+              - "64"
+              - "96"
+              - "128"
+          - name: stride
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "1"
+              - "2"
+      - operationType: separable_convolution
+        parameters:
+          - name: filter_size
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "3"
+              - "5"
+              - "7"
+          - name: num_filter
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "32"
+              - "48"
+              - "64"
+              - "96"
+              - "128"
+          - name: stride
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "1"
+              - "2"
+          - name: depth_multiplier
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "1"
+              - "2"
+      - operationType: depthwise_convolution
+        parameters:
+          - name: filter_size
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "3"
+              - "5"
+              - "7"
+          - name: stride
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "1"
+              - "2"
+          - name: depth_multiplier
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - "1"
+              - "2"
+      - operationType: reduction
+        parameters:
+          - name: reduction_type
+            parameterType: categorical
+            feasibleSpace:
+              list:
+              - max_pooling
+              - avg_pooling
+          - name: pool_size
+            parameterType: int
+            feasibleSpace:
+              min: "2"
+              max: "3"
+              step: "1"
