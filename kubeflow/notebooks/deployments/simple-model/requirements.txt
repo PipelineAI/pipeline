@@ -1,2 +1,0 @@
-numpy
-seldon-core==0.4.1

@@ -1,8 +1,0 @@
-tensorflow==1.13.1
-keras==2.2.4
-scikit-learn
-numpy
-pandas
-pillow
-flask
-seldon-core==0.4.1
